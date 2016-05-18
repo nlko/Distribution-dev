@@ -453,7 +453,7 @@ class AdministrationController extends Controller
 
         $response = new StreamedResponse(function () use ($users, $badges, $locale, $translator, $userBadgeRepo) {
             $handle = fopen('php://output', 'w+');
-
+            
             $userTrans = count($users) > 1 ?
                 $translator->trans('users', array(), 'platform') :
                 $translator->trans('user', array(), 'platform');
