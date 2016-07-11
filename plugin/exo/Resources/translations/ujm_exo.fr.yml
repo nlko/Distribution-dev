@@ -363,7 +363,7 @@ select_type: selectionner le type de l'exercice
 selection: => Pour répondre, utilisez la technique du glisser/déposer.
 self: Vous ne pouvez pas partager une question avec vous-même.
 shape: Forme
-share: Partager
+share: Partager les questions sélectionnées
 shared_by: Partagée par
 shared_questions: Questions qui ont été partagées avec moi
 shared_user: Partage de question
