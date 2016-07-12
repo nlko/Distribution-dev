@@ -11,6 +11,7 @@ angular
       id: '<',
       items: '<',
       meta: '<',
-      index: '<'
+      index: '<',
+      itemTypes: '<'
     }
   })

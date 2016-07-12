@@ -4,7 +4,7 @@ import template from './choice.component.html'
 
 angular
   .module('editor')
-  .component('step', {
+  .component('choice', {
     template,
     controller,
     bindings: {

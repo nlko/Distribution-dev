@@ -11,10 +11,25 @@
         </span>
       </h3>
       <div class="col-md-2 step-actions text-right">
-        <a role="button" href="{{ 'ujm_question_new' | path:{ exoID: $ctrl.exerciseId, stepID: step.id } }}" class="btn btn-sm btn-default" data-toggle="tooltip" title="{{ 'add_question' | trans:{}:'ujm_exo' }}">
-          <span class="fa fa-plus"></span>
-          <span class="sr-only">{{ 'add_question'|trans:{}:'ujm_exo' }}</span>
-        </a>
+        <div style="display: inline-block" role="presentation" class="dropdown">
+          <button class="btn btn-sm btn-default dropdown-toggle"
+                  data-toggle="dropdown"
+                  title="{{ 'add_question'|trans:{}:'ujm_exo' }}"
+                  data-uib-dropdown-toggle>
+            <span class="fa fa-plus"></span>
+            <span class="sr-only">{{ 'add_question'|trans:{}:'ujm_exo' }}</span>
+          </button>
+          <ul data-uib-dropdown-menu class="dropdown-menu" role="menu">
+            <li role="presentation" data-ng-repeat="type in $ctrl.itemTypes">
+              <a role="menuitem"
+                 href="#"
+                 onclick="return false"
+                 data-ng-click="$ctrl.dispatch('createItem', $ctrl.id, type)">
+                {{ type | trans:{}:'ujm_exo' }}
+              </a>
+            </li>
+          </ul>
+        </div>
         <button type="button" class="btn btn-sm btn-default" data-ng-click="$ctrl.editMetadata(step)" data-toggle="tooltip" title="{{ 'edit_step' | trans:{}:'ujm_exo' }}">
           <span class="fa fa-pencil"></span>
           <span class="sr-only">{{ 'edit_step'|trans:{}:'ujm_exo' }}</span>
@@ -24,7 +39,7 @@
                 title="{{ 'delete_question' | trans:{}:'ujm_exo' }}"
                 data-toggle="tooltip"
                 data-confirm-modal="{{ 'delete_of_my_exercise'|trans:{}:'ujm_exo'}}"
-                data-confirm-modal-action="$ctrl.dispatch('removeStep', $ctrl.id)">
+                data-confirm-modal-action="$ctrl.dispatch('deleteStep', $ctrl.id)">
           <span class="fa fa-trash-o"></span>
           <span class="sr-only">{{ 'delete_question'|trans:{}:'ujm_exo' }}</span>
         </button>
@@ -32,8 +47,9 @@
     </div>
   </div>
   <div class="panel-body">
-    <item-box data-ng-repeat="item in $ctrl.items"
-              data-item="item">
-    </item-box>
+    <item data-ng-repeat="item in $ctrl.items"
+          data-type="item.type"
+          data-data="item">
+    </item>
   </div>
 </div>

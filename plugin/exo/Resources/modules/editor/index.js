@@ -3,5 +3,4 @@
 
 import './editor.component'
 import './step/step.component'
-import './step/item-box.component'
 import './step/item.component'

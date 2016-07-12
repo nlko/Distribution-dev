@@ -1,29 +1,19 @@
 import {createStore as baseCreate, applyMiddleware} from 'redux'
 import createLogger from 'redux-logger'
 import {assert, createThunkMiddleware, startLoading, endLoading} from './util'
+import {stepActions, stepReducers} from './step/step'
+import {itemActions, itemReducers} from './step/item'
 
 const loggerMiddleware = createLogger()
 const thunkMiddleware = createThunkMiddleware()
+
 const creators = {}
+const reducers = {}
 
-/*
-const choiceHandler = {
-  name: 'choice',
-  type: 'application/x.choice+json',
-  reducer: (state, action) => state
-}
-
-
-export function addQuestionHandler(handler) {
-
-}
-
-*/
-
-
-
-
-
+Object.keys(stepActions).forEach(action => addActionCreator(action, stepActions[action]))
+Object.keys(stepReducers).forEach(action => addReducer(action, stepReducers[action]))
+Object.keys(itemActions).forEach(action => addActionCreator(action, itemActions[action]))
+Object.keys(itemReducers).forEach(action => addReducer(action, itemReducers[action]))
 
 export function addActionCreator(name, creator) {
   assert(!creators[name], `Action creator "${name}" is already registered`)
@@ -31,44 +21,25 @@ export function addActionCreator(name, creator) {
   creators[name] = creator
 }
 
-addActionCreator('addStep', () => {
-  return dispatch => {
-    return new Promise((resolve) => {
-      startLoading()
-      setTimeout(() => {
-        resolve(dispatch({ type: 'ADD_STEP' }))
-        endLoading()
-      }, 1000)
-    })
-  }
-})
-
-addActionCreator('removeStep', stepId => {
-  assert(stepId, 'Step id is mandatory')
-
-  return {
-    type: 'REMOVE_STEP',
-    stepId
-  }
-})
-
-
+export function addReducer(action, reducer) {
+  assert(typeof action === 'string', 'Action must be a string')
+  assert(!reducers[action], `A reducer for action "${action}" is already registered`)
+  assert(typeof reducer === 'function', 'Reducer must be a function')
+  reducers[action] = reducer
+}
 
 export function createStore(initialState) {
   const reducer = (state = initialState, action) => {
-    switch (action.type) {
-    case 'ADD_STEP':
-      return [...state, { id: `tmp-${Date.now()}`, items: []}]
-    case 'REMOVE_STEP': {
-      const step = state.find(step => step.id === action.stepId)
-      const index = state.indexOf(step)
-      return [...state.slice(0, index), ...state.slice(index + 1)]
+    assert(
+      reducers[action.type] || '@@redux/INIT',
+      `No registered reducer for action type "${action.type}"`
+    )
+
+    if (reducers[action.type]) {
+      return reducers[action.type](state, action)
     }
-    case 'ADD_ITEM':
-      return [...state, { title: 'New item!' }]
-    default:
-      return state
-    }
+
+    return state
   }
 
   return baseCreate(reducer, applyMiddleware(loggerMiddleware, thunkMiddleware))

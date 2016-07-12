@@ -1,1 +1,16 @@
-THIS IS AN ITEM
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">{{ $ctrl.data.title }}</h3>
+  </div>
+  <div class="panel-body">
+    <div data-ng-switch="$ctrl.type">
+      <choice data-ng-switch-when="application/x.choice+json"
+              data-question="$ctrl.data">
+      </choice>
+      <div data-ng-switch-when="application/x.cloze+json">CLOZE</div>
+      <div data-ng-switch-when="application/x.graphic+json">GRAPHIC</div>
+      <div data-ng-switch-when="application/x.match+json">MATCH</div>
+      <div data-ng-switch-when="application/x.open+json">OPEN</div>
+    </div>
+  </div>
+</div>
