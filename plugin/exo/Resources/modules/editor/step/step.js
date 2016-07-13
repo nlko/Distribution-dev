@@ -1,7 +1,7 @@
 import {assert} from './../util'
 
-const STEP_CREATE = 'STEP_CREATE'
-const STEP_DELETE = 'STEP_DELETE'
+export const STEP_CREATE = 'STEP_CREATE'
+export const STEP_DELETE = 'STEP_DELETE'
 
 export const stepActions = {
   createStep() {
@@ -30,8 +30,7 @@ export const stepReducers = {
     return [...state, { id: `tmp-${Date.now()}`, items: []}]
   },
   [STEP_DELETE]: (state, action) =>  {
-    const step = state.find(step => step.id === action.id)
-    const index = state.indexOf(step)
+    const index = state.findIndex(step => step.id === action.id)
     return [...state.slice(0, index), ...state.slice(index + 1)]
   }
 }

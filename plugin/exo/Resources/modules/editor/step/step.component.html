@@ -48,6 +48,8 @@
   </div>
   <div class="panel-body">
     <item data-ng-repeat="item in $ctrl.items"
+          data-id="item.id"
+          data-step-id="$ctrl.id"
           data-type="item.type"
           data-data="item">
     </item>

@@ -9,6 +9,8 @@ angular
     template,
     controller,
     bindings: {
+      id: '<',
+      stepId: '<',
       type: '<',
       data: '<'
     }
