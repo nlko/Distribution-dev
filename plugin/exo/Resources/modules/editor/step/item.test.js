@@ -1,4 +1,5 @@
 import assert from 'assert'
+import {resetIdCount} from './../util'
 import {
   ITEM_CREATE,
   ITEM_DELETE,
@@ -7,6 +8,8 @@ import {
 } from './item'
 
 describe('item', () => {
+  beforeEach(() => resetIdCount())
+
   it('has a create action', () => {
     assert.deepEqual(
       itemActions.createItem(1, 'application/x.choice+json'),
@@ -37,20 +40,20 @@ describe('item', () => {
       stepId: 1
     }
     const newState = itemReducers[ITEM_CREATE](state, action)
-
+    const expected = [
+      {
+        id: 1,
+        items: [
+          {
+            id: 'generated-id-1',
+            type: 'application/x.choice+json',
+            title: 'New item'
+          }
+        ]
+      }
+    ]
     assert.notStrictEqual(state, newState)
-    assert.equal(newState.length, 1)
-    assert.equal(newState[0].id, 1)
-    assert.equal(newState[0].items.length, 1)
-
-    const itemId = newState[0].items[0].id
-
-    assert.equal(typeof itemId, 'string')
-    assert.deepEqual(newState[0].items[0], {
-      id: itemId,
-      type: 'application/x.choice+json',
-      title: 'New item'
-    })
+    assert.deepEqual(newState, expected)
   })
 
   it('has a delete reducer', () => {
@@ -73,7 +76,6 @@ describe('item', () => {
         { id: 1, type: 'application/x.choice+json' }
       ]
     }]
-
     assert.notStrictEqual(state, newState)
     assert.deepEqual(newState, expected)
   })

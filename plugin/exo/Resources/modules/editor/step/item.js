@@ -1,5 +1,5 @@
-import {assert} from './../util'
 import update from 'immutability-helper'
+import {assert, newId} from './../util'
 
 export const ITEM_CREATE = 'ITEM_CREATE'
 export const ITEM_DELETE = 'ITEM_DELETE'
@@ -8,7 +8,6 @@ export const itemActions = {
   createItem(stepId, type) {
     assert(stepId, 'Step id is mandatory')
     assert(type, 'Item type is mandatory')
-
     return {
       type: ITEM_CREATE,
       stepId,
@@ -18,7 +17,6 @@ export const itemActions = {
   deleteItem(stepId, itemId) {
     assert(stepId, 'Step id is mandatory')
     assert(itemId, 'Item id is mandatory')
-
     return {
       type: ITEM_DELETE,
       stepId,
@@ -31,7 +29,7 @@ export const itemReducers = {
   [ITEM_CREATE]: (state, action) => {
     const stepIndex = state.findIndex(step => step.id === action.stepId)
     return update(state, {[stepIndex]: {items: {$push: [{
-      id: `tmp-${Date.now()}`,
+      id: newId(),
       title: 'New item',
       type: action.itemType
     }]}}})

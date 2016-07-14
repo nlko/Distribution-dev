@@ -1,4 +1,5 @@
 import assert from 'assert'
+import {resetIdCount} from './../util'
 import {
   STEP_CREATE,
   STEP_DELETE,
@@ -7,6 +8,8 @@ import {
 } from './step'
 
 describe('step', () => {
+  beforeEach(() => resetIdCount())
+
   it('has a create action', done => {
     const spy = action => {
       assert.deepEqual(action, { type: STEP_CREATE })
@@ -17,10 +20,7 @@ describe('step', () => {
   it('has a delete action', () => {
     assert.deepEqual(
       stepActions.deleteStep(1),
-      {
-        type: STEP_DELETE,
-        id: 1
-      }
+      { type: STEP_DELETE, id: 1 }
     )
   })
 
@@ -28,12 +28,8 @@ describe('step', () => {
     const state = []
     const action = { type: STEP_CREATE }
     const newState = stepReducers[STEP_CREATE](state, action)
-
     assert.notStrictEqual(state, newState)
-
-    const stepId = newState[0].id
-
-    assert.deepEqual([{ id: stepId, items: []}], newState)
+    assert.deepEqual([{ id: 'generated-id-1', items: []}], newState)
   })
 
   it('has a delete reducer', () => {
