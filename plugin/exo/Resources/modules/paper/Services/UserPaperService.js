@@ -1,3 +1,5 @@
+import angular from 'angular/index'
+
 /**
  * UserPaper Service
  * Manages Paper of the current User
@@ -333,7 +335,7 @@ UserPaperService.prototype.isAllowedToCompose = function isAllowedToCompose() {
  * @returns {Boolean}
  */
 UserPaperService.prototype.isCorrectionAvailable = function isCorrectionAvailable(paper) {
-  var available = false
+  let available = false
 
   if (this.ExerciseService.isEditEnabled()) {
     // Always show correction for exercise's administrators
@@ -365,7 +367,7 @@ UserPaperService.prototype.isCorrectionAvailable = function isCorrectionAvailabl
       available = (null === correctionDate || now >= correctionDate)
       break
 
-      // Never
+    // Never
     default:
     case '4':
       available = false
@@ -382,7 +384,7 @@ UserPaperService.prototype.isCorrectionAvailable = function isCorrectionAvailabl
  * @returns {Boolean}
  */
 UserPaperService.prototype.isScoreAvailable = function isScoreAvailable(paper) {
-  var available = false
+  let available = false
 
   if (this.ExerciseService.isEditEnabled()) {
     // Always show score for exercise's administrators
@@ -404,6 +406,7 @@ UserPaperService.prototype.isScoreAvailable = function isScoreAvailable(paper) {
 
     // Show score if nothing specified
     default:
+    case '4':
       available = false
       break
     }
@@ -411,7 +414,5 @@ UserPaperService.prototype.isScoreAvailable = function isScoreAvailable(paper) {
 
   return available
 }
-
-import angular from 'angular/index'
 
 export default UserPaperService
