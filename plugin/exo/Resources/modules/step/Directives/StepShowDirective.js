@@ -4,7 +4,7 @@ import show from './../Partials/show.html'
  * Step Show Directive
  * @constructor
  */
-function StepShowDirective() {
+export default function StepShowDirective() {
     return {
         restrict: 'E',
         replace: true,
@@ -13,13 +13,10 @@ function StepShowDirective() {
         bindToController: true,
         template: show,
         scope: {
-            step            : '=',
-            stepIndex       : '@',
-            currentTry      : '=',
-            solutionShown   : '=',
-            allAnswersFound : '='
+            step              : '=',
+            currentTry        : '=',
+            includeCorrection : '=',
+            allAnswersFound   : '='
         }
     };
 }
-
-export default StepShowDirective

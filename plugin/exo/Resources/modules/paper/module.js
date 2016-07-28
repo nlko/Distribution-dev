@@ -59,5 +59,6 @@ angular
   .controller('PaperShowCtrl', [
     'paperPromise',
     'PaperService',
+    'UserPaperService',
     PaperShowCtrl
   ])

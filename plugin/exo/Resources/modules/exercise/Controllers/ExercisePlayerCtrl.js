@@ -38,7 +38,6 @@ function ExercisePlayerCtrl(
 
   this.step = step
 
-  this.index = this.UserPaperService.getIndex(step)
   this.previous = this.ExerciseService.getStep(this.UserPaperService.getPreviousStepId(step))
   this.next = this.ExerciseService.getStep(this.UserPaperService.getNextStepId(step))
 
@@ -84,12 +83,6 @@ ExercisePlayerCtrl.prototype.paper = {}
  * @type {Object}
  */
 ExercisePlayerCtrl.prototype.feedback = null
-
-/**
- * Current step index
- * @type {number}
- */
-ExercisePlayerCtrl.prototype.index = 0
 
 /**
  * Current played step

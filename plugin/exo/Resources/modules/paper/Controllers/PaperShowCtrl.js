@@ -1,42 +1,57 @@
 /**
  * Paper Show Controller
  * Displays the details of a Paper
- * @param {Object} paperPromise
- * @param {PaperService} PaperService
- * @constructor
  */
-function PaperShowCtrl(paperPromise, PaperService) {
-    this.PaperService = PaperService;
+export default class PaperShowCtrl {
+  /**
+   * Class constructor
+   *
+   * @param {Object} paperPromise
+   * @param {PaperService} PaperService
+   * @param {UserPaperService} UserPaperService
+   */
+  constructor(paperPromise, PaperService, UserPaperService) {
+    // Dependency injection
+    this.PaperService = PaperService
+    this.UserPaperService = UserPaperService
 
-    this.paper        = paperPromise.paper;
-    this.questions    = this.PaperService.orderQuestions(this.paper, paperPromise.questions);
-}
+    /**
+     * Current Paper to display
+     * @type {Object}
+     */
+    this.paper = paperPromise.paper;
 
-PaperShowCtrl.prototype.paper = {};
+    /**
+     * Ordered Questions of the Paper
+     * @type {Array}
+     */
+    this.questions = this.PaperService.orderQuestions(this.paper, paperPromise.questions);
+  }
 
-/**
- * Ordered Questions of the Paper
- * @type {Array}
- */
-PaperShowCtrl.prototype.questions = [];
-
-/**
- * Check whether a Paper needs a manual correction (if the score of one question is -1)
- */
-PaperShowCtrl.prototype.needManualCorrection = function needManualCorrection() {
+  /**
+   * Check whether a Paper needs a manual correction (if the score of one question is -1)
+   */
+  needManualCorrection() {
     return this.PaperService.needManualCorrection(this.paper);
-};
+  }
 
-PaperShowCtrl.prototype.getQuestionPaper = function getQuestionPaper(question) {
-    return this.PaperService.getQuestionPaper(this.paper, question);
-};
+  getQuestionPaper(question) {
+    return this.PaperService.getQuestionPaper(this.paper, question)
+  }
 
-/**
- * Get the score of a Paper
- * @returns {Number}
- */
-PaperShowCtrl.prototype.getScore = function getScore() {
-    return this.PaperService.getPaperScore(this.paper, this.questions);
-};
+  /**
+   * Get the score of a Paper
+   * @returns {Number}
+   */
+  getScore() {
+    return this.PaperService.getPaperScore(this.paper, this.questions)
+  }
 
-export default PaperShowCtrl
+  /**
+   * Get the score of a Paper
+   * @returns {Boolean}
+   */
+  isScoreAvailable() {
+    return this.UserPaperService.isScoreAvailable(this.paper)
+  }
+}

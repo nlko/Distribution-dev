@@ -9,50 +9,50 @@
  * @constructor
  */
 function PaperListCtrl($filter, CommonService, ExerciseService, PaperService, UserPaperService, papers) {
-    this.$filter = $filter;
-    this.PaperService  = PaperService;
-    this.CommonService = CommonService;
-    this.ExerciseService = ExerciseService;
-    this.UserPaperService = UserPaperService;
+    this.$filter = $filter
+    this.PaperService  = PaperService
+    this.UserPaperService = UserPaperService
+    this.CommonService = CommonService
+    this.ExerciseService = ExerciseService
 
-    this.editEnabled = this.ExerciseService.isEditEnabled();
-    this.exercise    = this.ExerciseService.getExercise();
-    this.papers      = papers.papers;
-    this.questions   = papers.questions;
+    this.editEnabled = this.ExerciseService.isEditEnabled()
+    this.exercise    = this.ExerciseService.getExercise()
+    this.papers      = papers.papers
+    this.questions   = papers.questions
 
-    this.filtered = this.papers;
+    this.filtered = this.papers
 }
 
 /**
  * @type {boolean}
  */
-PaperListCtrl.prototype.editEnabled = false;
+PaperListCtrl.prototype.editEnabled = false
 
 /**
  * Original list of Papers
  * @type {Array}
  */
-PaperListCtrl.prototype.papers = [];
+PaperListCtrl.prototype.papers = []
 
-PaperListCtrl.prototype.questions = [];
+PaperListCtrl.prototype.questions = []
 
 /**
  * Current Exercise
  * @type {Object}
  */
-PaperListCtrl.prototype.exercise = {};
+PaperListCtrl.prototype.exercise = {}
 
 /**
  * Filtered list of Papers (filtered by `query`)
  * @type {Array}
  */
-PaperListCtrl.prototype.filtered = [];
+PaperListCtrl.prototype.filtered = []
 
 /**
  * Filter query string
  * @type {string}
  */
-PaperListCtrl.prototype.query = '';
+PaperListCtrl.prototype.query = ''
 
 /**
  * Table and Pagination configuration
@@ -69,36 +69,36 @@ PaperListCtrl.prototype.config = {
         first: Translator.trans('paper_list_table_first_page_label', {}, 'ujm_sequence'),
         last: Translator.trans('paper_list_table_last_page_label', {}, 'ujm_sequence')
     }
-};
+}
 
 /**
  * Filter the list of Papers based on the User search
  */
 PaperListCtrl.prototype.filterPapers = function () {
-    this.filtered = this.$filter("filter")(this.papers, this.query);
-};
+    this.filtered = this.$filter('filter')(this.papers, this.query)
+}
 
 /**
  * Check whether a Paper needs a manual correction (if the score of one question is -1)
  * @param paper
  */
 PaperListCtrl.prototype.needManualCorrection = function needManualCorrection(paper) {
-    return this.PaperService.needManualCorrection(paper);
-};
+    return this.PaperService.needManualCorrection(paper)
+}
 
 /**
  * Delete all Papers of the Exercise
  */
 PaperListCtrl.prototype.deletePapers = function deletePapers() {
     this.PaperService.deleteAll(this.papers);
-};
+}
 
 /**
  * Delete a Paper
  */
 PaperListCtrl.prototype.deletePaper = function deletePaper(paper) {
     this.PaperService.delete(paper);
-};
+}
 
 /**
  * Get the score of a Paper
@@ -118,7 +118,7 @@ PaperListCtrl.prototype.getPaperScore = function getPaperScore(paper) {
     }
 
     return this.PaperService.getPaperScore(paper, questions);
-};
+}
 
 /**
  * Check if the correction for the Paper is available
@@ -127,7 +127,7 @@ PaperListCtrl.prototype.getPaperScore = function getPaperScore(paper) {
  */
 PaperListCtrl.prototype.isCorrectionAvailable = function isCorrectionAvailable(paper) {
     return this.UserPaperService.isCorrectionAvailable(paper);
-};
+}
 
 /**
  * Check if the score obtained by the User for the Paper is available
@@ -136,6 +136,6 @@ PaperListCtrl.prototype.isCorrectionAvailable = function isCorrectionAvailable(p
  */
 PaperListCtrl.prototype.isScoreAvailable = function isScoreAvailable(paper) {
     return this.UserPaperService.isScoreAvailable(paper);
-};
+}
 
 export default PaperListCtrl

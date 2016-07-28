@@ -10,6 +10,12 @@ function StepShowCtrl(UserPaperService, FeedbackService, QuestionService) {
   this.FeedbackService = FeedbackService
   this.QuestionService = QuestionService
 
+  /**
+   * Current step number
+   * @type {Object}
+   */
+  this.index = this.UserPaperService.getIndex(step)
+
   // Get the order of items from the Paper of the User (in case they are shuffled)
   this.items = this.UserPaperService.orderStepQuestions(this.step)
 
@@ -20,14 +26,15 @@ function StepShowCtrl(UserPaperService, FeedbackService, QuestionService) {
           .on('show', this.onFeedbackShow.bind(this))
 
   if (this.getQuestionPaper(this.items[0]).nbTries && this.getQuestionPaper(this.items[0]).nbTries >= this.step.meta.maxAttempts && this.feedback.enabled) {
-    this.solutionShown = true
+    this.includeCorrection = true
   }
+
   if (this.feedback.enabled && this.getQuestionPaper(this.items[0]).nbTries) {
     this.onFeedbackShow()
 
     if (this.allAnswersFound === 0) {
       this.feedback.visible = true
-      this.solutionShown = true
+      this.includeCorrection = true
     }
   }
 }
@@ -51,16 +58,16 @@ StepShowCtrl.prototype.feedback = null
 StepShowCtrl.prototype.items = []
 
 /**
- * Current step number
- * @type {Object}
+ *
+ * @type {boolean}
  */
-StepShowCtrl.prototype.stepIndex = 0
+StepShowCtrl.prototype.includeCorrection = false
 
 /**
  *
  * @type {boolean}
  */
-StepShowCtrl.prototype.solutionShown = false
+StepShowCtrl.prototype.includeScore = false
 
 /**
  *
