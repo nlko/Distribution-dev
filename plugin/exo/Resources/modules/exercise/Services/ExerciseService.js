@@ -32,7 +32,8 @@ ExerciseService.prototype.correctionModes = {
  */
 ExerciseService.prototype.markModes = {
     '1': Translator.trans('at_the_same_time_that_the_correction', {}, 'ujm_exo'),
-    '2': Translator.trans('at_the_end_of_assessment', {}, 'ujm_exo')
+    '2': Translator.trans('at_the_end_of_assessment', {}, 'ujm_exo'),
+    '4': Translator.trans('never', {}, 'ujm_exo')
 };
 
 /**
