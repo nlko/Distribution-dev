@@ -188,4 +188,17 @@ export default class FeedbackService {
 
     return this
   }
+
+  /**
+   * Get the generic feedback for a question
+   * @param {Object} question
+   * @returns {string}
+   */
+  getGenericFeedback(question) {
+    if (this.config.state[question.id] === 1) {
+      return 'one_answer_to_find';
+    } else if (this.config.state[question.id] === 2) {
+      return 'answers_not_found';
+    }
+  }
 }

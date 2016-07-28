@@ -3,142 +3,144 @@ import markTpl from './../../paper/Partials/manual-mark.html'
 /**
  * Question Show Controller
  * Displays a Question
- * @param {Object}           $uibModal
- * @param {ExerciseService}  ExerciseService
- * @param {QuestionService}  QuestionService
- * @param {FeedbackService}  FeedbackService
- * @param {UserPaperService} UserPaperService
  */
-function QuestionShowCtrl($uibModal, ExerciseService, QuestionService, FeedbackService, UserPaperService) {
-    this.$uibModal = $uibModal;
-    this.ExerciseService  = ExerciseService;
-    this.QuestionService  = QuestionService;
-    this.FeedbackService  = FeedbackService;
-    this.UserPaperService = UserPaperService;
+export default class QuestionShowCtrl {
+    /**
+     * Class constructor.
+     *
+     * @param {Object}           $uibModal
+     * @param {ExerciseService}  ExerciseService
+     * @param {QuestionService}  QuestionService
+     * @param {FeedbackService}  FeedbackService
+     * @param {UserPaperService} UserPaperService
+     */
+    constructor($uibModal, ExerciseService, QuestionService, FeedbackService, UserPaperService) {
+        // Dependency injection
+        this.$uibModal = $uibModal
+        this.ExerciseService  = ExerciseService
+        this.QuestionService  = QuestionService
+        this.FeedbackService  = FeedbackService
+        this.UserPaperService = UserPaperService
 
-    this.editEnabled = this.ExerciseService.isEditEnabled();
+        /**
+         * Is the Question panel collapsed ?
+         * @type {boolean}
+         */
+        this.collapsed = false
 
-    // Get feedback info to display the general feedback of the Question
-    this.feedback = this.FeedbackService.get();
+        /**
+         * Current question
+         * @type {Object}
+         */
+        this.question = {}
 
-    // Force the feedback when correction is shown
-    if (this.includeCorrection && !this.FeedbackService.isEnabled()) {
-        this.FeedbackService.enable();
-        this.FeedbackService.show();
-    }
-};
+        /**
+         * Paper data for the current question
+         * @type {Object}
+         */
+        this.questionPaper = null
 
-/**
- * Is the Question panel collapsed ?
- * @type {boolean}
- */
-QuestionShowCtrl.prototype.collapsed = false;
+        /**
+         * Feedback information
+         * @type {Object}
+         */
+        this.feedback = this.FeedbackService.get()
 
-/**
- * Current question
- * @type {Object}
- */
-QuestionShowCtrl.prototype.question = {};
+        /**
+         * Is edit enabled ?
+         * @type {boolean}
+         */
+        this.editEnabled = this.ExerciseService.isEditEnabled()
 
-/**
- * Paper data for the current question
- * @type {Object}
- */
-QuestionShowCtrl.prototype.questionPaper = null;
+        /**
+         * Are the correction for the Question displayed ?
+         * @type {boolean}
+         */
+        this.includeCorrection = false
 
-/**
- * Feedback information
- * @type {Object}
- */
-QuestionShowCtrl.prototype.feedback = {};
+        /**
+         * Is the score for the Question displayed ?
+         * @type {boolean}
+         */
+        this.includeScore = false
 
-/**
- * Is edit enabled ?
- * @type {boolean}
- */
-QuestionShowCtrl.prototype.editEnabled = false;
-
-/**
- * Are the correction for the Question displayed ?
- * @type {boolean}
- */
-QuestionShowCtrl.prototype.includeCorrection = false;
-
-/**
- * Mark the question
- */
-QuestionShowCtrl.prototype.mark = function mark() {
-    var question = this.question;
-
-    this.$uibModal.open({
-        template: markTpl,
-        controller: 'ManualMarkCtrl as manualMarkCtrl',
-        resolve: {
-            question: function questionResolve() {
-                return question;
-            }
-        }
-    });
-};
-
-/**
- * Get the generic feedback
- * @returns {string}
- */
-QuestionShowCtrl.prototype.getGenericFeedback = function getGenericFeedback() {
-    if (this.feedback.state[this.question.id] === 1) {
-        return "one_answer_to_find";
-    } else if (this.feedback.state[this.question.id] === 2) {
-        return "answers_not_found";
-    }
-};
-
-/**
- * Check if a Hint has already been used (in paper)
- * @param   {Object} hint
- * @returns {Boolean}
- */
-QuestionShowCtrl.prototype.isHintUsed = function isHintUsed(hint) {
-    var used = false;
-    if (this.questionPaper.hints) {
-        for (var i = 0; i < this.questionPaper.hints.length; i++) {
-            if (this.questionPaper.hints[i].id == hint.id) {
-                used = true;
-                break; // Stop searching
-            }
+        // Force the feedback when correction is shown
+        if (this.includeCorrection && !this.FeedbackService.isEnabled()) {
+            this.FeedbackService.enable()
+            this.FeedbackService.show()
         }
     }
 
-    return used;
-};
+    /**
+     * Mark the question
+     */
+    mark() {
+        var question = this.question
 
-/**
- * Get hint data and update student data in common service
- * @param {Object} hint
- */
-QuestionShowCtrl.prototype.showHint = function showHint(hint) {
-    if (!this.isHintUsed(hint)) {
-        // Load Hint data
-        this.UserPaperService.useHint(this.question, hint);
-    }
-};
-
-/**
- * Get Hint value (only available for loaded Hint)
- * @param {Object} hint
- */
-QuestionShowCtrl.prototype.getHintValue = function getHintValue(hint) {
-    var value = '';
-    if (this.questionPaper.hints && this.questionPaper.hints.length > 0) {
-        for (var i = 0; i < this.questionPaper.hints.length; i++) {
-            if (this.questionPaper.hints[i].id == hint.id) {
-                value = this.questionPaper.hints[i].value;
-                break;
+        this.$uibModal.open({
+            template: markTpl,
+            controller: 'ManualMarkCtrl as manualMarkCtrl',
+            resolve: {
+                question: function questionResolve() {
+                    return question
+                }
             }
+        });
+    }
+
+    /**
+     * Get the generic feedback
+     * @returns {string}
+     */
+    getGenericFeedback() {
+        return this.FeedbackService.getGenericFeedback(this.question)
+    }
+
+    /**
+     * Check if a Hint has already been used (in paper)
+     * @param   {Object} hint
+     * @returns {Boolean}
+     */
+    isHintUsed(hint) {
+        let used = false
+        if (this.questionPaper.hints) {
+            for (let i = 0; i < this.questionPaper.hints.length; i++) {
+                if (this.questionPaper.hints[i].id == hint.id) {
+                    used = true
+                    break // Stop searching
+                }
+            }
+        }
+
+        return used
+    }
+
+    /**
+     * Get hint data and update student data in common service
+     * @param {Object} hint
+     */
+    showHint(hint) {
+        if (!this.isHintUsed(hint)) {
+            // Load Hint data
+            this.UserPaperService.useHint(this.question, hint);
         }
     }
 
-    return value;
-};
+    /**
+     * Get Hint value (only available for loaded Hint)
+     * @param {Object} hint
+     */
+    getHintValue(hint) {
+        let value = '';
+        if (this.questionPaper.hints && this.questionPaper.hints.length > 0) {
+            for (let i = 0; i < this.questionPaper.hints.length; i++) {
+                if (this.questionPaper.hints[i].id == hint.id) {
+                    value = this.questionPaper.hints[i].value
+                    break
+                }
+            }
+        }
 
-export default QuestionShowCtrl
+        return value
+    }
+}
