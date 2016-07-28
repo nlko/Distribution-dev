@@ -26,19 +26,19 @@ export default class QuestionShowCtrl {
          * Is the Question panel collapsed ?
          * @type {boolean}
          */
-        this.collapsed = false
+        /*this.collapsed = false*/
 
         /**
          * Current question
          * @type {Object}
          */
-        this.question = {}
+        /*this.question = {}*/
 
         /**
          * Paper data for the current question
          * @type {Object}
          */
-        this.questionPaper = null
+        /*this.questionPaper = null*/
 
         /**
          * Feedback information
@@ -56,13 +56,13 @@ export default class QuestionShowCtrl {
          * Are the correction for the Question displayed ?
          * @type {boolean}
          */
-        this.includeCorrection = false
+        /*this.includeCorrection = false*/
 
         /**
          * Is the score for the Question displayed ?
          * @type {boolean}
          */
-        this.includeScore = false
+        /*this.includeScore = false*/
 
         // Force the feedback when correction is shown
         if (this.includeCorrection && !this.FeedbackService.isEnabled()) {
