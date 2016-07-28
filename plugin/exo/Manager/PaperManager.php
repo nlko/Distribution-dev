@@ -696,8 +696,12 @@ class PaperManager
                 break;
 
             case MarkMode::WITH_CORRECTION:
-            default:
                 $available = $this->isSolutionAvailable($exercise, $paper);
+                break;
+
+            case MarkMode::NEVER:
+            default:
+                $available = false;
                 break;
         }
 
