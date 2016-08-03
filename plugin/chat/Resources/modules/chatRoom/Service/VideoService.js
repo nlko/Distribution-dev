@@ -105,11 +105,11 @@ export default class VideoService {
     if (username === null) {
       this.switchAudio()
     } else {
-      this.resquestUserMicroSwitch(username)
+      this.requestUserMicroSwitch(username)
     }
   }
 
-  resquestUserMicroSwitch (username) {
+  requestUserMicroSwitch (username) {
     this.xmppConfig['connection'].send(
       $msg({
         to: this.chatRoomConfig['room'],
@@ -127,7 +127,7 @@ export default class VideoService {
     )
   }
 
-  resquestUserMicroStatus (username) {
+  requestUserMicroStatus (username) {
     this.xmppConfig['connection'].send(
       $msg({
         to: this.chatRoomConfig['room'],
@@ -214,10 +214,13 @@ export default class VideoService {
           `${this.chatRoomConfig['room']}/${this.chatRoomConfig['myUsername']}`
         )
 
+
+        session.usetrickle = false
+
         if (session['sid']) {
           this.addSid(session['sid'], u['username'])
         }
-        this.resquestUserMicroStatus(u['username'])
+        this.requestUserMicroStatus(u['username'])
       }
     })
   }
@@ -309,11 +312,9 @@ export default class VideoService {
       this.xmppConfig['connection'].jingle.pc_constraints = RTC.pc_constraints
 
       if (RTC.browser === 'firefox') {
-        this.xmppConfig['connection'].jingle.media_constraints = {
-          offerToReceiveAudio: true,
-          offerToReceiveVideo: true,
-          mozDontOfferDataChannel: true
-        }
+        this.xmppConfig['connection'].jingle.media_constraints.mandatory.mozDontOfferDataChannel = true
+        this.xmppConfig['connection'].jingle.media_constraints.mandatory.offerToReceiveAudio = true
+        this.xmppConfig['connection'].jingle.media_constraints.mandatory.offerToReceiveVideo = true
       }
     } else {
       console.log('webrtc capable browser required')
@@ -421,26 +422,6 @@ export default class VideoService {
     // manageDisconnectedSid(sid)
     } else if (sess.peerconnection.iceConnectionState === 'failed' || sess.peerconnection.iceConnectionState === 'closed') {
       console.log('failed/closed stream')
-      //this._reconnect ()
-    }
-  }
-
-  _reconnect () {
-    console.log('reconnect')
-    RTCPeerconnection = RTC.peerconnection
-    RTC = setupRTC()
-    console.log(RTC)
-    let umc = getUserMediaWithConstraints(['audio', 'video'])
-    console.log(umc)
-    this.xmppConfig['connection'].jingle.pc_constraints = RTC.pc_constraints
-
-    if (RTC.browser === 'firefox') {
-      // connection.jingle.media_constraints.mandatory.MozDontOfferDataChannel = true
-      this.xmppConfig['connection'].jingle.media_constraints = {
-        offerToReceiveAudio: true,
-        offerToReceiveVideo: true,
-        mozDontOfferDataChannel: true
-      }
     }
   }
 
