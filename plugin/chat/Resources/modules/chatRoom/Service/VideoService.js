@@ -39,6 +39,8 @@ export default class VideoService {
       selectedUser: null,
       speakingUser: null
     }
+
+    this.RTC = null
     console.log(this.videoConfig.ice_config)
     this._startMedias = this._startMedias.bind(this)
     this._stopUserStream = this._stopUserStream.bind(this)
@@ -82,17 +84,22 @@ export default class VideoService {
   }
 
   switchAudio () {
+    console.log('request audio switch')
     if (this.videoConfig['myAudioEnabled']) {
       this.videoConfig['myAudioTracks'].forEach(t => {
+        console.log('remove track', t)
         this.videoConfig['localStream'].removeTrack(t)
       })
       this.videoConfig['myAudioEnabled'] = false
+      console.log('disable audio')
     } else {
       this.videoConfig['myAudioTracks'].forEach(t => {
         this.videoConfig['localStream'].addTrack(t)
       })
       this.videoConfig['myAudioEnabled'] = true
+      console.log('enable audio')
     }
+
     const streamURL = window.URL.createObjectURL(this.videoConfig['localStream'])
     const trustedStreamURL = this.$sce.trustAsResourceUrl(streamURL)
     this.videoConfig['mySourceStream'] = trustedStreamURL
@@ -214,8 +221,8 @@ export default class VideoService {
           `${this.chatRoomConfig['room']}/${this.chatRoomConfig['myUsername']}`
         )
 
-
-        session.usetrickle = false
+        //as long a we don't have a better fix...
+        if (this.RTC.browser === 'firefox') session.usetrickle = false
 
         if (session['sid']) {
           this.addSid(session['sid'], u['username'])
@@ -281,7 +288,8 @@ export default class VideoService {
   }
 
   _startMedias () {
-    RTC = setupRTC()
+    //for getUserMediaWithConstraints()
+    RTC = this.RTC = setupRTC();
     getUserMediaWithConstraints(['audio', 'video'])
     this.xmppConfig['connection'].jingle.ice_config = this.videoConfig['ice_config']
     angular.element(document).bind('mediaready.jingle', this._onMediaReady)
@@ -307,11 +315,11 @@ export default class VideoService {
       console.warn('packetloss', sid, loss)
     })
 
-    if (RTC) {
-      RTCPeerconnection = RTC.peerconnection
-      this.xmppConfig['connection'].jingle.pc_constraints = RTC.pc_constraints
+    if (this.RTC) {
+      RTCPeerconnection = this.RTC.peerconnection
+      this.xmppConfig['connection'].jingle.pc_constraints = this.RTC.pc_constraints
 
-      if (RTC.browser === 'firefox') {
+      if (this.RTC.browser === 'firefox') {
         this.xmppConfig['connection'].jingle.media_constraints.mandatory.mozDontOfferDataChannel = true
         this.xmppConfig['connection'].jingle.media_constraints.mandatory.offerToReceiveAudio = true
         this.xmppConfig['connection'].jingle.media_constraints.mandatory.offerToReceiveVideo = true
