@@ -68,12 +68,12 @@ export default class VideoService {
   switchVideo () {
     if (this.videoConfig['myVideoEnabled']) {
       this.videoConfig['myVideoTracks'].forEach(t => {
-        this.videoConfig['localStream'].removeTrack(t)
+          t.enabled = false
       })
       this.videoConfig['myVideoEnabled'] = false
     } else {
       this.videoConfig['myVideoTracks'].forEach(t => {
-        this.videoConfig['localStream'].addTrack(t)
+          t.enabled = true
       })
       this.videoConfig['myVideoEnabled'] = true
     }
@@ -84,20 +84,16 @@ export default class VideoService {
   }
 
   switchAudio () {
-    console.log('request audio switch')
     if (this.videoConfig['myAudioEnabled']) {
       this.videoConfig['myAudioTracks'].forEach(t => {
-        console.log('remove track', t)
-        this.videoConfig['localStream'].removeTrack(t)
+        t.enabled = false
       })
       this.videoConfig['myAudioEnabled'] = false
-      console.log('disable audio')
     } else {
       this.videoConfig['myAudioTracks'].forEach(t => {
-        this.videoConfig['localStream'].addTrack(t)
+        t.enabled = true
       })
       this.videoConfig['myAudioEnabled'] = true
-      console.log('enable audio')
     }
 
     const streamURL = window.URL.createObjectURL(this.videoConfig['localStream'])
