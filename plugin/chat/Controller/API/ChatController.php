@@ -23,8 +23,8 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
@@ -73,7 +73,7 @@ class ChatController extends FOSRestController
             throw new AccessDeniedException();
         } else {
             $chatUser = $this->chatManager->getChatUserByUser($user);
-            $xmppOptions = array();
+            $xmppOptions = [];
             $xmppOptions['xmppHost'] = $this->platformConfigHandler->getParameter('chat_xmpp_host');
             $xmppOptions['boshPort'] = $this->platformConfigHandler->getParameter('chat_bosh_port');
             $xmppOptions['canChat'] = !is_null($chatUser);
@@ -107,7 +107,7 @@ class ChatController extends FOSRestController
         if ($user === '.anon') {
             throw new AccessDeniedException();
         } else {
-            $userInfos = array();
+            $userInfos = [];
             $chatUser = $this->chatManager->getChatUserByUser($user);
             $userInfos['canChat'] = !is_null($chatUser);
             $userInfos['canEdit'] = $this->hasChatRoomRight($chatRoom, 'EDIT');
@@ -139,14 +139,14 @@ class ChatController extends FOSRestController
         $chatRoom->setRoomStatus($roomStatus);
         $this->chatManager->persistChatRoom($chatRoom);
 
-        return array(
+        return [
             'id' => $chatRoom->getId(),
             'roomName' => $chatRoom->getRoomName(),
             'roomStatus' => $chatRoom->getRoomStatus(),
             'roomStatusText' => $chatRoom->getRoomStatusText(),
             'roomType' => $chatRoom->getRoomType(),
             'roomTypeText' => $chatRoom->getRoomTypeText(),
-        );
+        ];
     }
 
     /**
@@ -189,7 +189,7 @@ class ChatController extends FOSRestController
      */
     public function postChatUsersInfosAction(Request $request)
     {
-        $datas = array();
+        $datas = [];
         $usernames = $request->request->get('usernames', false);
         $chatUsers = $this->chatManager->getChatUsersByUsernames($usernames);
 
@@ -198,12 +198,12 @@ class ChatController extends FOSRestController
             $user = $chatUser->getUser();
             $options = $chatUser->getOptions();
             $color = isset($options['color']) ? $options['color'] : null;
-            $datas[$chatUsername] = array(
+            $datas[$chatUsername] = [
                 'username' => $chatUsername,
                 'firstName' => $user->getFirstName(),
                 'lastName' => $user->getLastName(),
                 'color' => $color,
-            );
+            ];
         }
 
         return $datas;
@@ -218,10 +218,10 @@ class ChatController extends FOSRestController
      */
     public function getRegisteredMessagesAction(ChatRoom $chatRoom)
     {
-        $datas = array();
-        $names = array();
-        $usernames = array();
-        $colors = array();
+        $datas = [];
+        $names = [];
+        $usernames = [];
+        $colors = [];
         $messages = $this->chatManager->getMessagesByChatRoom($chatRoom);
 
         foreach ($messages as $message) {
@@ -243,14 +243,14 @@ class ChatController extends FOSRestController
         foreach ($messages  as $message) {
             $username = $message->getUsername();
             $color = isset($colors[$username]) ? $colors[$username] : null;
-            $datas[] = array(
+            $datas[] = [
                 'username' => $username,
                 'userFullName' => $message->getUserFullName(),
                 'creationDate' => $message->getCreationDate(),
                 'type' => $message->getTypeText(),
                 'content' => $message->getContent(),
                 'color' => $color,
-            );
+            ];
         }
 
         return $datas;
@@ -258,7 +258,7 @@ class ChatController extends FOSRestController
 
     private function checkChatRoomRight(ChatRoom $chatRoom, $right)
     {
-        $collection = new ResourceCollection(array($chatRoom->getResourceNode()));
+        $collection = new ResourceCollection([$chatRoom->getResourceNode()]);
 
         if (!$this->authorization->isGranted($right, $collection)) {
             throw new AccessDeniedException();
@@ -267,7 +267,7 @@ class ChatController extends FOSRestController
 
     private function hasChatRoomRight(ChatRoom $chatRoom, $right)
     {
-        $collection = new ResourceCollection(array($chatRoom->getResourceNode()));
+        $collection = new ResourceCollection([$chatRoom->getResourceNode()]);
 
         return $this->authorization->isGranted($right, $collection);
     }

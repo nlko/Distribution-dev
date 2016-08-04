@@ -56,9 +56,9 @@ class ChatListener
      */
     public function onChatManagementAdministrationToolOpen(OpenAdministrationToolEvent $event)
     {
-        $params = array();
+        $params = [];
         $params['_controller'] = 'ClarolineChatBundle:AdminChat:adminChatManagement';
-        $subRequest = $this->request->duplicate(array(), null, $params);
+        $subRequest = $this->request->duplicate([], null, $params);
         $response = $this->httpKernel
             ->handle($subRequest, HttpKernelInterface::SUB_REQUEST);
         $event->setResponse($response);
@@ -73,12 +73,12 @@ class ChatListener
     public function onContactActionMenuRender(ContactAdditionalActionEvent $event)
     {
         $user = $event->getUser();
-        $url = $this->router->generate('claro_chat_user', array('user' => $user->getId()));
+        $url = $this->router->generate('claro_chat_user', ['user' => $user->getId()]);
 
         $menu = $event->getMenu();
         $menu->addChild(
-            $this->translator->trans('chat', array(), 'chat'),
-            array('uri' => $url)
+            $this->translator->trans('chat', [], 'chat'),
+            ['uri' => $url]
         )->setExtra('icon', 'fa fa-comments-o')
         ->setExtra('display', 'new_small_window');
 
