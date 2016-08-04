@@ -149,7 +149,6 @@ class ChatManager
 
     public function validateParameters($host, $muc, $boshPort, $ice, $admin, $pw, $ssl)
     {
-        $timeout = 1;
         $errors = [];
 
         //xmpp client

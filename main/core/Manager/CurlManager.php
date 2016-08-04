@@ -12,7 +12,6 @@
 namespace Claroline\CoreBundle\Manager;
 
 use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Form\AbstractType;
 
 /**
  * @DI\Service("claroline.manager.curl_manager")
@@ -43,14 +42,6 @@ class CurlManager
         }
 
         return $serverOutput;
-    }
-
-    /**
-     * Transforms an entity into an array wich will be used by the 'post' curl request for a specified form.
-     */
-    public function formEncode($entity, AbstractType $formType)
-    {
-        $data = [];
     }
 
     private function setPostCurl($ch, $payload)
