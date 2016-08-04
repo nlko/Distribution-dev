@@ -19,7 +19,7 @@ use Symfony\Component\Form\AbstractType;
  */
 class CurlManager
 {
-    public function exec($url, $payload = null, $type = 'GET', $options = [], $autoClose = true, &$ch)
+    public function exec($url, $payload = null, $type = 'GET', $options = [], $autoClose = true, &$ch = null)
     {
         $options[CURLOPT_RETURNTRANSFER] = true;
         $options[CURLOPT_URL] = $url;
