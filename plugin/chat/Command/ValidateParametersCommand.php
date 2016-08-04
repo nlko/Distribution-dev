@@ -31,7 +31,6 @@ class ValidateParametersCommand extends ContainerAwareCommand
     {
         $consoleLogger = ConsoleLogger::get($output);
         $chatManager = $this->getContainer()->get('claroline.manager.chat_manager');
-        $configHandler = $this->getContainer()->get('claroline.config.platform_config_handler');
         $chatManager->setLogger($consoleLogger);
         $chatManager->isConfigured();
     }
