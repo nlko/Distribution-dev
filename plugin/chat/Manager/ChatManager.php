@@ -190,6 +190,25 @@ class ChatManager
         return $errors;
     }
 
+    public function isConfigured()
+    {
+        try {
+            $errors = $this->validateParameters(
+                $this->configHandler->getParameter('chat_xmpp_host'),
+                $this->configHandler->getParameter('chat_xmpp_muc_host'),
+                $this->configHandler->getParameter('chat_bosh_port'),
+                $this->configHandler->getParameter('chat_ice_servers'),
+                $this->configHandler->getParameter('chat_admin_username'),
+                $this->configHandler->getParameter('chat_admin_password'),
+                $this->configHandler->getParameter('chat_ssl')
+            );
+
+            return count($errors) === 0;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
     public function createChatUser(User $user, $username, $password)
     {
         $chatUser = new ChatUser();
