@@ -27,7 +27,6 @@ use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-
 /**
  * @DI\Service
  */
@@ -60,8 +59,7 @@ class ChatRoomListener
         PlatformConfigurationHandler $platformConfigHandler,
         RequestStack $requestStack,
         TwigEngine $templating
-    )
-    {
+    ) {
         $this->chatManager = $chatManager;
         $this->formFactory = $formFactory;
         $this->httpKernel = $httpKernel;
@@ -85,7 +83,7 @@ class ChatRoomListener
             'ClarolineCoreBundle:Resource:createForm.html.twig',
             array(
                 'form' => $form->createView(),
-                'resourceType' => 'claroline_chat_room'
+                'resourceType' => 'claroline_chat_room',
             )
         );
         $event->setResponseContent($content);
@@ -117,7 +115,7 @@ class ChatRoomListener
             'ClarolineCoreBundle:Resource:createForm.html.twig',
             array(
                 'form' => $form->createView(),
-                'resourceType' => 'claroline_chat_room'
+                'resourceType' => 'claroline_chat_room',
             )
         );
         $event->setErrorFormContent($content);

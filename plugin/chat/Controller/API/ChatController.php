@@ -50,8 +50,7 @@ class ChatController extends FOSRestController
         ChatManager $chatManager,
         PlatformConfigurationHandler $platformConfigHandler,
         TokenStorageInterface $tokenStorage
-    )
-    {
+    ) {
         $this->authorization = $authorization;
         $this->chatManager = $chatManager;
         $this->platformConfigHandler = $platformConfigHandler;
@@ -71,7 +70,6 @@ class ChatController extends FOSRestController
         $user = $token->getUser();
 
         if ($user === '.anon') {
-
             throw new AccessDeniedException();
         } else {
             $chatUser = $this->chatManager->getChatUserByUser($user);
@@ -107,7 +105,6 @@ class ChatController extends FOSRestController
         $user = $token->getUser();
 
         if ($user === '.anon') {
-
             throw new AccessDeniedException();
         } else {
             $userInfos = array();
@@ -148,7 +145,7 @@ class ChatController extends FOSRestController
             'roomStatus' => $chatRoom->getRoomStatus(),
             'roomStatusText' => $chatRoom->getRoomStatusText(),
             'roomType' => $chatRoom->getRoomType(),
-            'roomTypeText' => $chatRoom->getRoomTypeText()
+            'roomTypeText' => $chatRoom->getRoomTypeText(),
         );
     }
 
@@ -177,7 +174,6 @@ class ChatController extends FOSRestController
         $hasRight = $this->hasChatRoomRight($chatRoom, 'OPEN');
 
         if (!$hasRight) {
-
             return new JsonResponse('not_authorized', 403);
         }
         $message = $request->request->get('message', false);
@@ -206,7 +202,7 @@ class ChatController extends FOSRestController
                 'username' => $chatUsername,
                 'firstName' => $user->getFirstName(),
                 'lastName' => $user->getLastName(),
-                'color' => $color
+                'color' => $color,
             );
         }
 
@@ -253,7 +249,7 @@ class ChatController extends FOSRestController
                 'creationDate' => $message->getCreationDate(),
                 'type' => $message->getTypeText(),
                 'content' => $message->getContent(),
-                'color' => $color
+                'color' => $color,
             );
         }
 
@@ -265,7 +261,6 @@ class ChatController extends FOSRestController
         $collection = new ResourceCollection(array($chatRoom->getResourceNode()));
 
         if (!$this->authorization->isGranted($right, $collection)) {
-
             throw new AccessDeniedException();
         }
     }

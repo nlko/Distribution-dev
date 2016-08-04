@@ -42,8 +42,7 @@ class ChatListener
         RequestStack $requestStack,
         UrlGeneratorInterface $router,
         TranslatorInterface $translator
-    )
-    {
+    ) {
         $this->httpKernel = $httpKernel;
         $this->request = $requestStack->getCurrentRequest();
         $this->router = $router;

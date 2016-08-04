@@ -34,7 +34,7 @@ class ChatUserEditionType extends AbstractType
                 'mapped' => false,
                 'data' => $this->color,
                 'label' => 'color',
-                'translation_domain' => 'platform'
+                'translation_domain' => 'platform',
             )
         );
     }

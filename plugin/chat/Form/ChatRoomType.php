@@ -49,7 +49,7 @@ class ChatRoomType extends AbstractType
             array(
                 'constraints' => new NotBlank(),
                 'label' => 'name',
-                'translation_domain' => 'platform'
+                'translation_domain' => 'platform',
             )
         );
         $builder->add(
@@ -57,7 +57,7 @@ class ChatRoomType extends AbstractType
             'choice',
             array(
                 'label' => 'type',
-                'choices' => $typesList
+                'choices' => $typesList,
             )
         );
     }
