@@ -1,19 +1,20 @@
-<div ng-if="crc.chatRoomConfig['roomType'] === 'text'">
+<div ng-if="crc.chatRoomConfig['roomType'] === 'audio'">
     <div ng-if="crc.chatRoomConfig['roomStatus'] === 'open'">
         <div ng-if="crc.chatRoomConfig['connected']">
             <button class="btn btn-default" ng-click="crc.goBack()">
                 {{ 'back'|trans:{}:'platform' }}
             </button>
-            <div class="row chat-room-row">
-                <div id="chat-room-content-panel" class="col-md-9">
-                    <chat-room-messages></chat-room-messages>
-                </div>
-                <div id="chat-room-users-panel" class="col-md-3">
-                    <chat-room-users></chat-room-users>
+
+            <div id="chat-room-video-row" class="row">
+                <div class="col-md-8">
+                    <div id="main-video-container">
+                        <video class="not-video-js" id="main-video" autoplay="autoplay" ng-src="{{ crc.videoConfig['sourceStreams'][crc.videoConfig['mainStreamUsername']] }}"></video>
+                    </div>
                 </div>
             </div>
-            <div class="row chat-room-row">
-                <chat-room-input></chat-room-input>
+            <hr>
+            <div class="row">
+                <chat-room-videos></chat-room-videos>
             </div>
         </div>
         <div ng-if="!crc.chatRoomConfig['connected']">
@@ -37,7 +38,7 @@
         </button>
     </div>
 </div>
-<div ng-if="crc.chatRoomConfig['roomType'] !== 'text'">
+<div ng-if="crc.chatRoomConfig['roomType'] !== 'audio'">
     <div class="alert alert-danger">
         {{ 'invalid_room_type'|trans:{}:'chat' }}
     </div>

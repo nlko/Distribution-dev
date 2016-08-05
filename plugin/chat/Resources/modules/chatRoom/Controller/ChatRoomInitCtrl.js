@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-export default class ChatRoomMainCtrl {
+export default class ChatRoomInitCtrl {
 
   constructor ($state, ChatRoomService) {
     this.$state = $state
@@ -28,8 +28,6 @@ export default class ChatRoomMainCtrl {
   }
 
   connectToRoom () {
-    // this.ChatRoomService.connectToRoom()
-
     if (this.chatRoomConfig['roomType'] === 'text') {
       this.$state.transitionTo(
         'text',
@@ -39,6 +37,12 @@ export default class ChatRoomMainCtrl {
     } else if (this.chatRoomConfig['roomType'] === 'video') {
       this.$state.transitionTo(
         'video',
+        {},
+        { reload: true, inherit: true, notify: true }
+      )
+  } else if (this.chatRoomConfig['roomType'] === 'audio') {
+      this.$state.transitionTo(
+        'audio',
         {},
         { reload: true, inherit: true, notify: true }
       )

@@ -107,6 +107,7 @@ export default class ChatRoomService {
   }
 
   connectToRoom () {
+    this.$log.log('CONNECT TO ROOM')
     if (this.xmppConfig['connected'] && this.xmppConfig['adminConnected']) {
       this.$log.log('Connecting to room...')
       this.connectAdminToRoom()
@@ -153,6 +154,7 @@ export default class ChatRoomService {
   }
 
   disconnectFromRoom () {
+    this.$log.log('DISCONNECT FROM ROOM')
     if (this.config['connected']) {
       const presence = $pres({
         from: `${this.xmppConfig['username']}@${this.xmppConfig['xmppHost']}/${this.config['roomName']}`,
