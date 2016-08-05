@@ -38,8 +38,8 @@ export default class ChatRoomVideoCtrl extends ChatRoomBaseCtrl {
     )
   }
 
-  switchAudio (username = null) {
-    this.VideoService.switchUserAudio(username)
+  switchAudio (username) {
+    this.VideoService.requestUserMicroSwitch(username)
   }
 
   switchVideo () {

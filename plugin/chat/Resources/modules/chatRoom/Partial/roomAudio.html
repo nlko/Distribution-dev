@@ -4,17 +4,15 @@
             <button class="btn btn-default" ng-click="crc.goBack()">
                 {{ 'back'|trans:{}:'platform' }}
             </button>
-
-            <div id="chat-room-video-row" class="row">
-                <div class="col-md-8">
-                    <div id="main-video-container">
-                        <video class="not-video-js" id="main-video" autoplay="autoplay" ng-src="{{ crc.videoConfig['sourceStreams'][crc.videoConfig['mainStreamUsername']] }}"></video>
-                    </div>
+            <div class="panel-body row">
+                <div class="col-md-2">
+                    <chat-room-audios></chat-room-audios>
+                </div>
+                <div class="col-md-10">
+                    <chat-room-messages></chat-room-messages>
+                    <chat-room-input></chat-room-input>
                 </div>
             </div>
-            <hr>
-            <div class="row">
-                <chat-room-videos></chat-room-videos>
             </div>
         </div>
         <div ng-if="!crc.chatRoomConfig['connected']">

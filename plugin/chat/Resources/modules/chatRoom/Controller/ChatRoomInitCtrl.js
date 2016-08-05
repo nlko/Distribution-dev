@@ -18,16 +18,18 @@ export default class ChatRoomInitCtrl {
   }
 
   initialize () {
-    this.ChatRoomService.connect()
-  }
-
-  initializeChatRoom () {
-    if (this.xmppConfig['connected']) {
-      this.ChatRoomService.initializeRoom()
+    if (!this.xmppConfig['connected']) {
+        this.ChatRoomService.connect()
     }
   }
 
+  initializeChatRoom () {
+    this.initialize()
+    this.ChatRoomService.initializeRoom()
+  }
+
   connectToRoom () {
+    this.initialize()
     if (this.chatRoomConfig['roomType'] === 'text') {
       this.$state.transitionTo(
         'text',

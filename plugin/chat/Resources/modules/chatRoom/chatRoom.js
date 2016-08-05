@@ -42,7 +42,7 @@ angular.module('ChatRoomModule', [
 ])
   .controller('ChatRoomInitCtrl', ['$state', 'ChatRoomService', ChatRoomInitCtrl])
   .controller('ChatRoomTextCtrl', ['$state', 'ChatRoomService', ChatRoomTextCtrl])
-  .controller('ChatRoomAudioCtrl', ['$state', '$log', 'ChatRoomService', ChatRoomAudioCtrl])
+  .controller('ChatRoomAudioCtrl', ['$state', '$log', 'ChatRoomService', 'VideoService', ChatRoomAudioCtrl])
   .controller('ChatRoomVideoCtrl', ['$state', '$log', 'ChatRoomService', 'VideoService', ChatRoomVideoCtrl])
   .service('ChatRoomService', ChatRoomService)
   .service('VideoService', VideoService)

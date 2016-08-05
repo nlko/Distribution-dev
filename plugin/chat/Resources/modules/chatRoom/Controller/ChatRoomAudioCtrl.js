@@ -9,18 +9,11 @@
 
 import $ from 'jquery'
 
-export default class ChatRoomAudioCtrl {
+import ChatRoomVideoCtrl from './ChatRoomVideoCtrl'
 
-  constructor($state, $log, ChatRoomService) {
-    this.$state = $state
-    this.$log = $log
-    this.ChatRoomService = ChatRoomService
-    this.chatRoomConfig = ChatRoomService.getConfig()
-    this.xmppConfig = ChatRoomService.getXmppConfig()
-    this.messages = ChatRoomService.getMessages()
-    this.oldMessages = ChatRoomService.getOldMessages()
-    this.users = ChatRoomService.getUsers()
-    this.bannedUsers = ChatRoomService.getBannedUsers()
-    this.input = ''
-  }
+export default class ChatRoomAudioCtrl extends ChatRoomVideoCtrl {
+    constructor ($state, $log, ChatRoomService, VideoService) {
+        super($state, $log, ChatRoomService, VideoService)
+        this.VideoService.getConfig().myVideoEnabled = false
+    }
 }
