@@ -18,14 +18,14 @@ import $ from 'jquery'
 /* global $msg */
 
 export default class ChatRoomService {
-  constructor ($rootScope, $http, $log, $httpParamSerializerJQLike, XmppService, UserService, MessageService) {
+  constructor ($rootScope, $http, $log, $httpParamSerializerJQLike, XmppService, UserService) {
     this.$rootScope = $rootScope
     this.$http = $http
     this.$log = $log
     this.$httpParamSerializerJQLike = $httpParamSerializerJQLike
     this.XmppService = XmppService
     this.UserService = UserService
-    this.MessageService = MessageService
+    this.messages = []
     this.xmppConfig = XmppService.getConfig()
     this.config = {
       connected: false,
@@ -79,7 +79,7 @@ export default class ChatRoomService {
   }
 
   getMessages () {
-    return this.MessageService.getMessages()
+    return this.messages
   }
 
   setConnectedCallback (callback) {
@@ -156,18 +156,6 @@ export default class ChatRoomService {
     }
   }
 
-  resetChatRoomDatas () {
-    this.config['myRole'] = null
-    this.config['myAffiliation'] = null
-    this.config['adminConnected'] = false
-    this.config['connected'] = false
-    this.MessageService.emptyMessages()
-    this.MessageService.emptyOldMessages()
-    this.UserService.emptyUsers()
-    this.UserService.emptyBannedUsers()
-    this.$log.log('Disconnected')
-  }
-
   initializeRoom () {
     if (this.xmppConfig['adminConnected']) {
       this.$log.log(`${this.config['adminUsername']} is connected`)
@@ -234,7 +222,7 @@ export default class ChatRoomService {
 
   sendMessage (message) {
     if (message !== '') {
-      this.MessageService.addMessage(this.xmppConfig['fullName'], message, this.xmppConfig['color'])
+      this.messages.push({sender: this.xmppConfig['fullName'], message: message, color: this.xmppConfig['color'], type: 'message'})
       this.registerMessage(message, this.config['myUsername'], this.xmppConfig['fullName']).then(
         (d) => {
           if (d === 'ok') {
@@ -493,7 +481,7 @@ export default class ChatRoomService {
   manageManagementMessage (type, username, name, value) {
     if (type === 'unban-user') {
       this.UserService.removeBannedUser(username)
-      this.MessageService.addPresenceMessage(name, 'unbanned')
+      this.messages.push({name: name, status: 'unbanned', type: 'presence'})
       this.refreshScope()
     } else {
       this._managementCallback(type, username, name, value)
@@ -584,9 +572,8 @@ export default class ChatRoomService {
 
           if (statusCode === '110') {
             if (type === 'unavailable') {
-              this.resetChatRoomDatas()
-              this.registerPresence('disconnection')
-            } else {              
+              this.$log.error('Something went wrong. OnRoomPresence stanza type = "unavailable"')
+            } else {
               this.config['connected'] = true
               this.config['busy'] = false
               this.config['myUsername'] = username
@@ -612,9 +599,9 @@ export default class ChatRoomService {
             const userDatasName = userDatas['name'] ? userDatas['name'] : username
             const userDatasColor = userDatas['color'] ? userDatas['color'] : null
             this.UserService.addBannedUser(username, userDatasName, userDatasColor)
-            this.MessageService.addPresenceMessage(name, 'banned')
+            this.messages.push({name: name, status: 'banned', type: 'presence'})
           } else if (statusCode === '307') {
-            this.MessageService.addPresenceMessage(name, 'kicked')
+            this.messages.push({name: name, status: 'kicked', type: 'presence'})
           }
         }
 
@@ -667,7 +654,7 @@ export default class ChatRoomService {
             let color = datas.attr('color')
             color = (color === undefined) ? null : color
             const sender = (firstName !== undefined && lastName !== undefined) ? `${firstName} ${lastName}` : username
-            this.MessageService.addMessage(sender, body, color)
+            this.messages.push({sender: sender, message: body, color: color, type: 'message'})
             this.refreshScope()
           }
         }
