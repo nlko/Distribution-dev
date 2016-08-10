@@ -10,15 +10,10 @@
 export default class MessageService {
   constructor () {
     this.messages = []
-    this.oldMessages = []
   }
 
   getMessages () {
     return this.messages
-  }
-
-  getOldMessages () {
-    return this.oldMessages
   }
 
   addMessage (sender, message, color) {
@@ -35,13 +30,5 @@ export default class MessageService {
 
   emptyMessages () {
     this.messages.splice(0, this.messages.length)
-  }
-
-  addOldMessage (name, content, color, type, creationDate) {
-    this.oldMessages.push({name: name, content: content, color: color, type: type, creationDate: creationDate})
-  }
-
-  emptyOldMessages () {
-    this.oldMessages.splice(0, this.oldMessages.length)
   }
 }

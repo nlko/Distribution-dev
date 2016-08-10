@@ -82,10 +82,6 @@ export default class ChatRoomService {
     return this.MessageService.getMessages()
   }
 
-  getOldMessages () {
-    return this.MessageService.getOldMessages()
-  }
-
   setConnectedCallback (callback) {
     this._connectedCallback = callback
   }
@@ -261,15 +257,16 @@ export default class ChatRoomService {
     }
   }
 
-  getRegisteredMessages () {
+  getOldMessages () {
+    const messages = []
     const route = Routing.generate('api_get_registered_messages' , {chatRoom: this.config.chatRoom.id})
     this.$http.get(route).then(d => {
       d['data'].forEach(m => {
-        this.MessageService.addOldMessage(m['userFullName'], m['content'], m['color'], m['type'], m['creationDate'])
+        messages.push({name: m['userFullName'], content:  m['content'], color: m['color'], type: m['type'], creationDate: m['creationDate']})
       })
     })
 
-    return this.MessageService.getOldMessages()
+    return messages
   }
 
   initializeRoleAndAffiliation () {
@@ -589,8 +586,7 @@ export default class ChatRoomService {
             if (type === 'unavailable') {
               this.resetChatRoomDatas()
               this.registerPresence('disconnection')
-            } else {
-              this.getRegisteredMessages()
+            } else {              
               this.config['connected'] = true
               this.config['busy'] = false
               this.config['myUsername'] = username
