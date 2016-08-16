@@ -85,7 +85,8 @@ delete: Supprimer
 delete_of_my_bank: Supprimer de ma banque
 delete_of_my_exercise: Supprimer de mon exercice
 delete_papers: Supprimer les copies
-delete_question: Supprimer l'étape
+delete_item: Supprimer la question
+delete_step: Supprimer l'étape
 description: Description
 display_all_list: Afficher la liste complète
 display_all_on_this_page: Tout afficher sur cette page

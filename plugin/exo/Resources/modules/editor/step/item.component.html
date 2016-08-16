@@ -4,7 +4,7 @@
       <h3 class="col-md-10 panel-title">{{ $ctrl.data.title }}</h3>
       <div class="col-md-2 step-actions text-right">
         <button class="btn btn-sm btn-danger"
-                title="{{ 'delete_item' | trans:{}:'ujm_exo' }}"
+                title="{{ 'delete_item'|trans:{}:'ujm_exo' }}"
                 data-toggle="tooltip"
                 data-confirm-modal="{{ 'delete_of_my_exercise'|trans:{}:'ujm_exo'}}"
                 data-confirm-modal-action="$ctrl.dispatch('deleteItem', $ctrl.stepId, $ctrl.id)">
@@ -19,10 +19,18 @@
       <choice data-ng-switch-when="application/x.choice+json"
               data-question="$ctrl.data">
       </choice>
-      <div data-ng-switch-when="application/x.cloze+json">CLOZE</div>
-      <div data-ng-switch-when="application/x.graphic+json">GRAPHIC</div>
-      <div data-ng-switch-when="application/x.match+json">MATCH</div>
-      <div data-ng-switch-when="application/x.open+json">OPEN</div>
+      <cloze data-ng-switch-when="application/x.cloze+json"
+             data-question="$ctrl.data">
+      </cloze>
+      <graphic data-ng-switch-when="application/x.graphic+json"
+               data-question="$ctrl.data">
+      </graphic>
+      <match data-ng-switch-when="application/x.match+json"
+             data-question="$ctrl.data">
+      </match>
+      <short data-ng-switch-when="application/x.short+json"
+            data-question="$ctrl.data">
+      </short>
     </div>
   </div>
 </div>

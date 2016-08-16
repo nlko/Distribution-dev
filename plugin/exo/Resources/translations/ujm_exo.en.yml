@@ -85,7 +85,8 @@ delete: Delete
 delete_of_my_bank: Delete of my bank
 delete_of_my_exercise: Delete of my exercise
 delete_papers: Delete the papers
-delete_question: Delete the step
+delete_item: Delete question
+delete_step: Delete step
 description: Description
 display_all_list: Display the whole list
 display_all_on_this_page: Display all on this page
