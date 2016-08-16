@@ -67,13 +67,13 @@ describe('item', () => {
     const action = {
       type: ITEM_DELETE,
       stepId: 1,
-      itemId: 2
+      itemId: 1
     }
     const newState = itemReducers[ITEM_DELETE](state, action)
     const expected = [{
       id: 1,
       items: [
-        { id: 1, type: 'application/x.choice+json' }
+        { id: 2, type: 'application/x.choice+json' }
       ]
     }]
     assert.notStrictEqual(state, newState)

@@ -37,6 +37,6 @@ export const itemReducers = {
   [ITEM_DELETE]: (state, action) => {
     const stepIndex = state.findIndex(step => step.id === action.stepId)
     const itemIndex = state[stepIndex].items.findIndex(item => item.id === action.itemId)
-    return update(state, {[stepIndex]: {items: {$splice: [[itemIndex, itemIndex]]}}})
+    return update(state, {[stepIndex]: {items: {$splice: [[itemIndex, 1]]}}})
   }
 }
