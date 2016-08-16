@@ -1,10 +1,8 @@
-import {createStore as baseCreate, applyMiddleware} from 'redux'
-import createLogger from 'redux-logger'
-import {assert, createThunkMiddleware, startLoading, endLoading} from './util'
+import {createStore as baseCreate, applyMiddleware, compose} from 'redux'
+import {assert, createThunkMiddleware} from './util'
 import {stepActions, stepReducers} from './step/step'
 import {itemActions, itemReducers} from './step/item'
 
-const loggerMiddleware = createLogger()
 const thunkMiddleware = createThunkMiddleware()
 
 const creators = {}
@@ -42,7 +40,10 @@ export function createStore(initialState) {
     return state
   }
 
-  return baseCreate(reducer, applyMiddleware(loggerMiddleware, thunkMiddleware))
+  return baseCreate(reducer, compose(
+    applyMiddleware(thunkMiddleware),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
+  ))
 }
 
 export function controller(store) {
