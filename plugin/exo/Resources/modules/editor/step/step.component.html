@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel panel-default step">
   <div class="panel-heading">
     <div class="row">
       <h3 class="col-md-10 panel-title">
@@ -30,11 +30,20 @@
             </li>
           </ul>
         </div>
-        <button type="button" class="btn btn-sm btn-default" data-ng-click="$ctrl.editMetadata(step)" data-toggle="tooltip" title="{{ 'edit_step' | trans:{}:'ujm_exo' }}">
+        <button type="button"
+                class="btn btn-sm btn-default"
+                data-ng-click="$ctrl.editMetadata(step)"
+                data-toggle="tooltip" title="{{ 'edit_step' | trans:{}:'ujm_exo' }}">
           <span class="fa fa-pencil"></span>
           <span class="sr-only">{{ 'edit_step'|trans:{}:'ujm_exo' }}</span>
         </button>
-
+        <button type="button"
+                class="btn btn-sm btn-default move-step-handle"
+                data-toggle="tooltip"
+                title="{{ 'move_step' | trans:{}:'platform' }}">
+          <span class="fa fa-arrows"></span>
+          <span class="sr-only">{{ 'move_step'|trans:{}:'ujm_exo' }}</span>
+        </button>
         <button class="btn btn-sm btn-danger"
                 title="{{ 'delete_step'|trans:{}:'ujm_exo' }}"
                 data-toggle="tooltip"
@@ -46,7 +55,7 @@
       </div>
     </div>
   </div>
-  <div class="panel-body">
+  <div class="panel-body item-list">
     <item data-ng-repeat="item in $ctrl.items"
           data-id="item.id"
           data-step-id="$ctrl.id"

@@ -220,6 +220,8 @@ metadata_visible:      Display exercise information
 metadata_visible_help: If checked a table with the exercise information will be displayed on the overview
 model: Model
 more_info: More information
+move_item: Move item
+move_step: Move step
 my_questions: My questions
 my_models: My models
 

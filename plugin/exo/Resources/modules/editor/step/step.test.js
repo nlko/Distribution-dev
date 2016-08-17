@@ -3,6 +3,7 @@ import {resetIdCount} from './../util'
 import {
   STEP_CREATE,
   STEP_DELETE,
+  STEP_MOVE,
   stepActions,
   stepReducers
 } from './step'
@@ -24,6 +25,17 @@ describe('step', () => {
     )
   })
 
+  it('has a move action', () => {
+    assert.deepEqual(
+      stepActions.moveStep(1, 2),
+      {
+        type: STEP_MOVE,
+        stepId: 1,
+        siblingStepId: 2
+      }
+    )
+  })
+
   it('has a create reducer', () => {
     const state = []
     const action = { type: STEP_CREATE }
@@ -38,5 +50,35 @@ describe('step', () => {
     const newState = stepReducers[STEP_DELETE](state, action)
     assert.notStrictEqual(state, newState)
     assert.deepEqual(newState, [])
+  })
+
+  it('has a move reducer', () => {
+    const state = [
+      { id: 1, items: [] },
+      { id: 2, items: [] }
+    ]
+    const action = { type: STEP_MOVE, stepId: 1 }
+    const newState = stepReducers[STEP_MOVE](state, action)
+    assert.notStrictEqual(state, newState)
+    assert.deepEqual(newState, [
+      { id: 2, items: [] },
+      { id: 1, items: [] }
+    ])
+  })
+
+  it('has a move reducer (insert before)', () => {
+    const state = [
+      { id: 1, items: [] },
+      { id: 2, items: [] },
+      { id: 3, items: [] }
+    ]
+    const action = { type: STEP_MOVE, stepId: 1, siblingStepId: 3 }
+    const newState = stepReducers[STEP_MOVE](state, action)
+    assert.notStrictEqual(state, newState)
+    assert.deepEqual(newState, [
+      { id: 2, items: [] },
+      { id: 1, items: [] },
+      { id: 3, items: [] }
+    ])
   })
 })

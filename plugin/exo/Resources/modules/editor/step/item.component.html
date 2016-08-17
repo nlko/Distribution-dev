@@ -1,8 +1,15 @@
-<div class="panel panel-default">
+<div class="panel panel-default item">
   <div class="panel-heading">
     <div class="row">
       <h3 class="col-md-10 panel-title">{{ $ctrl.data.title }}</h3>
       <div class="col-md-2 step-actions text-right">
+        <button type="button"
+                class="btn btn-sm btn-default move-item-handle"
+                data-toggle="tooltip"
+                title="{{ 'move_item' | trans:{}:'platform' }}">
+          <span class="fa fa-arrows"></span>
+          <span class="sr-only">{{ 'move_item'|trans:{}:'ujm_exo' }}</span>
+        </button>
         <button class="btn btn-sm btn-danger"
                 title="{{ 'delete_item'|trans:{}:'ujm_exo' }}"
                 data-toggle="tooltip"

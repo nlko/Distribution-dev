@@ -23,7 +23,13 @@ module.exports = config => {
     reporters: ['progress'],
     port: 9876,
     colors: true,
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
+    client: {
+      captureConsole: true,
+      mocha: {
+        bail: true
+      }
+    },
     autoWatch: true,
     browsers: ['Chrome'],
     singleRun: false,
