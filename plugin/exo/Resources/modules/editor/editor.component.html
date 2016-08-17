@@ -1,13 +1,15 @@
 <div class="panel-body step-list">
-  <step data-ng-repeat="step in $ctrl.steps"
-        data-id="step.id"
-        data-meta="step.meta"
-        data-items="step.items"
-        data-index="$index + 1"
-        data-item-types="$ctrl.itemTypes"/>
-  <div class="alert alert-info"
-       data-ng-if="0 === $ctrl.steps.length">
-    <span class="fa fa-warning"></span> {{ 'no_question_found'|trans:{}:'ujm_exo' }}
+  <div class="steps">
+    <step data-ng-repeat="step in $ctrl.steps"
+          data-id="step.id"
+          data-meta="step.meta"
+          data-items="step.items"
+          data-index="$index + 1"
+          data-item-types="$ctrl.itemTypes"/>
+    <div class="alert alert-info"
+         data-ng-if="0 === $ctrl.steps.length">
+      <span class="fa fa-warning"></span> {{ 'no_question_found'|trans:{}:'ujm_exo' }}
+    </div>
   </div>
   <button type="button"
           class="btn btn-primary"

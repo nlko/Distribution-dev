@@ -11,10 +11,10 @@ export default store => () => {
     return handle.classList.contains(handleId)
       || handle.parentElement.classList.contains(handleId)
   }
-  const stepDrake = dragula([document.querySelector('.step-list')], {
+  const stepDrake = dragula([document.querySelector('.steps')], {
     moves: makeOnMove('move-step-handle')
   })
-  const itemDrake = dragula([].slice.apply(document.querySelectorAll('.item-list')), {
+  const itemDrake = dragula([].slice.apply(document.querySelectorAll('.items')), {
     moves: makeOnMove('move-item-handle')
   })
   stepDrake.on('drop', (el, target, source, sibling) => {
