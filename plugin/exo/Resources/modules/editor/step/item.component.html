@@ -1,7 +1,10 @@
 <div class="panel panel-default item">
   <div class="panel-heading">
     <div class="row">
-      <h3 class="col-md-10 panel-title">{{ $ctrl.data.title }}</h3>
+      <h3 class="col-md-10 panel-title">
+        <span class="text-info">[{{ $ctrl.type|trans:{}:'ujm_exo' }}]</span>
+        {{ $ctrl.data.title }}
+      </h3>
       <div class="col-md-2 step-actions text-right">
         <button type="button"
                 class="btn btn-sm btn-default move-item-handle"
@@ -22,22 +25,56 @@
     </div>
   </div>
   <div class="panel-body">
-    <div data-ng-switch="$ctrl.type">
-      <choice data-ng-switch-when="application/x.choice+json"
-              data-question="$ctrl.data">
-      </choice>
-      <cloze data-ng-switch-when="application/x.cloze+json"
-             data-question="$ctrl.data">
-      </cloze>
-      <graphic data-ng-switch-when="application/x.graphic+json"
+    <form>
+      <div class="form-group">
+        <label for="question-{{ $ctrl.id }}-title">{{ 'title'|trans:{}:'ujm_exo' }}</label>
+        <input id="question-{{ $ctrl.id }}-title"
+               class="form-control"
+               placeholder="{{ 'question_title'|trans:{}:'ujm_exo' }}">
+        </input>
+      </div>
+      <div class="form-group">
+        <label for="question-{{ $ctrl.id }}-category">{{ 'category'|trans:{}:'ujm_exo' }}</label>
+        <select id="question-{{ $ctrl.id }}-category" class="form-control">
+          <option data-ng-repeat="category in $ctrl.categories">{{ category }}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="question-{{ $ctrl.id }}-description">{{ 'description'|trans:{}:'ujm_exo' }}</label>
+        <textarea id="question-{{ $ctrl.id }}-description" class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="question-{{ $ctrl.id }}-text">{{ 'question'|trans:{}:'ujm_exo' }}</label>
+        <textarea id="question-{{ $ctrl.id }}-text" class="form-control"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="question-{{ $ctrl.id }}-feedback">{{ 'feedback'|trans:{}:'ujm_exo' }}</label>
+        <textarea id="question-{{ $ctrl.id }}-feedback" class="form-control"></textarea>
+      </div>
+      <button class="btn btn-default">{{ 'category'|trans:{}:'ujm_exo' }}</button>
+      <button class="btn btn-default">{{ 'description'|trans:{}:'ujm_exo' }}</button>
+      <button class="btn btn-default">{{ 'hint'|trans:{}:'ujm_exo' }}</button>
+      <button class="btn btn-default">{{ 'feedback'|trans:{}:'ujm_exo' }}</button>
+
+      <div data-ng-switch="$ctrl.type">
+        <choice data-ng-switch-when="application/x.choice+json"
+                data-question="$ctrl.data">
+        </choice>
+        <cloze data-ng-switch-when="application/x.cloze+json"
                data-question="$ctrl.data">
-      </graphic>
-      <match data-ng-switch-when="application/x.match+json"
-             data-question="$ctrl.data">
-      </match>
-      <short data-ng-switch-when="application/x.short+json"
-            data-question="$ctrl.data">
-      </short>
-    </div>
+        </cloze>
+        <graphic data-ng-switch-when="application/x.graphic+json"
+                 data-question="$ctrl.data">
+        </graphic>
+        <match data-ng-switch-when="application/x.match+json"
+               data-question="$ctrl.data">
+        </match>
+        <short data-ng-switch-when="application/x.short+json"
+              data-question="$ctrl.data">
+        </short>
+      </div>
+
+
+    </form>
   </div>
 </div>

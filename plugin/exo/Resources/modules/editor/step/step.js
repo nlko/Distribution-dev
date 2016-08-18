@@ -33,23 +33,23 @@ export const stepActions = {
 
 export const stepReducers = {
   [STEP_CREATE]: state => {
-    return [...state, { id: newId(), items: []}]
+    return update(state, {steps: {$push: [{ id: newId(), items: []}]}})
   },
   [STEP_DELETE]: (state, action) =>  {
-    const index = state.findIndex(step => step.id === action.id)
-    return [...state.slice(0, index), ...state.slice(index + 1)]
+    const index = state.steps.findIndex(step => step.id === action.id)
+    return update(state, {steps: {$splice: [[index, 1]]}})
   },
   [STEP_MOVE]: (state, action) => {
-    const index = state.findIndex(step => step.id === action.stepId)
-    const step = state[index]
-    const stateMinusStep = [...state.slice(0, index), ...state.slice(index + 1)]
+    const index = state.steps.findIndex(step => step.id === action.stepId)
+    const step = state.steps[index]
+    const stateMinusStep = update(state, {steps: {$splice: [[index, 1]]}})
 
     if (!action.siblingStepId) {
-      return [...stateMinusStep, step]
+      return update(stateMinusStep, {steps: {$push: [step]}})
     }
 
-    const siblingIndex = state.findIndex(step => step.id === action.siblingStepId)
+    const siblingIndex = state.steps.findIndex(step => step.id === action.siblingStepId)
     const newIndex = siblingIndex - 1
-    return update(stateMinusStep, {$splice: [[newIndex, 0, step]]})
+    return update(stateMinusStep, {steps: {$splice: [[newIndex, 0, step]]}})
   }
 }

@@ -16,12 +16,14 @@ describe('a step', () => {
     const action = stepActions.createStep()
     const newState = stepReducers[STEP_CREATE](state, action)
     assert.notStrictEqual(state, newState)
-    assert.deepEqual(newState, [
-      { id: 1, items: [] },
-      { id: 2, items: [] },
-      { id: 3, items: [] },
-      { id: 'generated-id-1', items: []}
-    ])
+    assert.deepEqual(newState, {
+      steps: [
+        { id: 1, items: [] },
+        { id: 2, items: [] },
+        { id: 3, items: [] },
+        { id: 'generated-id-1', items: []}
+      ]
+    })
   })
 
   it('can be deleted', () => {
@@ -29,10 +31,12 @@ describe('a step', () => {
     const action = stepActions.deleteStep(2)
     const newState = stepReducers[STEP_DELETE](state, action)
     assert.notStrictEqual(state, newState)
-    assert.deepEqual(newState, [
-      { id: 1, items: [] },
-      { id: 3, items: [] }
-    ])
+    assert.deepEqual(newState, {
+      steps: [
+        { id: 1, items: [] },
+        { id: 3, items: [] }
+      ]
+    })
   })
 
   it('can be moved to the end of the list', () => {
@@ -40,11 +44,13 @@ describe('a step', () => {
     const action = stepActions.moveStep(1)
     const newState = stepReducers[STEP_MOVE](state, action)
     assert.notStrictEqual(state, newState)
-    assert.deepEqual(newState, [
-      { id: 2, items: [] },
-      { id: 3, items: [] },
-      { id: 1, items: [] }
-    ])
+    assert.deepEqual(newState, {
+      steps: [
+        { id: 2, items: [] },
+        { id: 3, items: [] },
+        { id: 1, items: [] }
+      ]
+    })
   })
 
   it('can be moved before another step', () => {
@@ -52,18 +58,22 @@ describe('a step', () => {
     const action = stepActions.moveStep(1, 3)
     const newState = stepReducers[STEP_MOVE](state, action)
     assert.notStrictEqual(state, newState)
-    assert.deepEqual(newState, [
-      { id: 2, items: [] },
-      { id: 1, items: [] },
-      { id: 3, items: [] }
-    ])
+    assert.deepEqual(newState, {
+      steps: [
+        { id: 2, items: [] },
+        { id: 1, items: [] },
+        { id: 3, items: [] }
+      ]
+    })
   })
 })
 
 function initialState() {
-  return [
-    { id: 1, items: [] },
-    { id: 2, items: [] },
-    { id: 3, items: [] }
-  ]
+  return {
+    steps: [
+      { id: 1, items: [] },
+      { id: 2, items: [] },
+      { id: 3, items: [] }
+    ]
+  }
 }

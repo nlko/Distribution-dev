@@ -16,6 +16,7 @@ angular
       id: '<',
       stepId: '<',
       type: '<',
-      data: '<'
+      data: '<',
+      categories: '<'
     }
   })

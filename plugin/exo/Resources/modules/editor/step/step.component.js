@@ -12,6 +12,7 @@ angular
       items: '<',
       meta: '<',
       index: '<',
-      itemTypes: '<'
+      itemTypes: '<',
+      categories: '<'
     }
   })
