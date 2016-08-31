@@ -26,21 +26,14 @@ export function newId() {
   return `generated-id-${++idCount}`
 }
 
+// Returns the last generated id (mainly for test purposes)
+export function lastId() {
+  return `generated-id-${idCount}`
+}
+
 // Resets the id integer counter (*TEST PURPOSE ONLY*)
 export function resetIdCount() {
   idCount = 0
-}
-
-// Creates a redux middleware for actions returning thunks
-// (*TMP*: the original lib isn't available via bower)
-export function createThunkMiddleware() {
-  return ({ dispatch, getState }) => next => action => {
-    if (typeof action === 'function') {
-      return action(dispatch, getState)
-    }
-
-    return next(action)
-  }
 }
 
 export function startLoading() {

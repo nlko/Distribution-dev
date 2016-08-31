@@ -1,9 +1,8 @@
 import {createStore as baseCreate, applyMiddleware, compose} from 'redux'
-import {assert, createThunkMiddleware} from './util'
+import thunk from 'redux-thunk';
+import {assert} from './util'
 import {stepActions, stepReducers} from './step/step'
 import {itemActions, itemReducers} from './step/item'
-
-const thunkMiddleware = createThunkMiddleware()
 
 const creators = {}
 const reducers = {}
@@ -41,7 +40,7 @@ export function createStore(initialState) {
   }
 
   return baseCreate(reducer, compose(
-    applyMiddleware(thunkMiddleware),
+    applyMiddleware(thunk),
     window.devToolsExtension ? window.devToolsExtension() : f => f
   ))
 }

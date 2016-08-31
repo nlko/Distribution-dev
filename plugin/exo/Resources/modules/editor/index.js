@@ -4,3 +4,8 @@
 import './editor.component'
 import './step/step.component'
 import './step/item.component'
+
+import './alt/quiz'
+import './alt/quiz.test'
+import './alt/steps'
+import './alt/steps.test'
