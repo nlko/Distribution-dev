@@ -10,7 +10,7 @@ update.extend('$delete', (property, object) => {
 
 export {update}
 
-// reduce action function boilerplate (see redux doc)
+// generator for very simple action creators (see redux doc)
 export function makeActionCreator(type, ...argNames) {
   return (...args) => {
     let action = { type }
@@ -34,3 +34,5 @@ export function makeId() {
 export function lastId() {
   return `generated-id-${idCount}`
 }
+
+export {assert}

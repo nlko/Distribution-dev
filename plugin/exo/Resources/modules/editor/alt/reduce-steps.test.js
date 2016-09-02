@@ -1,20 +1,16 @@
 import assert from 'assert'
 import {lastId} from './util'
-import {stepsReducer} from './steps'
-import {
-  createStep,
-  doDeleteStep,
-  moveStep
-} from './quiz'
+import {actions} from './actions'
+import {reduceSteps} from './reduce-steps'
 
 describe('Step reducer', () => {
   it('returns an empty steps object by default', () => {
-    assert.deepEqual({}, stepsReducer(undefined, {}))
+    assert.deepEqual({}, reduceSteps(undefined, {}))
   })
 
   it('creates a default object on step creation', () => {
     const steps = {'1': {id: '1', items: []}}
-    const newState = stepsReducer(steps, createStep())
+    const newState = reduceSteps(steps, actions.createStep())
     assert.deepEqual(newState, {
       '1': {id: '1', items: []},
       [lastId()]: {id: lastId(), items: []}
@@ -26,9 +22,30 @@ describe('Step reducer', () => {
       '1': {id: '1', items: []},
       '2': {id: '2', items: []}
     }
-    const newState = stepsReducer(steps, doDeleteStep('1'))
+    const newState = reduceSteps(steps, actions.deleteStep('1'))
     assert.deepEqual(newState, {'2': {id: '2', items: []}})
   })
+
+  it('keeps an id reference on item creation', () => {
+    const steps = {
+      '1': {id: '1', items: []},
+      '2': {id: '2', items: []}
+    }
+    const newState = reduceSteps(steps, actions.createItem('2', 'application/choice.x+json'))
+    assert.deepEqual(newState, {
+      '1': {id: '1', items: []},
+      '2': {
+        id: '2',
+        items: [
+          {
+            id: lastId(),
+            type: 'application/choice.x+json'
+          }
+        ]
+      }
+    })
+  })
+
   //
   // it('moves id on step move', () => {
   //   const quiz = {steps: ['1', '2', '3']}
