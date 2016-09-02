@@ -11,9 +11,9 @@ export const STEP_MOVE = 'STEP_MOVE'
 export const actions = {}
 
 actions.deleteStep = makeActionCreator(STEP_DELETE, 'id')
-actions.deleteItem = makeActionCreator(ITEM_DELETE, 'id')
+actions.deleteItem = makeActionCreator(ITEM_DELETE, 'id', 'stepId')
 actions.deleteItems = makeActionCreator(ITEMS_DELETE, 'ids')
-actions.moveItem = makeActionCreator(ITEM_MOVE, 'id', 'stepId', 'nextSiblingId')
+actions.moveItem = makeActionCreator(ITEM_MOVE, 'id', 'stepId', 'nextStepId', 'nextSiblingId')
 actions.moveStep = makeActionCreator(STEP_MOVE, 'id', 'nextSiblingId')
 
 actions.createItem = (stepId, type) => {

@@ -4,8 +4,7 @@ import {
   ITEM_DELETE,
   ITEM_MOVE,
   STEP_CREATE,
-  STEP_DELETE,
-  STEP_MOVE
+  STEP_DELETE
 } from './actions'
 
 export function reduceSteps(steps = {}, action = {}) {
@@ -17,12 +16,17 @@ export function reduceSteps(steps = {}, action = {}) {
       }
       return update(steps, {[action.stepId]: {items: {$push: [item]}}})
     }
-    case ITEM_DELETE:
-      // remove item id from step
-      return
+    case ITEM_DELETE: {
+      const index = steps[action.stepId].items.indexOf(action.id)
+      return update(steps, {[action.stepId]: {items: {$splice: [[index, 1]]}}})
+    }
     case ITEM_MOVE: {
-      // move id
-      return
+      const index = steps[action.stepId].items.indexOf(action.id)
+      const minusItem = update(steps, {[action.stepId]: {items: {$splice: [[index, 1]]}}})
+      const newIndex = action.nextSiblingId ?
+        minusItem[action.nextStepId].items.indexOf(action.nextSiblingId) :
+        minusItem[action.nextStepId].items.length
+      return update(minusItem, {[action.nextStepId]: {items: {$splice: [[newIndex, 0, action.id]]}}})
     }
     case STEP_CREATE: {
       const newStep = {id: action.id, items: []}
@@ -30,8 +34,6 @@ export function reduceSteps(steps = {}, action = {}) {
     }
     case STEP_DELETE:
       return update(steps, {$delete: action.id})
-    case STEP_MOVE:
-      return
   }
   return steps
 }
