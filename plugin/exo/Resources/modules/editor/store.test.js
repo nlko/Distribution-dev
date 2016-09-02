@@ -7,4 +7,6 @@ describe('createStore', () => {
     const store = createStore(state)
     assert.deepStrictEqual(store.getState(), state)
   })
+
+  // TODO: test normalizeState
 })

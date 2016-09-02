@@ -1,13 +1,40 @@
-import nprogress from 'nprogress/nprogress'
+import update from 'immutability-helper'
 
-nprogress.configure({ parent: '.section-content' })
+// re-export immutability-helper with a custom delete command
+update.extend('$delete', (property, object) => {
+  const newObject = update(object, {[property]: {$set: undefined}})
+  delete newObject[property]
+  return newObject
+})
 
-let loadingQueue = 0
+export {update}
 
-// Counter for temporary id generation
+// generator for very simple action creators (see redux doc)
+export function makeActionCreator(type, ...argNames) {
+  return (...args) => {
+    let action = { type }
+    argNames.forEach((arg, index) => {
+      assert(args[index] !== undefined, `${argNames[index]} is required`)
+      action[argNames[index]] = args[index]
+    })
+    return action
+  }
+}
+
+// counter for id generation
 let idCount = 0
 
-// Asserts a condition is met. If not, throws an exception
+// generate a temporary id string
+export function makeId() {
+  return `generated-id-${++idCount}`
+}
+
+// return the last generated id (mainly for test purposes)
+export function lastId() {
+  return `generated-id-${idCount}`
+}
+
+// assert a condition is met. If not, throws an exception
 // with a given error message.
 export function assert(test, message) {
   if (!message) {
@@ -18,34 +45,5 @@ export function assert(test, message) {
     const error = new Error(message)
     error.name = 'Assertion failure'
     throw error
-  }
-}
-
-// Generates a temporary id based on an integer counter.
-export function newId() {
-  return `generated-id-${++idCount}`
-}
-
-// Returns the last generated id (mainly for test purposes)
-export function lastId() {
-  return `generated-id-${idCount}`
-}
-
-// Resets the id integer counter (*TEST PURPOSE ONLY*)
-export function resetIdCount() {
-  idCount = 0
-}
-
-export function startLoading() {
-  if (++loadingQueue === 1) {
-    nprogress.start()
-  }
-}
-
-export function endLoading() {
-  if (--loadingQueue == 0) {
-    nprogress.done()
-  } else {
-    nprogress.inc()
   }
 }

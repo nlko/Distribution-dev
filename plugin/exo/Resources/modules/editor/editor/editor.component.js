@@ -1,18 +1,13 @@
 import angular from 'angular/index'
-import {createStore, controller} from './store'
+import {createStore, selectSteps, controller} from './../store'
 import template from './editor.component.html'
-import itemTypes from './step/item-types'
-import dnd from './step/dnd'
+import dnd from './../dnd'
 
 angular
   .module('editor', [])
-  .factory('store', ['ExerciseService', service => {
-    return createStore({
-      steps: service.getExercise().steps,
-      categories: ['C1', 'C2'], // FIXME
-      itemTypes
-    })
-  }])
+  .factory('store', ['ExerciseService', service =>
+    createStore(service.getExercise())
+  ])
   .service('dnd', ['store', dnd])
   .component('editor', {
     template,
@@ -27,7 +22,7 @@ angular
   })
 
 function bindState(state, that) {
-  that.steps = state.steps
+  that.steps = selectSteps(state)
   that.categories = state.categories
   that.itemTypes = state.itemTypes
 }
