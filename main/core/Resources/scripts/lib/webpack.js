@@ -70,6 +70,7 @@ function configure(rootDir, packages, isWatchMode) {
     },
     plugins: plugins,
     module: { loaders: loaders },
+    devtool: isProd ? false : 'cheap-module-eval-source-map',
     devServer: {
       headers: { 'Access-Control-Allow-Origin': '*' }
     },

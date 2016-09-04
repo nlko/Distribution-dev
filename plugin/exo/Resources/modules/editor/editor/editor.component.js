@@ -1,19 +1,22 @@
 import angular from 'angular/index'
-import {createStore, selectSteps, controller} from './../store'
+import {
+  createStore,
+  selectSteps,
+  makeDispatcher
+} from './../store'
+import {initStepsDnd} from './../dnd'
 import template from './editor.component.html'
-import dnd from './../dnd'
 
 angular
   .module('editor', [])
   .factory('store', ['ExerciseService', service =>
     createStore(service.getExercise())
   ])
-  .service('dnd', ['store', dnd])
   .component('editor', {
     template,
-    controller: ['$scope', 'store', 'dnd', function ($scope, store, dnd) {
-      setTimeout(() => dnd())
-      controller.bind(this)(store)
+    controller: ['$scope', '$element', 'store', function ($scope, $element, store) {
+      this.$onInit = () => initStepsDnd(store, $element[0].querySelector('.steps'))
+      this.dispatch = makeDispatcher(store)
       bindState(store.getState(), this)
       store.subscribe(() => {
         setTimeout(() => $scope.$apply(() => bindState(store.getState(), this)))

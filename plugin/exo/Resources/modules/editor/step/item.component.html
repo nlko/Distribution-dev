@@ -17,7 +17,7 @@
                 title="{{ 'delete_item'|trans:{}:'ujm_exo' }}"
                 data-toggle="tooltip"
                 data-confirm-modal="{{ 'delete_of_my_exercise'|trans:{}:'ujm_exo'}}"
-                data-confirm-modal-action="$ctrl.dispatch('deleteItem', $ctrl.stepId, $ctrl.id)">
+                data-confirm-modal-action="$ctrl.dispatch('deleteItem', $ctrl.id, $ctrl.stepId)">
           <span class="fa fa-trash-o"></span>
           <span class="sr-only">{{ 'delete_item'|trans:{}:'ujm_exo' }}</span>
         </button>

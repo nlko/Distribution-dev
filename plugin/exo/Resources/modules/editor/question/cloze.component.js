@@ -1,12 +1,12 @@
 import angular from 'angular/index'
-import {controller} from './../store'
+import {makeController} from './../store'
 import template from './cloze.component.html'
 
 angular
   .module('editor')
   .component('cloze', {
     template,
-    controller,
+    controller: makeController(),
     bindings: {
       question: '<'
     }

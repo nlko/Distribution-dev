@@ -1,5 +1,5 @@
 import angular from 'angular/index'
-import {controller} from './../store'
+import {makeController} from './../store'
 import template from './item.component.html'
 import './../question/choice.component'
 import './../question/cloze.component'
@@ -11,7 +11,7 @@ angular
   .module('editor')
   .component('item', {
     template,
-    controller,
+    controller: makeController(),
     bindings: {
       id: '<',
       stepId: '<',

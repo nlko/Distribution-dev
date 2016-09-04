@@ -1,12 +1,12 @@
 import angular from 'angular/index'
-import {controller} from './../store'
+import {makeController} from './../store'
 import template from './choice.component.html'
 
 angular
   .module('editor')
   .component('choice', {
     template,
-    controller,
+    controller: makeController(),
     bindings: {
       question: '<'
     }
