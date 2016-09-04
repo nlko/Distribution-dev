@@ -1,3 +1,12 @@
-<li data-ng-repeat="choice in $ctrl.question.choices">
-  {{ choice.data }}
-</li>
+<label>{{ 'choice' | trans:{}:'ujm_exo' }}</label>
+<div class="radio"
+     data-ng-repeat="choice in $ctrl.question.choices">
+  <label>
+    <input type="radio"
+           name="{{ $ctrl.question.id + '-choices'}}"
+           value="{{ choice.id }}">
+    <input type="text"
+           class="form-control"
+           value="{{ choice.data }}">
+  </label>
+</div>

@@ -8,7 +8,7 @@ describe('Quiz reducer', () => {
     const quiz = reducers.quiz(undefined, {})
     assert(typeof quiz.id === 'string', 'Quiz must have an id')
     assert(Array.isArray(quiz.steps), 'Quiz must have a step array')
-    assert.equal(quiz.steps.length, 0, 'Step must be empty')
+    assert.equal(quiz.steps.length, 0, 'Steps must be empty')
   })
 
   it('keeps an id reference on step creation', () => {

@@ -61,12 +61,19 @@ function reduceSteps(steps = {}, action = {}) {
   return steps
 }
 
+import {reduceChoice} from './question/choice.reducer'
+
 function reduceItems(items = {}, action) {
   switch (action.type) {
     case ITEM_CREATE: {
-      const newItem = {
+      let newItem = {
         id: action.id,
         type: action.itemType
+      }
+      switch (action.itemType) {
+        case 'application/choice.x+json':
+          newItem = reduceChoice(newItem, action)
+          break
       }
       return update(items, {[action.id]: {$set: newItem}})
     }

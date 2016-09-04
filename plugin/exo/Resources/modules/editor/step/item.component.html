@@ -9,7 +9,7 @@
         <button type="button"
                 class="btn btn-sm btn-default move-item-handle"
                 data-toggle="tooltip"
-                title="{{ 'move_item' | trans:{}:'platform' }}">
+                title="{{ 'move_item' | trans:{}:'ujm_exo' }}">
           <span class="fa fa-arrows"></span>
           <span class="sr-only">{{ 'move_item'|trans:{}:'ujm_exo' }}</span>
         </button>
@@ -26,6 +26,12 @@
   </div>
   <div class="panel-body">
     <form>
+      <div class="form-group">
+        <label for="question-{{ $ctrl.id }}-text">{{ 'question'|trans:{}:'ujm_exo' }}</label>
+        <textarea id="question-{{ $ctrl.id }}-text"
+                  class="form-control"
+                  placeholder="enter question text here"></textarea>
+      </div>
       <div class="form-group">
         <label for="question-{{ $ctrl.id }}-title">{{ 'title'|trans:{}:'ujm_exo' }}</label>
         <input id="question-{{ $ctrl.id }}-title"
@@ -44,10 +50,6 @@
         <textarea id="question-{{ $ctrl.id }}-description" class="form-control"></textarea>
       </div>
       <div class="form-group">
-        <label for="question-{{ $ctrl.id }}-text">{{ 'question'|trans:{}:'ujm_exo' }}</label>
-        <textarea id="question-{{ $ctrl.id }}-text" class="form-control"></textarea>
-      </div>
-      <div class="form-group">
         <label for="question-{{ $ctrl.id }}-feedback">{{ 'feedback'|trans:{}:'ujm_exo' }}</label>
         <textarea id="question-{{ $ctrl.id }}-feedback" class="form-control"></textarea>
       </div>
@@ -55,6 +57,8 @@
       <button class="btn btn-default">{{ 'description'|trans:{}:'ujm_exo' }}</button>
       <button class="btn btn-default">{{ 'hint'|trans:{}:'ujm_exo' }}</button>
       <button class="btn btn-default">{{ 'feedback'|trans:{}:'ujm_exo' }}</button>
+
+      <hr>
 
       <div data-ng-switch="$ctrl.type">
         <choice data-ng-switch-when="application/x.choice+json"
