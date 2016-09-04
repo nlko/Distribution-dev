@@ -5,7 +5,7 @@ import {
   createStore as baseCreate
 } from 'redux'
 import thunk from 'redux-thunk'
-import {assert} from './util'
+import invariant from 'invariant'
 import {actions} from './actions'
 import {reducers} from './reducers'
 import itemTypes from './step/item-types'
@@ -28,7 +28,7 @@ export function createStore(rawQuiz) {
 
 export function makeDispatcher(store) {
   return (creator, ...args) => {
-    assert(actions[creator], `Action creator "${creator}" is not registered`)
+    invariant(actions[creator], `Action creator "${creator}" is not registered`)
     const action = actions[creator].apply(actions[creator], args)
     store.dispatch(action)
   }

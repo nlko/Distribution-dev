@@ -1,4 +1,5 @@
 import update from 'immutability-helper'
+import invariant from 'invariant'
 
 // re-export immutability-helper with a custom delete command
 update.extend('$delete', (property, object) => {
@@ -14,7 +15,7 @@ export function makeActionCreator(type, ...argNames) {
   return (...args) => {
     let action = { type }
     argNames.forEach((arg, index) => {
-      assert(args[index] !== undefined, `${argNames[index]} is required`)
+      invariant(args[index] !== undefined, `${argNames[index]} is required`)
       action[argNames[index]] = args[index]
     })
     return action
@@ -34,25 +35,11 @@ export function lastId() {
   return `generated-id-${idCount}`
 }
 
-// assert a condition is met. If not, throws an exception
-// with a given error message.
-export function assert(test, message) {
-  if (!message) {
-    throw new Error('An assertion failure message is required')
-  }
-
-  if (!test) {
-    const error = new Error(message)
-    error.name = 'Assertion failure'
-    throw error
-  }
-}
-
 export function getIndex(array, element) {
   if (!Array.isArray(array)) {
     throw new Error(`Excepted array, got ${typeof array}`)
   }
-  
+
   const index = array.indexOf(element)
 
   if (index === -1) {

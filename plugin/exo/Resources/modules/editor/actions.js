@@ -1,4 +1,5 @@
-import {assert, makeActionCreator, makeId} from './util'
+import invariant from 'invariant'
+import {makeActionCreator, makeId} from './util'
 
 export const ITEM_CREATE = 'ITEM_CREATE'
 export const ITEM_DELETE = 'ITEM_DELETE'
@@ -17,8 +18,8 @@ actions.moveItem = makeActionCreator(ITEM_MOVE, 'id', 'stepId', 'nextStepId', 'n
 actions.moveStep = makeActionCreator(STEP_MOVE, 'id', 'nextSiblingId')
 
 actions.createItem = (stepId, type) => {
-  assert(stepId, 'stepId is mandatory')
-  assert(type, 'type is mandatory')
+  invariant(stepId, 'stepId is mandatory')
+  invariant(type, 'type is mandatory')
   return {
     type: ITEM_CREATE,
     id: makeId(),
@@ -35,7 +36,7 @@ actions.createStep = () => {
 }
 
 actions.deleteStepAndItems = id => {
-  assert(id, 'id is mandatory')
+  invariant(id, 'id is mandatory')
   return (dispatch, getState) => {
     dispatch(actions.deleteItems(getState().steps[id].items.slice()))
     dispatch(actions.deleteStep(id))

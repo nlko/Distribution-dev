@@ -17,6 +17,7 @@
     "filesystem-bower-resolver": "^1.2.0",
     "immutability-helper": "^2.0.0",
     "imports-loader": "^0.6.5",
+    "invariant": "^2.2.1",
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^1.0.1",
     "karma-mocha": "^1.0.1",
