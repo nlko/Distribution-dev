@@ -1,7 +1,8 @@
 import {ITEM_CREATE} from './../actions'
 import {makeId, update} from './../util'
+import {Choice as component} from './choice.jsx'
 
-export function reduceChoice(choice = {}, action) {
+function reducer(choice = {}, action) {
   switch (action.type) {
     case ITEM_CREATE:
       return update(choice, {
@@ -22,4 +23,11 @@ export function reduceChoice(choice = {}, action) {
       })
   }
   return choice
+}
+
+export default {
+  type: 'application/x.choice+json',
+  question: true,
+  component,
+  reducer
 }

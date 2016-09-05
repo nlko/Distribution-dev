@@ -225,12 +225,12 @@ function makeFailOnErrorPlugin() {
  */
 function makeJsLoader(isProd) {
   return {
-    test: /\.js$/,
+    test: /\.jsx?$/,
     exclude: /(node_modules|packages)/,
     loader: 'babel',
     query: {
       cacheDirectory: true,
-      presets: ['es2015'],
+      presets: ['es2015', 'react'],
       plugins: ['transform-runtime']
     }
   }

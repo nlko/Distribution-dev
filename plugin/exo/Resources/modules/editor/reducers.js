@@ -1,4 +1,5 @@
 import {getIndex, makeId, update} from './util'
+import {properties} from './types'
 import {
   ITEM_CREATE,
   ITEM_DELETE,
@@ -61,8 +62,6 @@ function reduceSteps(steps = {}, action = {}) {
   return steps
 }
 
-import {reduceChoice} from './question/choice.reducer'
-
 function reduceItems(items = {}, action) {
   switch (action.type) {
     case ITEM_CREATE: {
@@ -71,8 +70,8 @@ function reduceItems(items = {}, action) {
         type: action.itemType
       }
       switch (action.itemType) {
-        case 'application/choice.x+json':
-          newItem = reduceChoice(newItem, action)
+        case 'application/x.choice+json':
+          newItem = properties[action.itemType].reducer(newItem, action)
           break
       }
       return update(items, {[action.id]: {$set: newItem}})
