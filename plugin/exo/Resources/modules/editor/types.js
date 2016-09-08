@@ -4,6 +4,9 @@ import graphic from './items/graphic'
 import match from './items/match'
 import short from './items/short'
 
+export const TYPE_QUIZ = 'quiz'
+export const TYPE_STEP = 'step'
+
 let definitions = [
   choice,
   cloze,

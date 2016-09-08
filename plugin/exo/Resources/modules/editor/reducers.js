@@ -62,7 +62,7 @@ function reduceSteps(steps = {}, action = {}) {
   return steps
 }
 
-function reduceItems(items = {}, action) {
+function reduceItems(items = {}, action = {}) {
   switch (action.type) {
     case ITEM_CREATE: {
       let newItem = {
@@ -82,8 +82,13 @@ function reduceItems(items = {}, action) {
   return items
 }
 
+function reduceCurrentObject(object = {}) {
+  return object
+}
+
 export const reducers = {
   quiz: reduceQuiz,
   steps: reduceSteps,
-  items: reduceItems
+  items: reduceItems,
+  currentObject: reduceCurrentObject
 }

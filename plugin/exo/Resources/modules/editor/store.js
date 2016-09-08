@@ -8,12 +8,13 @@ import thunk from 'redux-thunk'
 import invariant from 'invariant'
 import {actions} from './actions'
 import {reducers} from './reducers'
-import {mimeTypes} from './types'
+import {TYPE_QUIZ, mimeTypes} from './types'
 
 const reducer = combineReducers({
   quiz: reducers.quiz,
   steps: reducers.steps,
   items: reducers.items,
+  currentObject: reducers.currentObject,
   categories: () => ['C1', 'C2'], // FIXME
   itemTypes: () => mimeTypes
 })
@@ -51,8 +52,9 @@ export function selectSteps(state) {
 function normalizeState(rawQuiz) {
   const items = {}
   const steps = {}
+  rawQuiz.id = rawQuiz.id.toString() // api response error, shouldn't be necessary
   rawQuiz.steps.forEach(step => {
-    step.id = step.id.toString() // api response error, shouldn't be necessary
+    step.id = step.id.toString() // same
     step.items = step.items.map(item => {
       item.id = item.id.toString() // same
       items[item.id] = item
@@ -67,6 +69,10 @@ function normalizeState(rawQuiz) {
       steps: rawQuiz.steps.map(step => step.id)
     },
     steps,
-    items
+    items,
+    currentObject: {
+      id: rawQuiz.id.toString(),
+      type: TYPE_QUIZ
+    }
   }
 }

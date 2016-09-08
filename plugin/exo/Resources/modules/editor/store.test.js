@@ -1,6 +1,6 @@
 import assert from 'assert'
 import {createStore} from './store'
-import itemTypes from './step/item-types'
+import {TYPE_QUIZ, mimeTypes as itemTypes} from './types'
 
 describe('#createStore', () => {
   it('normalizes and augments quiz data', () => {
@@ -37,6 +37,10 @@ describe('#createStore', () => {
           id: 'x',
           type: 'text/html'
         }
+      },
+      currentObject: {
+        id: '1',
+        type: TYPE_QUIZ
       },
       itemTypes,
       categories: ['C1', 'C2']

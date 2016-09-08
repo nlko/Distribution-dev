@@ -1,0 +1,38 @@
+body {
+  padding: 20px;
+}
+
+.thumb-box {
+  width: 138px;
+  height: 640px;
+  padding-right: 18px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  padding: 5px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  text-align: center;
+}
+
+a.step {
+  display: inline-block;
+  width: 100px;
+  height: 100px;
+  margin: 4px;
+  text-align: center;
+  line-height: 5;
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: #666;
+}
+
+a.step.active {
+  border-color: #337ab7;
+}
+
+button.new-step {
+  font-weight: bolder;
+  margin: 4px;
+}
