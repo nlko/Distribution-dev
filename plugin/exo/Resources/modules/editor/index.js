@@ -6,6 +6,8 @@ import {Provider} from 'react-redux'
 import {createStore} from './store'
 import {Editor} from './components/editor.jsx'
 
+import './style.css'
+
 const rawQuiz = JSON.parse(document.querySelector('exercise').dataset.exercise)
 const store = createStore(rawQuiz)
 

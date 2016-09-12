@@ -10,7 +10,7 @@ import {mimeTypes as itemTypes} from './../types'
 import {thumbsSelector} from './../selectors'
 
 let Editor = props =>
-  <div className="container-fluid">
+  <div className="panel-body">
     <div className="row">
       <div className="col-md-2">
         <ThumbBox steps={props.thumbs}/>

@@ -25,7 +25,7 @@ function configure(rootDir, packages, isWatchMode) {
   const output = {
     path: path.resolve(rootDir, 'web/dist'),
     publicPath: 'http://localhost:8080/dist',
-    filename: '[name]-[hash].js'
+    filename: isProd ? '[name]-[hash].js' : '[name].js'
   }
 
   // third-party modules are taken from the web/packages directory,
@@ -58,7 +58,8 @@ function configure(rootDir, packages, isWatchMode) {
   const loaders = [
     makeJsLoader(isProd),
     makeRawLoader(),
-    makeJqueryUiLoader()
+    makeJqueryUiLoader(),
+    makeCssLoader()
   ]
 
   return {
@@ -258,6 +259,16 @@ function makeJqueryUiLoader() {
   return {
     test: /jquery-ui/,
     loader: 'imports?define=>false'
+  }
+}
+
+/**
+ * This loader loads CSS files.
+ */
+function makeCssLoader() {
+  return {
+    test: /\.css$/,
+    loader: 'style!css'
   }
 }
 

@@ -2,7 +2,7 @@ import React from 'react'
 
 export const Thumb = props =>
   <a href="#/alt-editor"
-    className={props.active ? 'step thumbnail active' : 'step thumbnail'}
+    className={props.active ? 'step-thumb thumbnail active' : 'step-thumb thumbnail'}
   >
     {props.title}
   </a>
