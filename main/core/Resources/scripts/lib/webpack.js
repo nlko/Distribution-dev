@@ -14,6 +14,12 @@ const assetsPlugin = require('assets-webpack-plugin')
 function configure(rootDir, packages, isWatchMode) {
   const isProd = !isWatchMode
 
+  // see https://github.com/facebookincubator/create-react-app/blob/master/config/webpack.config.prod.js#L21
+  // (note: the whole config should probably be refactored to match that format)
+  if (isProd && process.env.NODE_ENV !== 'production') {
+    throw new Error('Production builds must have NODE_ENV=production.');
+  }
+
   // first we must parse the webpack configs of each bundle
   // and prefix/normalize them to avoid name collisions
   const webpackPackages = packages.filter(def => def.assets && def.assets.webpack)
