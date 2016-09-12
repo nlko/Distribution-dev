@@ -776,13 +776,7 @@ ul.desktop-parameters-menu
             margin: 5px 0 5px 15%;
             cursor: pointer;
             &.unpublished {
-                -webkit-filter: grayscale(100%);
-                -moz-filter: grayscale(100%);
-                -ms-filter: grayscale(100%);
-                -o-filter: grayscale(100%);
-                filter: grayscale(100%);
-                filter: url(grayscale.svg); /* Firefox 4+ */
-                filter: gray; /* IE 6-9 */
+                opacity: 0.5;
             }
         }
 
@@ -1035,7 +1029,7 @@ form .global-error {
     text-align: center;
 }
 
-.alert-update-mode {
+.alert-claroline-danger {
   width: 100%;
   position: fixed;
   z-index: 10000; /* @todo: somehow find a "good" z-index */
@@ -1829,4 +1823,9 @@ body.mce-fullscreen .modal.fullscreen {
 //fix for datatable
 .dt.dt-loaded {
     z-index: 0;
+}
+
+.unclickable {
+    pointer-events: none;
+    cursor: default;
 }

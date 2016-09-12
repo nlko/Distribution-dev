@@ -5,8 +5,8 @@ namespace UJM\ExoBundle\Manager;
 use Claroline\CoreBundle\Persistence\ObjectManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use UJM\ExoBundle\Entity\Exercise;
-use UJM\ExoBundle\Library\Mode\CorrectionMode;
 use UJM\ExoBundle\Entity\Step;
+use UJM\ExoBundle\Library\Mode\CorrectionMode;
 use UJM\ExoBundle\Transfer\Json\ValidationException;
 use UJM\ExoBundle\Transfer\Json\Validator;
 
@@ -82,7 +82,7 @@ class ExerciseManager
         // Update steps order
         $steps = $exercise->getSteps();
         foreach ($steps as $pos => $stepToReorder) {
-            $step->setOrder($pos);
+            $stepToReorder->setOrder($pos);
 
             $this->om->persist($step);
         }
@@ -229,6 +229,7 @@ class ExerciseManager
         $newExercise->setMarkMode($exercise->getMarkMode());
         $newExercise->setDispButtonInterrupt($exercise->getDispButtonInterrupt());
         $newExercise->setLockAttempt($exercise->getLockAttempt());
+        $newExercise->setMinimalCorrection($exercise->isMinimalCorrection());
 
         /** @var \UJM\ExoBundle\Entity\Step $step */
         foreach ($exercise->getSteps() as $step) {
@@ -244,7 +245,7 @@ class ExerciseManager
     /**
      * @todo actual import...
      *
-     * Imports an exercise in a JSON format.
+     * Imports an exercise in a JSON format
      *
      * @param string $data
      *
@@ -271,6 +272,10 @@ class ExerciseManager
      */
     public function exportExercise(Exercise $exercise, $withSolutions = true)
     {
+        if ($exercise->getType() === $exercise::TYPE_FORMATIVE) {
+            $withSolutions = true;
+        }
+
         return [
             'id' => $exercise->getId(),
             'meta' => $this->exportMetadata($exercise),
@@ -328,9 +333,10 @@ class ExerciseManager
         $exercise->setAnonymous($metadata->anonymous);
         $exercise->setDuration($metadata->duration);
         $exercise->setStatistics($metadata->statistics ? true : false);
+        $exercise->setMinimalCorrection($metadata->minimalCorrection ? true : false);
 
         $correctionDate = null;
-        if (!empty($metadata->correctionDate) && CorrectionMode::AFTER_DATE == $metadata->correctionMode) {
+        if (!empty($metadata->correctionDate) && CorrectionMode::AFTER_DATE === $metadata->correctionMode) {
             $correctionDate = \DateTime::createFromFormat('Y-m-d\TH:i:s', $metadata->correctionDate);
         }
 
@@ -355,7 +361,7 @@ class ExerciseManager
         $authorName = sprintf('%s %s', $creator->getFirstName(), $creator->getLastName());
 
         // Accessibility dates
-        $startDate = $node->getAccessibleFrom()  ? $node->getAccessibleFrom()->format('Y-m-d\TH:i:s')  : null;
+        $startDate = $node->getAccessibleFrom() ? $node->getAccessibleFrom()->format('Y-m-d\TH:i:s') : null;
         $endDate = $node->getAccessibleUntil() ? $node->getAccessibleUntil()->format('Y-m-d\TH:i:s') : null;
         $correctionDate = $exercise->getDateCorrection() ? $exercise->getDateCorrection()->format('Y-m-d\TH:i:s') : null;
 
@@ -384,6 +390,7 @@ class ExerciseManager
             'endDate' => $endDate,
             'published' => $node->isPublished(),
             'publishedOnce' => $exercise->wasPublishedOnce(),
+            'minimalCorrection' => $exercise->isMinimalCorrection(),
         ];
     }
 
