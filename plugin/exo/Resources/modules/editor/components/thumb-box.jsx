@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import {Thumb} from './thumb.jsx'
 
 export class ThumbBox extends Component {
@@ -9,22 +10,28 @@ export class ThumbBox extends Component {
   render() {
     return (
       <div className="thumb-box">
-        {this.props.steps.map((step, index) =>
-          <span key={index}>
-            <Thumb
-              id={step.id}
-              title={step.title}
-              active={step.active}
-              onThumbClick={this.props.onThumbClick}
-            />
-            {index === 0 && <hr/>}
-          </span>
+        {this.props.thumbs.map((item, index) =>
+          <Thumb
+            id={item.id}
+            key={index}
+            title={item.title}
+            type={item.type}
+            active={item.active}
+            onThumbClick={this.props.onThumbClick}
+          />
         )}
         <button
           className="btn btn-primary new-step"
-          onClick={this.props.onNewStep}
+          onClick={this.props.onNewStepClick}
         >+</button>
       </div>
     )
   }
+}
+
+const T = React.PropTypes
+
+ThumbBox.propTypes = {
+  thumbs: T.arrayOf(T.object).isRequired,
+  onNewStepClick: T.func.isRequired
 }

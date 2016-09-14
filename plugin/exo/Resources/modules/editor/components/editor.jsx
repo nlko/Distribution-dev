@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {Step} from './step.jsx'
 import {ThumbBox} from './thumb-box.jsx'
 
+import {actions} from './../actions'
 import {trans} from './utils'
 import {selectSteps} from './../store'
 import {mimeTypes as itemTypes} from './../types'
@@ -10,67 +11,38 @@ import {mimeTypes as itemTypes} from './../types'
 import {thumbsSelector} from './../selectors'
 
 let Editor = props =>
-  <div className="panel-body">
-    <div className="row">
-      <div className="col-md-2">
-        <ThumbBox steps={props.thumbs}/>
+  <div className="panel-body quiz-editor">
+    <ThumbBox thumbs={props.thumbs}
+      onThumbClick={props.onThumbClick}
+      onNewStepClick={props.onNewStepClick}/>
+    <div className="edit-zone">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas in tincidunt nulla. Praesent eu nisi volutpat, euismod diam eget, sagittis odio. Praesent ante sem, consequat sed sollicitudin eu, iaculis eu magna. Nam commodo mauris quis augue sagittis, vitae lobortis erat dapibus. Donec scelerisque suscipit libero, id fringilla turpis tincidunt luctus. Aenean elit purus, pretium et orci vitae, molestie gravida est. Nulla ornare mauris non nisl sollicitudin, in porta ligula venenatis. Etiam vestibulum massa posuere metus placerat, eu eleifend sem cursus. Donec maximus gravida libero. Mauris et nulla eget ante vulputate pharetra ac sit amet tellus. Suspendisse consequat libero varius lectus maximus interdum. In libero augue, condimentum sit amet nunc sit amet, vehicula mattis nisl. Vestibulum magna nisl, pulvinar ac pretium at, varius a neque. Nullam sollicitudin, purus at consectetur pulvinar, elit felis condimentum ipsum, sit amet ultricies tellus erat vel mi.
       </div>
-      <div className="col-md-10">
-        EDIT ZONE
-      </div>
-    </div>
   </div>
-
-
-// let Editor = props =>
-//   <div className="panel-body step-list">
-//     <div className="steps">
-//       {props.steps.map((step, index) =>
-//         <Step id={step.id}
-//               key={step.id}
-//               meta={step.meta}
-//               items={step.items}
-//               index={index + 1}
-//               itemTypes={props.itemTypes}
-//               categories={props.categories}/>
-//       )}
-//       {props.steps.length === 0 &&
-//         <div className="alert alert-info"
-//              data-ng-if="0 === $ctrl.steps.length">
-//           <span className="fa fa-warning"></span>&nbsp;
-//           {trans('no_question_found', {}, 'ujm_exo')}
-//         </div>
-//       }
-//     </div>
-//     <button type="button"
-//             className="btn btn-primary"
-//             data-ng-click="$ctrl.dispatch('createStep')">
-//       <span className="fa fa-plus"></span> {trans('add_step', {}, 'ujm_exo')}
-//     </button>
-//   </div>
 
 const T = React.PropTypes
 
 Editor.propTypes = {
   thumbs: T.arrayOf(T.object).isRequired
-  //,
-  // steps: T.arrayOf(T.object).isRequired,
-  // itemTypes: T.arrayOf(T.string).isRequired,
-  // categories: T.arrayOf(T.string).isRequired
 }
 
 function mapStateToProps(state) {
   return {
-//    steps: selectSteps(state),
     thumbs: thumbsSelector(state)
-//    categories: ['C1', 'C2'],
-//    itemTypes
   }
 }
 
-Editor = connect(
-  mapStateToProps,
-  () => {return {}}
-)(Editor)
+function mapDispatchToProps(dispatch) {
+  return {
+    onThumbClick(id, type) {
+      dispatch(actions.selectObject(id, type))
+    },
+    onNewStepClick() {
+      dispatch(actions.createStep())
+    }
+  }
+}
+
+Editor = connect(mapStateToProps, mapDispatchToProps)(Editor)
 
 export {Editor}

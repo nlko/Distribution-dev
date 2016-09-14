@@ -19,7 +19,7 @@ const quizThumbSelector = createSelector(
       id: quiz.id,
       title: 'Exercice',
       type: TYPE_QUIZ,
-      active: quiz.id === current.id
+      active: quiz.id === current.id && current.type === TYPE_QUIZ
     }
   }
 )
@@ -32,7 +32,7 @@ const stepThumbsSelector = createSelector(
       id: step.id,
       title: `Étape ${index + 1}`,
       type: TYPE_STEP,
-      active: step.id === current.id
+      active: step.id === current.id && current.type === TYPE_STEP
     }
   })
 )

@@ -1,9 +1,10 @@
 import {getIndex, makeId, update} from './util'
-import {properties} from './types'
+import {properties, TYPE_STEP} from './types'
 import {
   ITEM_CREATE,
   ITEM_DELETE,
   ITEM_MOVE,
+  OBJECT_SELECT,
   STEP_CREATE,
   STEP_MOVE,
   STEP_DELETE
@@ -82,7 +83,19 @@ function reduceItems(items = {}, action = {}) {
   return items
 }
 
-function reduceCurrentObject(object = {}) {
+function reduceCurrentObject(object = {}, action = {}) {
+  switch (action.type) {
+    case OBJECT_SELECT:
+      return {
+        id: action.id,
+        type: action.objectType
+      }
+    case STEP_CREATE:
+      return {
+        id: action.id,
+        type: TYPE_STEP
+      }
+  }
   return object
 }
 
