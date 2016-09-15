@@ -1,10 +1,10 @@
 import assert from 'assert'
 import {TYPE_QUIZ, TYPE_STEP} from './types'
-import {thumbsSelector} from './selectors'
+import {thumbnailsSelector} from './selectors'
 
-describe('Thumbs selector', () => {
+describe('Thumbnails selector', () => {
   it('should return the quiz and step thumbs with an active flag set', () => {
-    assert.deepEqual(thumbsSelector(fixtureState()), [
+    assert.deepEqual(thumbnailsSelector(fixtureState()), [
       {
         id: '1',
         title: 'Exercice',

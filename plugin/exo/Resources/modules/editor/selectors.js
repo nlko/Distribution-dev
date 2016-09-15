@@ -11,7 +11,7 @@ const stepListSelector = createSelector(
   (quiz, steps) => quiz.steps.map(id => steps[id])
 )
 
-const quizThumbSelector = createSelector(
+const quizThumbnailSelector = createSelector(
   quizSelector,
   currentObjectSelector,
   (quiz, current) => {
@@ -24,7 +24,7 @@ const quizThumbSelector = createSelector(
   }
 )
 
-const stepThumbsSelector = createSelector(
+const stepThumbnailsSelector = createSelector(
   stepListSelector,
   currentObjectSelector,
   (steps, current) => steps.map((step, index) => {
@@ -37,8 +37,8 @@ const stepThumbsSelector = createSelector(
   })
 )
 
-export const thumbsSelector = createSelector(
-  quizThumbSelector,
-  stepThumbsSelector,
+export const thumbnailsSelector = createSelector(
+  quizThumbnailSelector,
+  stepThumbnailsSelector,
   (quiz, steps) => [quiz].concat(steps)
 )
