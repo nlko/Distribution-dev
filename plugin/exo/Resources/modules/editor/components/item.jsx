@@ -44,14 +44,6 @@ export const Item = props =>
           </input>
         </div>
         <div className="form-group">
-          <label htmlFor="question-{props.id}-category">{trans('category', {}, 'ujm_exo')}</label>
-          <select id="question-{props.id}-category" className="form-control">
-            {props.categories.map(category =>
-              <option key={category}>{category}</option>
-            )}
-          </select>
-        </div>
-        <div className="form-group">
           <label htmlFor="question-{props.id}-description">{trans('description', {}, 'platform')}</label>
           <textarea id="question-{props.id}-description" className="form-control"></textarea>
         </div>
@@ -67,24 +59,6 @@ export const Item = props =>
         <hr/>
 
         {props.children}
-
-        <div data-ng-switch="$ctrl.type">
-          <choice data-ng-switch-when="application/x.choice+json"
-                  data-question="$ctrl.data">
-          </choice>
-          <cloze data-ng-switch-when="application/x.cloze+json"
-                 data-question="$ctrl.data">
-          </cloze>
-          <graphic data-ng-switch-when="application/x.graphic+json"
-                   data-question="$ctrl.data">
-          </graphic>
-          <match data-ng-switch-when="application/x.match+json"
-                 data-question="$ctrl.data">
-          </match>
-          <short data-ng-switch-when="application/x.short+json"
-                data-question="$ctrl.data">
-          </short>
-        </div>
 
       </form>
     </div>

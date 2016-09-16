@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
+import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger'
+import Tooltip from 'react-bootstrap/lib/Tooltip'
+import {trans} from './utils'
 import {Thumbnail} from './thumbnail.jsx'
 
 export class ThumbnailBox extends Component {
@@ -31,13 +34,20 @@ export class ThumbnailBox extends Component {
             onThumbnailClick={this.props.onThumbnailClick}
           />
         )}
-        <button
-          className="btn btn-primary new-step"
-          onClick={() => {
-            this.props.onNewStepClick()
-            this.setState({addedThumbnail: true})
-          }}
-        >+</button>
+        <OverlayTrigger
+          placement="bottom"
+          overlay={
+            <Tooltip id="new-step-tip">{trans('add_step', {}, 'ujm_exo')}</Tooltip>
+          }
+        >
+          <button
+            className="btn btn-primary new-step"
+            onClick={() => {
+              this.props.onNewStepClick()
+              this.setState({addedThumbnail: true})
+            }}
+          >+</button>
+        </OverlayTrigger>
       </div>
     )
   }

@@ -3,6 +3,7 @@ import {TYPE_QUIZ, TYPE_STEP} from './types'
 
 const quizSelector = state => state.quiz
 const stepsSelector = state => state.steps
+const itemsSelector = state => state.items
 const currentObjectSelector = state => state.currentObject
 
 const stepListSelector = createSelector(
@@ -41,4 +42,27 @@ export const thumbnailsSelector = createSelector(
   quizThumbnailSelector,
   stepThumbnailsSelector,
   (quiz, steps) => [quiz].concat(steps)
+)
+
+export const currentObjectDeepSelector = createSelector(
+  currentObjectSelector,
+  quizSelector,
+  stepsSelector,
+  itemsSelector,
+  (current, quiz, steps, items) => {
+    if (current.type === TYPE_QUIZ) {
+      return {
+        type: TYPE_QUIZ,
+        id: quiz
+      }
+    }
+
+    const step = steps[current.id]
+
+    return {
+      type: TYPE_STEP,
+      id: step.id,
+      items: step.items.map(itemId => items[itemId])
+    }
+  }
 )
