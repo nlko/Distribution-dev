@@ -110,7 +110,7 @@ angular
             controller: 'PaperShowCtrl',
             controllerAs: 'paperShowCtrl',
             resolve: {
-              paperPromise: [
+              attempt: [
                 '$route',
                 'PaperService',
                 function paperResolve($route, PaperService) {
@@ -134,7 +134,7 @@ angular
             controller  : 'ExercisePlayerCtrl',
             controllerAs: 'exercisePlayerCtrl',
             resolve: {
-              paper: [
+              attempt: [
                 'ExerciseService',
                 'UserPaperService',
                 function paperResolve(ExerciseService, UserPaperService) {
