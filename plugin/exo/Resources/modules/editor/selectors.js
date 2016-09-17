@@ -53,7 +53,7 @@ export const currentObjectDeepSelector = createSelector(
     if (current.type === TYPE_QUIZ) {
       return {
         type: TYPE_QUIZ,
-        id: quiz
+        id: quiz.id
       }
     }
 
