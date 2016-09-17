@@ -10,8 +10,8 @@ import {thumbnailsSelector, currentObjectDeepSelector} from './../selectors'
 let Editor = props =>
   <div className="panel-body quiz-editor">
     <ThumbnailBox thumbnails={props.thumbnails}
-      onThumbnailClick={props.onThumbnailClick}
-      onNewStepClick={props.onNewStepClick}/>
+      onThumbnailClick={props.handleThumbnailClick}
+      onNewStepClick={props.handleNewStepClick}/>
     <div className="edit-zone">{selectSubEditor(props)}</div>
   </div>
 
@@ -34,10 +34,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onThumbnailClick(id, type) {
+    handleThumbnailClick(id, type) {
       dispatch(actions.selectObject(id, type))
     },
-    onNewStepClick() {
+    handleNewStepClick() {
       dispatch(actions.createStep())
     }
   }

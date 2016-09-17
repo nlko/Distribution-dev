@@ -1,3 +1,5 @@
+/* global process, require */
+
 import {
   applyMiddleware,
   combineReducers,
@@ -5,10 +7,16 @@ import {
   createStore as baseCreate
 } from 'redux'
 import thunk from 'redux-thunk'
-import invariant from 'invariant'
-import {actions} from './actions'
+import {reducer as formReducer} from 'redux-form'
 import {reducers} from './reducers'
 import {TYPE_QUIZ, mimeTypes} from './types'
+
+const middleware = [thunk]
+
+if (process.env.NODE_ENV !== 'production') {
+  const freeze = require('redux-freeze')
+  middleware.push(freeze)
+}
 
 const reducer = combineReducers({
   quiz: reducers.quiz,
@@ -16,37 +24,16 @@ const reducer = combineReducers({
   items: reducers.items,
   currentObject: reducers.currentObject,
   categories: () => ['C1', 'C2'], // FIXME
-  itemTypes: () => mimeTypes
+  itemTypes: () => mimeTypes,
+  form: formReducer
 })
 
 export function createStore(rawQuiz) {
   const initialState = normalizeState(rawQuiz)
   return baseCreate(reducer, initialState, compose(
-    applyMiddleware(thunk),
+    applyMiddleware(...middleware),
     window.devToolsExtension ? window.devToolsExtension() : f => f
   ))
-}
-
-export function makeDispatcher(store) {
-  return (creator, ...args) => {
-    invariant(actions[creator], `Action creator "${creator}" is not registered`)
-    const action = actions[creator].apply(actions[creator], args)
-    store.dispatch(action)
-  }
-}
-
-export function makeController() {
-  return ['store', function (store) {
-    this.dispatch = makeDispatcher(store)
-  }]
-}
-
-export function selectSteps(state) {
-  return state.quiz.steps.map(stepId => {
-    const step = Object.assign({}, state.steps[stepId])
-    step.items = step.items.map(itemId => state.items[itemId])
-    return step
-  })
 }
 
 function normalizeState(rawQuiz) {

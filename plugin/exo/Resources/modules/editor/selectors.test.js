@@ -1,4 +1,5 @@
 import assert from 'assert'
+import freeze from 'deep-freeze'
 import {TYPE_QUIZ, TYPE_STEP} from './types'
 import {
   thumbnailsSelector,
@@ -53,7 +54,7 @@ describe('Current object deep selector', () => {
 })
 
 function fixtureState1() {
-  return {
+  return freeze({
     quiz: {
       id: '1',
       steps: ['a', 'b']
@@ -73,11 +74,11 @@ function fixtureState1() {
       id: 'b',
       type: TYPE_STEP
     }
-  }
+  })
 }
 
 function fixtureState2() {
-  return {
+  return freeze({
     quiz: {
       id: '1',
       steps: ['a', 'b']
@@ -97,11 +98,11 @@ function fixtureState2() {
       id: '1',
       type: TYPE_QUIZ
     }
-  }
+  })
 }
 
 function fixtureState3() {
-  return {
+  return freeze({
     quiz: {
       id: '1',
       steps: ['a', 'b']
@@ -126,5 +127,5 @@ function fixtureState3() {
       id: 'b',
       type: TYPE_STEP
     }
-  }
+  })
 }
