@@ -110,6 +110,7 @@ edit_step: Edit information
 end_date: End date
 entry: Entry
 error_no_step_found: An error occured while retrieving the current step.
+evaluative: Evaluative
 exercise: Exercise
 exercise_alert_break: The interruption of this exercise is not allowed. Your paper will be considered finished !
 exercise_definition: Exercise definition
@@ -224,7 +225,7 @@ matching_value: Type of associative question
 maximum_attempts: Maximum number of attempts
 maximum_tries: Maximum number of tries
 meaning_measure_difficulty: If the measure is high, the question is easy. If the measure is low on the contrary, the question is difficult.
-metadata_visible: Display exercise information
+metadata_visible: Display information
 metadata_visible_help: If checked, a table with the information about the exercise will be displayed.
 metadata: Parameters
 minimal_correction: Show minimal correction
@@ -348,6 +349,7 @@ reset: Reset
 resize_zone: To re-size the picture, place your mouse on its bottom right corner, keep left mouse button down, and move your mouse.
 response: Answer
 result: Results
+results: Results
 results_list: List of results
 result_show: Show the results
 right_response: Points for correct answer

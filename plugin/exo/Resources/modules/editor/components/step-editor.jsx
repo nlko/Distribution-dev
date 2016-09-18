@@ -3,11 +3,18 @@ import Accordion from 'react-bootstrap/lib/Accordion'
 import Panel from 'react-bootstrap/lib/Panel'
 import {StepForm} from './step-form.jsx'
 import {Item} from './item.jsx'
+import {t} from './utils'
+
+const StepHeader =
+  <span>
+    <span className="fa fa-cog"></span>
+    &nbsp;{t('parameters', {}, 'platform')}
+  </span>
 
 export const StepEditor = props =>
   <div>
     <Accordion>
-      <Panel header="Propriétés de l'étape" eventKey="1">
+      <Panel header={StepHeader} eventKey="1">
         <StepForm/>
       </Panel>
       {props.step.items.map((item, index) =>

@@ -108,6 +108,7 @@ edit_step: Éditer les informations
 end_date: Date de fin
 entry: Entrer
 error_no_step_found: Une erreur est survenue lors de la récupération de l'étape courrante.
+evaluative: Certificatif
 exercise: Exercice
 exercise_alert_break: Interuption non autorisée. Votre copie sera considérée comme terminée !
 exercise_definition: Vue d'ensemble
@@ -223,7 +224,7 @@ matching_value: Type de question associative
 maximum_attempts: Nombre de tentatives maximum
 maximum_tries: Nombre d'essais maximum
 meaning_measure_difficulty: Si l'indice est élevé, c'est que la question est facile. Inversement, si un indice est faible, la question est difficile.
-metadata_visible: Afficher les informations de l'exercice
+metadata_visible: Afficher les informations
 metadata_visible_help: Si coché, un tableau récapitulatif sera affiché sur la vue d'ensemble de l'exercice.
 minimal_correction: Vue minimale de la correction
 model: Modèle
@@ -263,13 +264,13 @@ not_enought_papers: Pour afficher la docimologie, il doit y avoir au moins 12 co
 not_yet_mark: Pas encore noté
 no_user_found: Pas d'utilisateur trouvé
 n_question: Question n°
-number_max_attempts_help: Tapez 0 pour un nombre d'essais illimité
+number_max_attempts_help: Entrez 0 pour un nombre d'essais illimité
 number_proposal: Numéro de la proposition
 number_of_papers: Nombre de copies
 number_questions_draw: Nombre de questions à tirer
-number_questions_draw_help: Tapez 0 pour tirer toutes les questions
+number_questions_draw_help: Entrez 0 pour tirer toutes les questions
 number_steps_draw: Nombre d'étapes à tirer
-number_steps_draw_help: Tapez 0 pour tirer toutes les étapes
+number_steps_draw_help: Entrez 0 pour tirer toutes les étapes
 numerical: Numérique
 numerical_response: Réponse numérique
 num_paper: Numéro de la copie
@@ -341,6 +342,7 @@ reset: Réinitialiser
 resize_zone: Pour redimmensionner une image, placez votre souris sur son coin inférieur droit et, tout en maintenant le clic gauche, faites-la glisser
 response: Réponse
 result: Résultats
+results: Résultats
 results_list: Liste des résultats
 result_show: Voir les résultats
 right_response: Points pour la bonne réponse

@@ -8,7 +8,11 @@
 
 .quiz-editor .edit-zone {
   flex: 1 100%;
-  padding: 10px;
+  padding: 14px;
+}
+
+.quiz-editor .edit-zone .panel-body {
+  padding: 18px 10%;
 }
 
 .quiz-editor .thumbnail-box {
@@ -63,6 +67,14 @@
 @media (max-width: 991px) {
   .quiz-editor {
     flex-direction: column;
+  }
+
+  .quiz-editor .edit-zone {
+    padding: 10px;
+  }
+
+  .quiz-editor .edit-zone .panel-body {
+    padding: 10px;
   }
 
   .quiz-editor .thumbnail-box {

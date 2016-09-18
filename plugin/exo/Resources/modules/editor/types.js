@@ -7,6 +7,20 @@ import short from './items/short'
 export const TYPE_QUIZ = 'quiz'
 export const TYPE_STEP = 'step'
 
+export const QUIZ_EVALUATIVE = 'evaluative'
+export const QUIZ_FORMATIVE = 'formative'
+export const QUIZ_SUMMATIVE = 'summative'
+
+export const quizTypes = [
+  QUIZ_EVALUATIVE,
+  QUIZ_FORMATIVE,
+  QUIZ_SUMMATIVE
+]
+
+export const correctionModes = [
+  
+]
+
 let definitions = [
   choice,
   cloze,
