@@ -43,7 +43,8 @@ describe('#createStore', () => {
         type: TYPE_QUIZ
       },
       itemTypes,
-      categories: ['C1', 'C2']
+      categories: ['C1', 'C2'],
+      form: {}
     })
   })
 })

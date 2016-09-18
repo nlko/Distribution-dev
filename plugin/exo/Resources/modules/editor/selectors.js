@@ -6,6 +6,8 @@ const stepsSelector = state => state.steps
 const itemsSelector = state => state.items
 const currentObjectSelector = state => state.currentObject
 
+export const quizPropertiesSelector = state => state.quiz.meta
+
 const stepListSelector = createSelector(
   quizSelector,
   stepsSelector,
