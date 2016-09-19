@@ -37,7 +37,7 @@ let QuizEditor = ({handleSubmit, submitting}) =>
           label={tex('metadata_visible')}
           help={tex('metadata_visible_help')}/>
       </Panel>
-      <Panel header={tex('random_picking')} eventKey="2">
+      <Panel header={tex('random_step_picking')} eventKey="2">
         <Field
           name="pick"
           component={Number}

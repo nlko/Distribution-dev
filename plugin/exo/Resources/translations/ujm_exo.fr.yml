@@ -332,6 +332,7 @@ question_graphic_nb_pointers: "{0} Il ne reste plus aucun pointeur à placer sur
 # R
 random_picking: Tirage aléatoire
 random_questions: Ordre des questions aléatoire
+random_step_picking: Tirage des étapes
 random_steps: Ordre des étapes aléatoire
 random_steps_order: Ordre aléatoire des étapes
 raz: => Pour remettre tous les pointeurs à leurs position initiale, appuyez sur "c".

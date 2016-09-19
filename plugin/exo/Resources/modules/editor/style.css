@@ -72,6 +72,10 @@
   margin-left: 20px;
 }
 
+a[role=tab] {
+  cursor: pointer;
+}
+
 @media (max-width: 991px) {
   .quiz-editor {
     flex-direction: column;

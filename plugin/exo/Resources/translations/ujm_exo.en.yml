@@ -338,6 +338,7 @@ question_graphic_nb_pointers: "{0} There is no more pointer to place on the pict
 
 # R
 random_picking: Random picking
+random_step_picking: Step picking
 random_steps: Random order of steps
 random_questions: Random order of questions
 random_steps_order: Random order of steps
