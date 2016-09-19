@@ -11,14 +11,14 @@ const StepHeader =
     &nbsp;{t('parameters', {}, 'platform')}
   </span>
 
-export const StepEditor = props =>
+export const StepEditor = ({step: {id, items}}) =>
   <div>
     <Accordion>
-      <Panel header={StepHeader} eventKey="1">
+      <Panel header={StepHeader} eventKey={'step' + id}>
         <StepForm/>
       </Panel>
-      {props.step.items.map((item, index) =>
-        <Panel header={item.title} key={item.type + item.id} eventKey={item.type + item.id}>
+      {items.map((item, index) =>
+        <Panel header={item.title} key={id + item.type + item.id} eventKey={id + item.type + item.id}>
           <Item
             key={item.id}
             id={item.id}
@@ -34,6 +34,7 @@ const T = React.PropTypes
 
 StepEditor.propTypes = {
   step: T.shape({
+    id: T.string.isRequired,
     items: T.arrayOf(T.object).isRequired
   }).isRequired
 }
