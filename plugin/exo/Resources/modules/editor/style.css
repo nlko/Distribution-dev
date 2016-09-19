@@ -64,6 +64,14 @@
   background-color: transparent;
 }
 
+.help-texts {
+  margin-left: 12px;
+}
+
+.check-group .help-texts {
+  margin-left: 20px;
+}
+
 @media (max-width: 991px) {
   .quiz-editor {
     flex-direction: column;

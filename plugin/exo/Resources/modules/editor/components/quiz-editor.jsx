@@ -4,7 +4,7 @@ import {Field, reduxForm} from 'redux-form'
 import Accordion from 'react-bootstrap/lib/Accordion'
 import Panel from 'react-bootstrap/lib/Panel'
 import {t, tex} from './utils'
-import {Select, Text, Textarea, Check, Number} from './form-controls.jsx'
+import {Select, Text, Textarea, Number, SingleCheck} from './form-controls.jsx'
 import {quizTypes, correctionModes} from './../types'
 import {quizPropertiesSelector} from './../selectors'
 
@@ -33,7 +33,7 @@ let QuizEditor = ({handleSubmit, submitting}) =>
           label={t('description')}/>
         <Field
           name="metadataVisible"
-          component={Check}
+          component={SingleCheck}
           label={tex('metadata_visible')}
           help={tex('metadata_visible_help')}/>
       </Panel>
@@ -46,7 +46,7 @@ let QuizEditor = ({handleSubmit, submitting}) =>
           help={tex('number_steps_draw_help')}/>
         <Field
           name="random"
-          component={Check}
+          component={SingleCheck}
           label={tex('random_steps_order')}/>
       </Panel>
       <Panel header={tex('signing')} eventKey="3">
