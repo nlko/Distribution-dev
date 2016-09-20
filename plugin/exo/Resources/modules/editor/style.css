@@ -72,6 +72,10 @@
   margin-left: 20px;
 }
 
+.sub-field {
+  margin-left: 20px;
+}
+
 a[role=tab] {
   cursor: pointer;
 }

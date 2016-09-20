@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import TinyMCE from 'react-tinymce'
+import DatePicker from 'react-datepicker'
 import classes from 'classnames'
+import 'react-datepicker/dist/react-datepicker.css'
 
 const T = React.PropTypes
 
@@ -35,7 +37,7 @@ export const SingleCheck = ({input, label, meta: {touched, error}, help}) =>
   <div className={classes('form-group', 'check-group', {'has-error': touched && error})}>
     <div className="checkbox">
       <input
-        id={input.name}
+        name={input.name}
         type="checkbox"
         checked={input.value}
         onChange={input.onChange}
@@ -72,20 +74,18 @@ FormGroup.propTypes = {
 export const Text = props =>
   <FormGroup {...props}>
     <input
-      id={props.input.name}
+      name={props.input.name}
       className="form-control"
       type="text"
-      {...props.input}
-      aria-describedby={helpIds(props.input.name, props.help)}/>
+      aria-describedby={helpIds(props.input.name, props.help)}
+      {...props.input}/>
   </FormGroup>
 
 export const Textarea = props =>
   <FormGroup {...props}>
     <TinyMCE
-      id={props.input.name}
       name={props.input.name}
       className="claroline-tiny-mce"
-      rows="2"
       config={window.tinymce.claroline.configuration}
       content={props.input.value}
       onChange={e => props.input.onChange(e.target.getContent())}/>
@@ -93,33 +93,45 @@ export const Textarea = props =>
 
 export const Select = props =>
   <FormGroup {...props}>
-    <select className="form-control">
-      {props.options.map(value =>
-        <option key={value} value={value}>{value}</option>
+    <select
+      name={props.input.name}
+      className="form-control"
+      onChange={e => props.input.onChange(e.target.value)}>
+      {props.options.map(v =>
+        <option key={v[0]} value={v[0]}>{v[1]}</option>
       )}
     </select>
   </FormGroup>
 
 Select.propTypes = {
-  options: T.arrayOf(T.string).isRequired,
+  options: T.arrayOf(T.arrayOf(T.string)).isRequired
 }
 
 export const Number = props =>
   <FormGroup {...props}>
     <input
-      {...props.input}
-      id={props.input.name}
+      name={props.input.name}
       className="form-control"
       type="number"
       min={props.min}
       max={props.max}
-      aria-describedby={helpIds(props.input.name, props.help)}/>
+      aria-describedby={helpIds(props.input.name, props.help)}
+      {...props.input}/>
   </FormGroup>
 
 Number.propTypes = {
   min: T.number,
   max: T.number
 }
+
+export const Date = props =>
+  <FormGroup {...props}>
+    <DatePicker
+      name={props.input.name}
+      className="form-control"
+      selected={props.startDate}
+      onChange={date => props.input.onChange(date)}/>
+  </FormGroup>
 
 function helpId(fieldName, type = 'error') {
   return `help-${type}-${fieldName}`

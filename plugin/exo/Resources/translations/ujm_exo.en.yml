@@ -100,7 +100,8 @@ document: Document
 drop_category: Drop this category
 duplicate: Duplicate
 duplicate_this_question: <input type ="text" name='nbq' value='0' size='2' /> time this question (10 maximum allowed)
-duration: Duration
+duration: Duration (in minutes)
+duration_help: Enter 0 for an unlimited duration
 
 # E
 edit: Edit
