@@ -76,6 +76,10 @@
   margin-left: 20px;
 }
 
+.react-datepicker__input-container {
+  display: block;
+}
+
 a[role=tab] {
   cursor: pointer;
 }

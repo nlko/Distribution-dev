@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import TinyMCE from 'react-tinymce'
 import DatePicker from 'react-datepicker'
+import moment from 'moment'
 import classes from 'classnames'
 import 'react-datepicker/dist/react-datepicker.css'
 
@@ -37,11 +38,11 @@ export const SingleCheck = ({input, label, meta: {touched, error}, help}) =>
   <div className={classes('form-group', 'check-group', {'has-error': touched && error})}>
     <div className="checkbox">
       <input
-        name={input.name}
+        id={input.name}
         type="checkbox"
         checked={input.value}
-        onChange={input.onChange}
-        aria-describedby={helpIds(input.name, help)}/>
+        aria-describedby={helpIds(input.name, help)}
+        { ...input}/>
     </div>
     <label className="control-label" htmlFor={input.name}>{label}</label>
     <HelpTexts
@@ -74,7 +75,7 @@ FormGroup.propTypes = {
 export const Text = props =>
   <FormGroup {...props}>
     <input
-      name={props.input.name}
+      id={props.input.name}
       className="form-control"
       type="text"
       aria-describedby={helpIds(props.input.name, props.help)}
@@ -84,6 +85,7 @@ export const Text = props =>
 export const Textarea = props =>
   <FormGroup {...props}>
     <TinyMCE
+      id={props.input.name}
       name={props.input.name}
       className="claroline-tiny-mce"
       config={window.tinymce.claroline.configuration}
@@ -94,6 +96,7 @@ export const Textarea = props =>
 export const Select = props =>
   <FormGroup {...props}>
     <select
+      id={props.input.name}
       name={props.input.name}
       className="form-control"
       onChange={e => props.input.onChange(e.target.value)}>
@@ -110,6 +113,7 @@ Select.propTypes = {
 export const Number = props =>
   <FormGroup {...props}>
     <input
+      id={props.input.name}
       name={props.input.name}
       className="form-control"
       type="number"
@@ -124,12 +128,18 @@ Number.propTypes = {
   max: T.number
 }
 
+// tmp
+const locale = document.querySelector('#homeLocale').innerHTML.trim()
+
 export const Date = props =>
   <FormGroup {...props}>
     <DatePicker
+      id={props.input.name}
       name={props.input.name}
       className="form-control"
-      selected={props.startDate}
+      selected={props.input.value ? moment.utc(props.input.value) : null}
+      minDate={moment.utc()}
+      locale={locale}
       onChange={date => props.input.onChange(date)}/>
   </FormGroup>
 
