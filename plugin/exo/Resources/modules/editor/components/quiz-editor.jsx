@@ -145,9 +145,8 @@ let QuizEditor = props =>
 
 QuizEditor = reduxForm({
   form: 'quiz-properties',
+  touchOnChange: true,
   validate: values => {
-    console.log('validating', values)
-
     const errors = {}
     if (!values.title) {
       errors.title = 'required'
@@ -157,6 +156,9 @@ QuizEditor = reduxForm({
     if (!values.description) {
       errors.description = 'required'
     }
+
+    console.log('validation errors', errors)
+
     return errors
   }
 })(QuizEditor)

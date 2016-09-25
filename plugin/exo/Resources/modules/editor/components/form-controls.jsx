@@ -3,6 +3,7 @@ import TinyMCE from 'react-tinymce'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import classes from 'classnames'
+import debounce from 'lodash/debounce'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const T = React.PropTypes
@@ -72,21 +73,51 @@ FormGroup.propTypes = {
   help: T.string
 }
 
-export const Text = props =>
-  <FormGroup {...props}>
-    <input
-      id={props.input.name}
-      className="form-control"
-      type="text"
-      aria-describedby={helpIds(props.input.name, props.help)}
-      {...props.input}/>
-  </FormGroup>
+export class Text extends Component {
+  constructor(props) {
+    super(props)
+    this.lastPropValue = props.input.value
+    this.state = {value: props.input.value}
+    this.debouncedOnChange = debounce(event => {
+      props.input.onChange(event.target.value)
+    }, 200);
+    this.handleChange = event => {
+      event.persist()
+      this.setState({value: event.target.value})
+      this.debouncedOnChange(event)
+    }
+  }
+
+  getValue() {
+    const value = this.props.input.value !== this.lastPropValue ?
+      this.props.input.value :
+      this.state.value
+    this.lastPropValue = this.props.input.value
+
+    return value
+  }
+
+  render() {
+    return (
+      <FormGroup {...this.props}>
+        <input
+          id={this.props.input.name}
+          name={this.props.input.name}
+          className="form-control"
+          type="text"
+          value={this.getValue()}
+          onChange={this.handleChange}
+          aria-describedby={helpIds(this.props.input.name, this.props.help)}/>
+      </FormGroup>
+    )
+  }
+}
 
 export const Textarea = props =>
   <FormGroup {...props}>
     <TinyMCE
+      {...props.input}
       id={props.input.name}
-      name={props.input.name}
       className="claroline-tiny-mce"
       config={window.tinymce.claroline.configuration}
       content={props.input.value}
@@ -96,8 +127,8 @@ export const Textarea = props =>
 export const Select = props =>
   <FormGroup {...props}>
     <select
+      {...props.input}
       id={props.input.name}
-      name={props.input.name}
       className="form-control"
       onChange={e => props.input.onChange(e.target.value)}>
       {props.options.map(v =>
@@ -113,8 +144,8 @@ Select.propTypes = {
 export const Number = props =>
   <FormGroup {...props}>
     <input
+      {...props.input}
       id={props.input.name}
-      name={props.input.name}
       className="form-control"
       type="number"
       min={props.min}
@@ -134,8 +165,8 @@ const locale = document.querySelector('#homeLocale').innerHTML.trim()
 export const Date = props =>
   <FormGroup {...props}>
     <DatePicker
+      {...props.input}
       id={props.input.name}
-      name={props.input.name}
       className="form-control"
       selected={props.input.value ? moment.utc(props.input.value) : null}
       minDate={moment.utc()}
