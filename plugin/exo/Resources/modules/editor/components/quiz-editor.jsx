@@ -3,16 +3,10 @@ import {connect} from 'react-redux'
 import {Field, Fields, reduxForm} from 'redux-form'
 import Accordion from 'react-bootstrap/lib/Accordion'
 import Panel from 'react-bootstrap/lib/Panel'
-import {t, tex} from './utils'
+import PanelGroup from 'react-bootstrap/lib/PanelGroup'
 import {quizPropertiesSelector} from './../selectors'
-import {
-  Select,
-  Text,
-  Textarea,
-  Number,
-  SingleCheck,
-  Date
-} from './form-controls.jsx'
+import {t, tex} from './utils'
+import Controls from './form-controls.jsx'
 import {
   quizTypes,
   correctionModes,
@@ -24,20 +18,20 @@ const Properties = props =>
   <div>
     <Field
       name="type"
-      component={Select}
+      component={Controls.Select}
       options={quizTypes.map(type => [type[0], tex(type[1])])}
       label={t('type')}/>
     <Field
       name="title"
-      component={Text}
+      component={Controls.Text}
       label={t('title')}/>
     <Field
       name="description"
-      component={Textarea}
+      component={Controls.Textarea}
       label={t('description')}/>
     <Field
       name="metadataVisible"
-      component={SingleCheck}
+      component={Controls.SingleCheck}
       label={tex('metadata_visible')}
       help={tex('metadata_visible_help')}/>
   </div>
@@ -46,13 +40,13 @@ const StepPicking = props =>
   <div>
     <Field
       name="random"
-      component={SingleCheck}
+      component={Controls.SingleCheck}
       label={tex('random_steps_order')}/>
     {props.random.input.value === true &&
       <div className="sub-field">
         <Field
           name="pick"
-          component={Number}
+          component={Controls.Number}
           min={0}
           label={tex('number_steps_draw')}
           help={tex('number_steps_draw_help')}/>
@@ -64,23 +58,23 @@ const Signing = props =>
   <div>
     <Field
       name="duration"
-      component={Number}
+      component={Controls.Number}
       min={0}
       label={tex('duration')}
       help={tex('duration_help')}/>
     <Field
       name="maxAttempts"
-      component={Number}
+      component={Controls.Number}
       min={0}
       label={tex('maximum_attempts')}
       help={tex('number_max_attempts_help')}/>
     <Field
       name="dispButtonInterrupt"
-      component={SingleCheck}
+      component={Controls.SingleCheck}
       label={tex('allow_test_exit')}/>
     <Field
       name="anonymous"
-      component={SingleCheck}
+      component={Controls.SingleCheck}
       label={t('anonymous')}/>
   </div>
 
@@ -88,14 +82,14 @@ const CorrectionMode = props =>
   <div>
     <Field
       name="correctionMode"
-      component={Select}
+      component={Controls.Select}
       options={correctionModes.map(mode => [mode[0], tex(mode[1])])}
       label={tex('availability_of_correction')}/>
     {props.correctionMode.input.value === SHOW_CORRECTION_AT_DATE &&
       <div className="sub-field">
         <Field
           name="correctionDate"
-          component={Date}
+          component={Controls.Date}
           label={tex('correction_date')}/>
       </div>
     }
@@ -105,22 +99,22 @@ const CorrectionOptions = props =>
   <div>
     <Field
       name="markMode"
-      component={Select}
+      component={Controls.Select}
       options={markModes.map(mode => [mode[0], tex(mode[1])])}
       label={tex('score_displaying')}/>
     <Field
       name="statistics"
-      component={SingleCheck}
+      component={Controls.SingleCheck}
       label={tex('statistics')}/>
     <Field
       name="minimalCorrection"
-      component={SingleCheck}
+      component={Controls.SingleCheck}
       label={tex('minimal_correction')}/>
   </div>
 
 let QuizEditor = props =>
   <form onSubmit={props.handleSubmit(values => console.log(values))}>
-    <Accordion>
+    <PanelGroup activeKey="1" accordion>
       <Panel header={t('properties')} eventKey="1">
         <Properties/>
       </Panel>
@@ -134,7 +128,7 @@ let QuizEditor = props =>
         <Fields names={['correctionMode', 'correctionDate']} component={CorrectionMode}/>
         <CorrectionOptions/>
       </Panel>
-    </Accordion>
+    </PanelGroup>
     <button
       className="btn btn-primary"
       type="submit"

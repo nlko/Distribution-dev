@@ -184,3 +184,12 @@ function helpIds(fieldName, hasHelpInfo) {
     [helpId(fieldName, 'info')]: hasHelpInfo
   )
 }
+
+export default {
+  SingleCheck,
+  Text,
+  Textarea,
+  Select,
+  Number,
+  Date
+}
