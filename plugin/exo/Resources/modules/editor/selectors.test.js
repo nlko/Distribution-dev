@@ -1,14 +1,15 @@
-import assert from 'assert'
 import freeze from 'deep-freeze'
+import {assertEqual} from './test-util'
 import {TYPE_QUIZ, TYPE_STEP} from './types'
 import {
   thumbnailsSelector,
-  currentObjectDeepSelector
+  currentObjectDeepSelector,
+  stepOpenPanelSelector
 } from './selectors'
 
 describe('Thumbnails selector', () => {
-  it('should return the quiz and step thumbs with an active flag set', () => {
-    assert.deepEqual(thumbnailsSelector(fixtureState1()), [
+  it('returns the quiz and step thumbs with an active flag set', () => {
+    assertEqual(thumbnailsSelector(fixtureState1()), [
       {
         id: '1',
         title: 'Exercice',
@@ -32,15 +33,15 @@ describe('Thumbnails selector', () => {
 })
 
 describe('Current object deep selector', () => {
-  it('should return quiz properties if quiz is selected', () => {
-    assert.deepEqual(currentObjectDeepSelector(fixtureState2()), {
+  it('returns quiz properties if quiz is selected', () => {
+    assertEqual(currentObjectDeepSelector(fixtureState2()), {
       type: TYPE_QUIZ,
       id: '1'
     })
   })
 
-  it('should return step details if step is selected', () => {
-    assert.deepEqual(currentObjectDeepSelector(fixtureState3()), {
+  it('returns step details if step is selected', () => {
+    assertEqual(currentObjectDeepSelector(fixtureState3()), {
       type: TYPE_STEP,
       id: 'b',
       items: [
@@ -50,6 +51,16 @@ describe('Current object deep selector', () => {
         }
       ]
     })
+  })
+})
+
+describe('Step open panel selector', () => {
+  it('returns false if no step is selected', () => {
+    assertEqual(stepOpenPanelSelector(fixtureState4()), false)
+  })
+
+  it('returns open panel key of current step', () => {
+    assertEqual(stepOpenPanelSelector(fixtureState5()), 'bar')
   })
 })
 
@@ -126,6 +137,35 @@ function fixtureState3() {
     currentObject: {
       id: 'b',
       type: TYPE_STEP
+    }
+  })
+}
+
+function fixtureState4() {
+  return freeze({
+    currentObject: {
+      id: 'a',
+      type: TYPE_QUIZ
+    },
+    openPanels: {
+      [TYPE_QUIZ]: 'foo',
+      [TYPE_STEP]: {}
+    }
+  })
+}
+
+function fixtureState5() {
+  return freeze({
+    currentObject: {
+      id: 'b',
+      type: TYPE_STEP
+    },
+    openPanels: {
+      [TYPE_QUIZ]: false,
+      [TYPE_STEP]: {
+        'a': 'foo',
+        'b': 'bar'
+      }
     }
   })
 }

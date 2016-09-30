@@ -1,6 +1,6 @@
-import assert from 'assert'
+import {assertEqual} from './test-util'
 import {createStore} from './store'
-import {TYPE_QUIZ, mimeTypes as itemTypes} from './types'
+import {TYPE_QUIZ, TYPE_STEP, mimeTypes as itemTypes} from './types'
 
 describe('#createStore', () => {
   it('normalizes and augments quiz data', () => {
@@ -20,7 +20,7 @@ describe('#createStore', () => {
       ]
     }
     const store = createStore(quiz)
-    assert.deepStrictEqual(store.getState(), {
+    assertEqual(store.getState(), {
       quiz: {
         id: '1',
         meta: {},
@@ -41,6 +41,10 @@ describe('#createStore', () => {
       currentObject: {
         id: '1',
         type: TYPE_QUIZ
+      },
+      openPanels: {
+        [TYPE_QUIZ]: false,
+        [TYPE_STEP]: {}
       },
       itemTypes,
       categories: ['C1', 'C2'],

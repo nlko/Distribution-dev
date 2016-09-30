@@ -68,3 +68,17 @@ export const currentObjectDeepSelector = createSelector(
     }
   }
 )
+
+export const quizOpenPanelSelector = state => state.openPanels[TYPE_QUIZ]
+const openStepPanelsSelector = state => state.openPanels[TYPE_STEP]
+
+export const stepOpenPanelSelector = createSelector(
+  currentObjectSelector,
+  openStepPanelsSelector,
+  (current, panels) => {
+    if (current.type === TYPE_STEP && panels[current.id] !== undefined) {
+      return panels[current.id]
+    }
+    return false
+  }
+)

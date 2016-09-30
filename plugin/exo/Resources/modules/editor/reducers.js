@@ -1,10 +1,12 @@
 import {getIndex, makeId, update} from './util'
-import {properties, TYPE_STEP} from './types'
+import {properties, TYPE_QUIZ, TYPE_STEP} from './types'
 import {
   ITEM_CREATE,
   ITEM_DELETE,
   ITEM_MOVE,
   OBJECT_SELECT,
+  PANEL_QUIZ_SELECT,
+  PANEL_STEP_SELECT,
   STEP_CREATE,
   STEP_MOVE,
   STEP_DELETE
@@ -99,9 +101,31 @@ function reduceCurrentObject(object = {}, action = {}) {
   return object
 }
 
+function defaultOpenPanels() {
+  return {
+    [TYPE_QUIZ]: false,
+    [TYPE_STEP]: {}
+  }
+}
+
+function reduceOpenPanels(panels = defaultOpenPanels(), action = {}) {
+  switch (action.type) {
+    case PANEL_QUIZ_SELECT: {
+      const value = panels[TYPE_QUIZ] === action.panelKey ? false : action.panelKey
+      return update(panels, {[TYPE_QUIZ]: {$set: value}})
+    }
+    case PANEL_STEP_SELECT: {
+      const value = panels[TYPE_STEP][action.stepId] === action.panelKey ? false : action.panelKey
+      return update(panels, {[TYPE_STEP]: {[action.stepId]: {$set: value}}})
+    }
+  }
+  return panels
+}
+
 export const reducers = {
   quiz: reduceQuiz,
   steps: reduceSteps,
   items: reduceItems,
-  currentObject: reduceCurrentObject
+  currentObject: reduceCurrentObject,
+  openPanels: reduceOpenPanels
 }

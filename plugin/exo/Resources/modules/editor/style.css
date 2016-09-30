@@ -52,6 +52,14 @@
   font-weight: bold;
 }
 
+.quiz-editor .panel-title {
+  cursor: pointer;
+}
+
+.quiz-editor .panel-title:hover {
+  text-decoration: underline;
+}
+
 .scroller::-webkit-scrollbar {
   width: 9px;
 }

@@ -5,22 +5,39 @@ import {QuizEditor} from './quiz-editor.jsx'
 import {StepEditor} from './step-editor.jsx'
 import {actions} from './../actions'
 import {TYPE_QUIZ, TYPE_STEP} from './../types'
-import {thumbnailsSelector, currentObjectDeepSelector} from './../selectors'
+import {
+  thumbnailsSelector,
+  currentObjectDeepSelector,
+  quizOpenPanelSelector,
+  stepOpenPanelSelector
+} from './../selectors'
 
 let Editor = props =>
   <div className="panel-body quiz-editor">
     <ThumbnailBox thumbnails={props.thumbnails}
       onThumbnailClick={props.handleThumbnailClick}
-      onNewStepClick={props.handleNewStepClick}/>
+      onNewStepClick={props.handleNewStepClick}
+    />
     <div className="edit-zone">{selectSubEditor(props)}</div>
   </div>
 
 function selectSubEditor(props) {
   switch (props.currentObject.type) {
     case TYPE_QUIZ:
-      return <QuizEditor quiz={props.currentObject}/>
+      return (
+        <QuizEditor
+          activePanelKey={props.activeQuizPanel}
+          handlePanelClick={props.handleQuizPanelClick}
+        />
+      )
     case TYPE_STEP:
-      return <StepEditor step={props.currentObject}/>
+      return (
+        <StepEditor
+          step={props.currentObject}
+          activePanelKey={props.activeStepPanel}
+          handlePanelClick={props.handleStepPanelClick}
+        />
+      )
   }
   throw new Error(`Ùnkwnown type ${props.currentObject}`)
 }
@@ -28,7 +45,9 @@ function selectSubEditor(props) {
 function mapStateToProps(state) {
   return {
     thumbnails: thumbnailsSelector(state),
-    currentObject: currentObjectDeepSelector(state)
+    currentObject: currentObjectDeepSelector(state),
+    activeQuizPanel: quizOpenPanelSelector(state),
+    activeStepPanel: stepOpenPanelSelector(state)
   }
 }
 
@@ -39,6 +58,12 @@ function mapDispatchToProps(dispatch) {
     },
     handleNewStepClick() {
       dispatch(actions.createStep())
+    },
+    handleQuizPanelClick(panelKey) {
+      dispatch(actions.selectQuizPanel(panelKey))
+    },
+    handleStepPanelClick(stepId, panelKey) {
+      dispatch(actions.selectStepPanel(stepId, panelKey))
     }
   }
 }

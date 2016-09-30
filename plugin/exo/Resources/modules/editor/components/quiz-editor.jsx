@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Field, Fields, reduxForm} from 'redux-form'
 import Accordion from 'react-bootstrap/lib/Accordion'
 import Panel from 'react-bootstrap/lib/Panel'
 import PanelGroup from 'react-bootstrap/lib/PanelGroup'
+import classes from 'classnames'
 import {quizPropertiesSelector} from './../selectors'
 import {t, tex} from './utils'
 import Controls from './form-controls.jsx'
@@ -20,20 +21,24 @@ const Properties = props =>
       name="type"
       component={Controls.Select}
       options={quizTypes.map(type => [type[0], tex(type[1])])}
-      label={t('type')}/>
+      label={t('type')}
+    />
     <Field
       name="title"
       component={Controls.Text}
-      label={t('title')}/>
+      label={t('title')}
+    />
     <Field
       name="description"
       component={Controls.Textarea}
-      label={t('description')}/>
+      label={t('description')}
+    />
     <Field
       name="metadataVisible"
       component={Controls.SingleCheck}
       label={tex('metadata_visible')}
-      help={tex('metadata_visible_help')}/>
+      help={tex('metadata_visible_help')}
+    />
   </div>
 
 const StepPicking = props =>
@@ -41,7 +46,8 @@ const StepPicking = props =>
     <Field
       name="random"
       component={Controls.SingleCheck}
-      label={tex('random_steps_order')}/>
+      label={tex('random_steps_order')}
+    />
     {props.random.input.value === true &&
       <div className="sub-field">
         <Field
@@ -49,7 +55,8 @@ const StepPicking = props =>
           component={Controls.Number}
           min={0}
           label={tex('number_steps_draw')}
-          help={tex('number_steps_draw_help')}/>
+          help={tex('number_steps_draw_help')}
+        />
       </div>
     }
   </div>
@@ -61,21 +68,25 @@ const Signing = props =>
       component={Controls.Number}
       min={0}
       label={tex('duration')}
-      help={tex('duration_help')}/>
+      help={tex('duration_help')}
+    />
     <Field
       name="maxAttempts"
       component={Controls.Number}
       min={0}
       label={tex('maximum_attempts')}
-      help={tex('number_max_attempts_help')}/>
+      help={tex('number_max_attempts_help')}
+    />
     <Field
       name="dispButtonInterrupt"
       component={Controls.SingleCheck}
-      label={tex('allow_test_exit')}/>
+      label={tex('allow_test_exit')}
+    />
     <Field
       name="anonymous"
       component={Controls.SingleCheck}
-      label={t('anonymous')}/>
+      label={t('anonymous')}
+    />
   </div>
 
 const CorrectionMode = props =>
@@ -84,13 +95,15 @@ const CorrectionMode = props =>
       name="correctionMode"
       component={Controls.Select}
       options={correctionModes.map(mode => [mode[0], tex(mode[1])])}
-      label={tex('availability_of_correction')}/>
+      label={tex('availability_of_correction')}
+    />
     {props.correctionMode.input.value === SHOW_CORRECTION_AT_DATE &&
       <div className="sub-field">
         <Field
           name="correctionDate"
           component={Controls.Date}
-          label={tex('correction_date')}/>
+          label={tex('correction_date')}
+        />
       </div>
     }
   </div>
@@ -101,30 +114,59 @@ const CorrectionOptions = props =>
       name="markMode"
       component={Controls.Select}
       options={markModes.map(mode => [mode[0], tex(mode[1])])}
-      label={tex('score_displaying')}/>
+      label={tex('score_displaying')}
+    />
     <Field
       name="statistics"
       component={Controls.SingleCheck}
-      label={tex('statistics')}/>
+      label={tex('statistics')}
+    />
     <Field
       name="minimalCorrection"
       component={Controls.SingleCheck}
-      label={tex('minimal_correction')}/>
+      label={tex('minimal_correction')}
+    />
   </div>
+
+function makeSectionHeader(title, key, {activePanelKey}) {
+  const caretIcon = key === activePanelKey ? 'fa-caret-down' :'fa-caret-right'
+  return (
+    <span>
+      <span className={classes('fa', caretIcon)}/>
+      &nbsp;{title}
+    </span>
+  )
+}
 
 let QuizEditor = props =>
   <form onSubmit={props.handleSubmit(values => console.log(values))}>
-    <PanelGroup activeKey="1" accordion>
-      <Panel header={t('properties')} eventKey="1">
+    <PanelGroup
+      accordion
+      activeKey={props.activePanelKey}
+      onSelect={props.handlePanelClick}
+    >
+      <Panel
+        eventKey="properties"
+        header={makeSectionHeader(t('properties'), 'properties', props)}
+      >
         <Properties/>
       </Panel>
-      <Panel header={tex('random_step_picking')} eventKey="2">
+      <Panel
+        eventKey="step-picking"
+        header={makeSectionHeader(tex('random_step_picking'), 'step-picking', props)}
+      >
         <Fields names={['random', 'pick']} component={StepPicking}/>
       </Panel>
-      <Panel header={tex('signing')} eventKey="3">
+      <Panel
+        eventKey="signing"
+        header={makeSectionHeader(tex('signing'), 'signing', props)}
+      >
         <Signing/>
       </Panel>
-      <Panel header={tex('correction')} eventKey="4">
+      <Panel
+        eventKey="correction"
+        header={makeSectionHeader(tex('correction'), 'correction', props)}
+      >
         <Fields names={['correctionMode', 'correctionDate']} component={CorrectionMode}/>
         <CorrectionOptions/>
       </Panel>
@@ -132,7 +174,8 @@ let QuizEditor = props =>
     <button
       className="btn btn-primary"
       type="submit"
-      disabled={props.submitting}>
+      disabled={props.submitting}
+    >
       {t('ok')}
     </button>
   </form>
@@ -157,16 +200,19 @@ QuizEditor = reduxForm({
   }
 })(QuizEditor)
 
-QuizEditor = connect(
-  state => ({
+function mapStateToProps(state) {
+  return {
     initialValues: quizPropertiesSelector(state)
-  }),
-)(QuizEditor)
+  }
+}
+
+QuizEditor = connect(mapStateToProps)(QuizEditor)
 
 const T = React.PropTypes
 
 QuizEditor.propTypes = {
-  quiz: T.object.isRequired
+  activePanelKey: T.oneOfType([T.string, T.bool]).isRequired,
+  handlePanelClick: T.func.isRequired
 }
 
 export {QuizEditor}

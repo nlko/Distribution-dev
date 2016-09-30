@@ -23,6 +23,7 @@ const reducer = combineReducers({
   steps: reducers.steps,
   items: reducers.items,
   currentObject: reducers.currentObject,
+  openPanels: reducers.openPanels,
   categories: () => ['C1', 'C2'], // FIXME
   itemTypes: () => mimeTypes,
   form: formReducer

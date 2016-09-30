@@ -6,6 +6,8 @@ export const ITEM_DELETE = 'ITEM_DELETE'
 export const ITEM_MOVE = 'ITEM_MOVE'
 export const ITEMS_DELETE = 'ITEMS_DELETE'
 export const OBJECT_SELECT = 'OBJECT_SELECT'
+export const PANEL_QUIZ_SELECT = 'PANEL_QUIZ_SELECT'
+export const PANEL_STEP_SELECT = 'PANEL_STEP_SELECT'
 export const STEP_CREATE = 'STEP_CREATE'
 export const STEP_DELETE = 'STEP_DELETE'
 export const STEP_MOVE = 'STEP_MOVE'
@@ -18,6 +20,8 @@ actions.deleteItems = makeActionCreator(ITEMS_DELETE, 'ids')
 actions.moveItem = makeActionCreator(ITEM_MOVE, 'id', 'stepId', 'nextStepId', 'nextSiblingId')
 actions.moveStep = makeActionCreator(STEP_MOVE, 'id', 'nextSiblingId')
 actions.selectObject = makeActionCreator(OBJECT_SELECT, 'id', 'objectType')
+actions.selectQuizPanel = makeActionCreator(PANEL_QUIZ_SELECT, 'panelKey')
+actions.selectStepPanel = makeActionCreator(PANEL_STEP_SELECT, 'stepId', 'panelKey')
 
 actions.createItem = (stepId, type) => {
   invariant(stepId, 'stepId is mandatory')
