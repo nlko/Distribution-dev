@@ -60,6 +60,24 @@
   text-decoration: underline;
 }
 
+.quiz-editor .item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.quiz-editor .item-actions {
+  display: inline-block;
+  margin: -11px -5px;
+}
+
+.quiz-editor .item-actions > .btn {
+  position: static !important;
+  margin-left: 2px;
+  width: 32px;
+  text-align: center;
+}
+
 .scroller::-webkit-scrollbar {
   width: 9px;
 }

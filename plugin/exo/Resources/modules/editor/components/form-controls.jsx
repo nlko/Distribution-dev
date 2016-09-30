@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import TinyMCE from 'react-tinymce'
 import DatePicker from 'react-datepicker'
+import BaseModal from 'react-bootstrap/lib/Modal'
 import moment from 'moment'
 import classes from 'classnames'
 import debounce from 'lodash/debounce'
@@ -173,6 +174,40 @@ export const Date = props =>
       locale={locale}
       onChange={date => props.input.onChange(date)}/>
   </FormGroup>
+
+export class Modal extends Component {
+  constructor() {
+    super()
+    this.state = {show: true}
+    this.open = this.open.bind(this)
+    this.close = this.close.bind(this)
+  }
+
+  open() {
+    this.setState({show: true})
+  }
+
+  close() {
+    this.setState({show: false})
+  }
+
+  render() {
+    return (
+      <BaseModal show={this.state.show} onHide={this.close}>
+        <BaseModal.Header closeButton>
+          <BaseModal.Title>Modal heading</BaseModal.Title>
+        </BaseModal.Header>
+        <BaseModal.Body>
+          Delete?
+        </BaseModal.Body>
+        <BaseModal.Footer>
+          <button className="btn btn-default" onClick={this.close}>Close</button>
+          <button className="btn btn-primary">OK</button>
+        </BaseModal.Footer>
+      </BaseModal>
+    )
+  }
+}
 
 function helpId(fieldName, type = 'error') {
   return `help-${type}-${fieldName}`

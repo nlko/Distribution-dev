@@ -2,6 +2,7 @@ import React from 'react'
 import Accordion from 'react-bootstrap/lib/Accordion'
 import Panel from 'react-bootstrap/lib/Panel'
 import PanelGroup from 'react-bootstrap/lib/PanelGroup'
+import {Modal} from './form-controls.jsx'
 import {StepForm} from './step-form.jsx'
 import {Item} from './item.jsx'
 import {t, tex} from './utils'
@@ -13,11 +14,33 @@ const ParametersHeader =
   </span>
 
 const ItemHeader = ({type, title, handleClick}) =>
-  <span>
-    <span className="text-info">[{tex(type)}]</span>
-    &nbsp;
-    <span className="panel-title" onClick={handleClick}>{title}</span>
-  </span>
+  <div className="item-header">
+    <span>
+      <span className="text-info">[{tex(type)}]</span>
+      &nbsp;
+      <span className="panel-title" onClick={handleClick}>{title}</span>
+    </span>
+    <span className="item-actions">
+      <button
+        type="button"
+        className="btn btn-sm btn-default move-item-handle"
+        data-toggle="tooltip"
+        title={tex('move_item')}
+      >
+        <span className="fa fa-arrows"></span>
+        <span className="sr-only">{tex('move_item')}</span>
+      </button>
+      <button
+        className="btn btn-sm btn-danger"
+        title={tex('delete_item')}
+        data-toggle="tooltip"
+        data-confirm-modal={tex('delete_of_my_exercise')}
+      >
+        <span className="fa fa-trash-o"></span>
+        <span className="sr-only">{tex('delete_item')}</span>
+      </button>
+    </span>
+  </div>
 
 function makeItemPanelKey(item) {
   return `item-${item.type}-${item.id}`
@@ -62,6 +85,7 @@ export const StepEditor = props =>
       )}
     </PanelGroup>
     <button className="btn btn-primary">Nouvel élément</button>
+    <Modal/>
   </div>
 
 const T = React.PropTypes
