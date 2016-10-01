@@ -31,7 +31,9 @@ export class ThumbnailBox extends Component {
             title={item.title}
             type={item.type}
             active={item.active}
-            onThumbnailClick={this.props.onThumbnailClick}
+            onClick={this.props.onThumbnailClick}
+            onDeleteClick={this.props.onStepDeleteClick}
+            showModal={this.props.showModal}
           />
         )}
         <OverlayTrigger
@@ -57,5 +59,7 @@ const T = React.PropTypes
 
 ThumbnailBox.propTypes = {
   thumbnails: T.arrayOf(T.object).isRequired,
-  onNewStepClick: T.func.isRequired
+  onNewStepClick: T.func.isRequired,
+  onStepDeleteClick: T.func.isRequired,
+  showModal: T.func.isRequired
 }

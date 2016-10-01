@@ -2,8 +2,10 @@ import thunk from 'redux-thunk'
 import assert from 'assert'
 import {assertEqual} from './test-util'
 import configureMockStore from 'redux-mock-store'
+import {TYPE_STEP} from './types'
 import {
   ITEMS_DELETE,
+  OBJECT_NEXT,
   STEP_DELETE,
   actions
 } from './actions'
@@ -36,9 +38,14 @@ describe('#deleteStepAndItems', () => {
       steps: {
         '1': {id: '1', items: ['a']},
         '2': {id: '2', items: ['b', 'c']}
+      },
+      currentObject: {
+        id: '2',
+        type: TYPE_STEP
       }
     })
     const expectedActions = [
+      { type: OBJECT_NEXT, object: {id: '1', type: TYPE_STEP}},
       { type: ITEMS_DELETE, ids: ['b', 'c']},
       { type: STEP_DELETE, id: '2' }
     ]

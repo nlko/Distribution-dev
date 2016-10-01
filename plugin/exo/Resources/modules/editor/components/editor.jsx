@@ -12,7 +12,8 @@ import {
   currentObjectDeepSelector,
   quizOpenPanelSelector,
   stepOpenPanelSelector,
-  modalSelector
+  modalSelector,
+  nextObjectSelector
 } from './../selectors'
 
 let Editor = props =>
@@ -20,6 +21,8 @@ let Editor = props =>
     <ThumbnailBox thumbnails={props.thumbnails}
       onThumbnailClick={props.handleThumbnailClick}
       onNewStepClick={props.handleNewStepClick}
+      onStepDeleteClick={props.handleStepDeleteClick}
+      showModal={props.showModal}
     />
     <div className="edit-zone">{selectSubEditor(props)}</div>
     {makeModal(props)}
@@ -40,7 +43,7 @@ function selectSubEditor(props) {
           step={props.currentObject}
           activePanelKey={props.activeStepPanel}
           handlePanelClick={props.handleStepPanelClick}
-          handleItemDelete={props.handleItemDelete}
+          handleItemDeleteClick={props.handleItemDeleteClick}
           showModal={props.showModal}
         />
       )
@@ -64,6 +67,17 @@ function makeModal(props) {
 }
 
 function mapStateToProps(state) {
+  console.log('1 bef')
+thumbnailsSelector(state)
+  console.log('2 bef')
+  currentObjectDeepSelector(state)
+    console.log('3 bef')
+    quizOpenPanelSelector(state)
+      console.log('4 bef')
+      stepOpenPanelSelector(state)
+      console.log('5 bef')
+      modalSelector(state)
+      console.log('done sele')
   return {
     thumbnails: thumbnailsSelector(state),
     currentObject: currentObjectDeepSelector(state),
@@ -87,7 +101,10 @@ function mapDispatchToProps(dispatch) {
     handleStepPanelClick(stepId, panelKey) {
       dispatch(actions.selectStepPanel(stepId, panelKey))
     },
-    handleItemDelete(itemId, stepId) {
+    handleStepDeleteClick(stepId) {
+      dispatch(actions.deleteStepAndItems(stepId))
+    },
+    handleItemDeleteClick(itemId, stepId) {
       dispatch(actions.deleteItem(itemId, stepId))
     },
     fadeModal() {

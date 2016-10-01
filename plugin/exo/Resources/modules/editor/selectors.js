@@ -84,3 +84,29 @@ export const stepOpenPanelSelector = createSelector(
 )
 
 export const modalSelector = state => state.modal
+
+export const nextObjectSelector = createSelector(
+  currentObjectSelector,
+  quizSelector,
+  stepListSelector,
+  (current, quiz, steps) => {
+    if (current.type === TYPE_QUIZ) {
+      return current
+    }
+
+    if (steps.length <= 1) {
+      return {
+        id: quiz.id,
+        type: TYPE_QUIZ
+      }
+    }
+
+    const stepIndex = steps.findIndex(step => step.id === current.id)
+    const nextIndex = stepIndex === 0 ? (stepIndex + 1) : (stepIndex - 1)
+
+    return {
+      id: steps[nextIndex].id,
+      type: TYPE_STEP
+    }
+  }
+)

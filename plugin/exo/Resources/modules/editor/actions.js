@@ -1,4 +1,5 @@
 import invariant from 'invariant'
+import {nextObjectSelector} from './selectors'
 import {makeActionCreator, makeId} from './util'
 
 export const ITEM_CREATE = 'ITEM_CREATE'
@@ -8,6 +9,7 @@ export const ITEMS_DELETE = 'ITEMS_DELETE'
 export const MODAL_FADE = 'MODAL_FADE'
 export const MODAL_HIDE = 'MODAL_HIDE'
 export const MODAL_SHOW = 'MODAL_SHOW'
+export const OBJECT_NEXT = 'OBJECT_NEXT'
 export const OBJECT_SELECT = 'OBJECT_SELECT'
 export const PANEL_QUIZ_SELECT = 'PANEL_QUIZ_SELECT'
 export const PANEL_STEP_SELECT = 'PANEL_STEP_SELECT'
@@ -24,6 +26,7 @@ actions.fadeModal = makeActionCreator(MODAL_FADE)
 actions.hideModal = makeActionCreator(MODAL_HIDE)
 actions.moveItem = makeActionCreator(ITEM_MOVE, 'id', 'stepId', 'nextStepId', 'nextSiblingId')
 actions.moveStep = makeActionCreator(STEP_MOVE, 'id', 'nextSiblingId')
+actions.nextObject = makeActionCreator(OBJECT_NEXT, 'object')
 actions.selectObject = makeActionCreator(OBJECT_SELECT, 'id', 'objectType')
 actions.selectQuizPanel = makeActionCreator(PANEL_QUIZ_SELECT, 'panelKey')
 actions.selectStepPanel = makeActionCreator(PANEL_STEP_SELECT, 'stepId', 'panelKey')
@@ -50,6 +53,7 @@ actions.createStep = () => {
 actions.deleteStepAndItems = id => {
   invariant(id, 'id is mandatory')
   return (dispatch, getState) => {
+    dispatch(actions.nextObject(nextObjectSelector(getState())))
     dispatch(actions.deleteItems(getState().steps[id].items.slice()))
     dispatch(actions.deleteStep(id))
   }

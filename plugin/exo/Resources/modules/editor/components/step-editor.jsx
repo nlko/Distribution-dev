@@ -30,7 +30,7 @@ const ItemActions = props =>
       onClick={() => props.showModal(MODAL_DELETE_CONFIRM, {
         title: tex('delete_item'),
         question: tex('remove_question_confirm_message'),
-        handleConfirm: () => props.handleItemDelete(props.item.id, props.step.id)
+        handleConfirm: () => props.handleItemDeleteClick(props.item.id, props.step.id)
       })}
 
       data-toggle="tooltip"
@@ -98,7 +98,7 @@ StepEditor.propTypes = {
   }).isRequired,
   activePanelKey: T.oneOfType([T.string, T.bool]).isRequired,
   handlePanelClick: T.func.isRequired,
-  handleItemDelete: T.func.isRequired,
+  handleItemDeleteClick: T.func.isRequired,
   showModal: T.func.isRequired
 }
 

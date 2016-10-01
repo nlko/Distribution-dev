@@ -4,7 +4,8 @@ import {TYPE_QUIZ, TYPE_STEP} from './types'
 import {
   thumbnailsSelector,
   currentObjectDeepSelector,
-  stepOpenPanelSelector
+  stepOpenPanelSelector,
+  nextObjectSelector
 } from './selectors'
 
 describe('Thumbnails selector', () => {
@@ -61,6 +62,36 @@ describe('Step open panel selector', () => {
 
   it('returns open panel key of current step', () => {
     assertEqual(stepOpenPanelSelector(fixtureState5()), 'bar')
+  })
+})
+
+describe('Next object selector', () => {
+  it('returns the quiz if quiz is already current', () => {
+    assertEqual(nextObjectSelector(fixtureState2()), {
+      id: '1',
+      type: TYPE_QUIZ
+    })
+  })
+
+  it('returns the quiz if there is only one the step', () => {
+    assertEqual(nextObjectSelector(fixtureState6()), {
+      id: '1',
+      type: TYPE_QUIZ
+    })
+  })
+
+  it('returns the next step if there is one', () => {
+    assertEqual(nextObjectSelector(fixtureState7()), {
+      id: 'b',
+      type: TYPE_STEP
+    })
+  })
+
+  it('returns the previous step if current is the second and last step', () => {
+    assertEqual(nextObjectSelector(fixtureState8()), {
+      id: 'a',
+      type: TYPE_STEP
+    })
   })
 })
 
@@ -166,6 +197,73 @@ function fixtureState5() {
         'a': 'foo',
         'b': 'bar'
       }
+    }
+  })
+}
+
+function fixtureState6() {
+  return freeze({
+    quiz: {
+      id: '1',
+      steps: ['a']
+    },
+    steps: {
+      'a': {
+        id: 'a',
+        items: []
+      }
+    },
+    currentObject: {
+      id: 'a',
+      type: TYPE_STEP
+    }
+  })
+}
+
+function fixtureState7() {
+  return freeze({
+    quiz: {
+      id: '1',
+      steps: ['a', 'b']
+    },
+    steps: {
+      'a': {
+        id: 'a',
+        items: []
+      },
+      'b': {
+        id: 'b',
+        items: []
+      }
+    },
+    items: {},
+    currentObject: {
+      id: 'a',
+      type: TYPE_STEP
+    }
+  })
+}
+
+function fixtureState8() {
+  return freeze({
+    quiz: {
+      id: '1',
+      steps: ['a', 'b']
+    },
+    steps: {
+      'a': {
+        id: 'a',
+        items: []
+      },
+      'b': {
+        id: 'b',
+        items: []
+      }
+    },
+    items: {},
+    currentObject: {
+      id: 'b',
+      type: TYPE_STEP
     }
   })
 }

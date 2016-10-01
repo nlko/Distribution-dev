@@ -149,6 +149,18 @@ describe('Current object reducer', () => {
       type: TYPE_STEP
     })
   })
+
+  it('updates on object change', () => {
+    const current = freeze({id: '1', type: TYPE_STEP})
+    const newState = reducers.currentObject(current, actions.nextObject({
+      id: '2',
+      type: 'text/html'
+    }))
+    assertEqual(newState, {
+      id: '2',
+      type: 'text/html'
+    })
+  })
 })
 
 describe('Open panels reducer', () => {

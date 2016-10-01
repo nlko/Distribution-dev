@@ -7,6 +7,7 @@ import {
   MODAL_FADE,
   MODAL_HIDE,
   MODAL_SHOW,
+  OBJECT_NEXT,
   OBJECT_SELECT,
   PANEL_QUIZ_SELECT,
   PANEL_STEP_SELECT,
@@ -99,6 +100,11 @@ function reduceCurrentObject(object = {}, action = {}) {
       return {
         id: action.id,
         type: TYPE_STEP
+      }
+    case OBJECT_NEXT:
+      return {
+        id: action.object.id,
+        type: action.object.type
       }
   }
   return object

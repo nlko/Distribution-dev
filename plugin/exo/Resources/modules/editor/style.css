@@ -29,12 +29,12 @@
 }
 
 .thumbnail-box .thumbnail {
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
   width: 100px;
   height: 100px;
   margin: 4px;
-  overflow: hidden;
-  line-height: 5;
   text-align: center;
   text-decoration: none;
   font-size: 16px;
@@ -42,8 +42,34 @@
   color: #777;
 }
 
+.thumbnail-box .thumbnail a {
+  color: #777;
+  text-decoration: none;
+}
+
 .thumbnail-box .thumbnail.active {
   border-color: #337ab7;
+}
+
+.thumbnail-box .step-actions,
+.thumbnail-box .step-title,
+.thumbnail-box .step-bottom {
+  flex-grow: 1;
+}
+
+.thumbnail-box .step-actions {
+  display: flex;
+  justify-content: space-between;
+  visibility: hidden;
+}
+
+.thumbnail-box .thumbnail:hover {
+  border-color: #337ab7;
+  cursor: pointer;
+}
+
+.thumbnail-box .thumbnail.active:hover .step-actions {
+  visibility: visible;
 }
 
 .thumbnail-box .new-step {
