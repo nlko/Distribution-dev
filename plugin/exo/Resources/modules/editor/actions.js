@@ -5,6 +5,9 @@ export const ITEM_CREATE = 'ITEM_CREATE'
 export const ITEM_DELETE = 'ITEM_DELETE'
 export const ITEM_MOVE = 'ITEM_MOVE'
 export const ITEMS_DELETE = 'ITEMS_DELETE'
+export const MODAL_FADE = 'MODAL_FADE'
+export const MODAL_HIDE = 'MODAL_HIDE'
+export const MODAL_SHOW = 'MODAL_SHOW'
 export const OBJECT_SELECT = 'OBJECT_SELECT'
 export const PANEL_QUIZ_SELECT = 'PANEL_QUIZ_SELECT'
 export const PANEL_STEP_SELECT = 'PANEL_STEP_SELECT'
@@ -17,11 +20,14 @@ export const actions = {}
 actions.deleteStep = makeActionCreator(STEP_DELETE, 'id')
 actions.deleteItem = makeActionCreator(ITEM_DELETE, 'id', 'stepId')
 actions.deleteItems = makeActionCreator(ITEMS_DELETE, 'ids')
+actions.fadeModal = makeActionCreator(MODAL_FADE)
+actions.hideModal = makeActionCreator(MODAL_HIDE)
 actions.moveItem = makeActionCreator(ITEM_MOVE, 'id', 'stepId', 'nextStepId', 'nextSiblingId')
 actions.moveStep = makeActionCreator(STEP_MOVE, 'id', 'nextSiblingId')
 actions.selectObject = makeActionCreator(OBJECT_SELECT, 'id', 'objectType')
 actions.selectQuizPanel = makeActionCreator(PANEL_QUIZ_SELECT, 'panelKey')
 actions.selectStepPanel = makeActionCreator(PANEL_STEP_SELECT, 'stepId', 'panelKey')
+actions.showModal = makeActionCreator(MODAL_SHOW, 'modalType', 'modalProps')
 
 actions.createItem = (stepId, type) => {
   invariant(stepId, 'stepId is mandatory')

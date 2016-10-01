@@ -82,3 +82,5 @@ export const stepOpenPanelSelector = createSelector(
     return false
   }
 )
+
+export const modalSelector = state => state.modal

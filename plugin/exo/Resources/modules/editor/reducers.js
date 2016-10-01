@@ -4,6 +4,9 @@ import {
   ITEM_CREATE,
   ITEM_DELETE,
   ITEM_MOVE,
+  MODAL_FADE,
+  MODAL_HIDE,
+  MODAL_SHOW,
   OBJECT_SELECT,
   PANEL_QUIZ_SELECT,
   PANEL_STEP_SELECT,
@@ -12,14 +15,14 @@ import {
   STEP_DELETE
 } from './actions'
 
-function defaultQuiz() {
+function initialQuizState() {
   return {
     id: makeId(),
     steps: []
   }
 }
 
-function reduceQuiz(quiz = defaultQuiz(), action = {}) {
+function reduceQuiz(quiz = initialQuizState(), action = {}) {
   switch (action.type) {
     case STEP_CREATE:
       return update(quiz, {steps: {$push: [action.id]}})
@@ -101,14 +104,14 @@ function reduceCurrentObject(object = {}, action = {}) {
   return object
 }
 
-function defaultOpenPanels() {
+function initialPanelState() {
   return {
     [TYPE_QUIZ]: false,
     [TYPE_STEP]: {}
   }
 }
 
-function reduceOpenPanels(panels = defaultOpenPanels(), action = {}) {
+function reduceOpenPanels(panels = initialPanelState(), action = {}) {
   switch (action.type) {
     case PANEL_QUIZ_SELECT: {
       const value = panels[TYPE_QUIZ] === action.panelKey ? false : action.panelKey
@@ -122,10 +125,33 @@ function reduceOpenPanels(panels = defaultOpenPanels(), action = {}) {
   return panels
 }
 
+const initialModalState = {
+  type: null,
+  props: {},
+  fading: false
+}
+
+function reduceModal(modalState = initialModalState, action) {
+  switch (action.type) {
+    case MODAL_SHOW:
+      return {
+        type: action.modalType,
+        props: action.modalProps,
+        fading: false
+      }
+    case MODAL_FADE:
+      return update(modalState, {fading: {$set: true}})
+    case MODAL_HIDE:
+      return initialModalState
+  }
+  return modalState
+}
+
 export const reducers = {
   quiz: reduceQuiz,
   steps: reduceSteps,
   items: reduceItems,
   currentObject: reduceCurrentObject,
-  openPanels: reduceOpenPanels
+  openPanels: reduceOpenPanels,
+  modal: reduceModal
 }

@@ -46,6 +46,11 @@ describe('#createStore', () => {
         [TYPE_QUIZ]: false,
         [TYPE_STEP]: {}
       },
+      modal: {
+        type: null,
+        props: {},
+        fading: false
+      },
       itemTypes,
       categories: ['C1', 'C2'],
       form: {}

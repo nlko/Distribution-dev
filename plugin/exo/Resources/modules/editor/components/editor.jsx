@@ -1,15 +1,18 @@
 import React from 'react'
+import invariant from 'invariant'
 import {connect} from 'react-redux'
 import {ThumbnailBox} from './thumbnail-box.jsx'
 import {QuizEditor} from './quiz-editor.jsx'
 import {StepEditor} from './step-editor.jsx'
+import Modals from './modals.jsx'
 import {actions} from './../actions'
 import {TYPE_QUIZ, TYPE_STEP} from './../types'
 import {
   thumbnailsSelector,
   currentObjectDeepSelector,
   quizOpenPanelSelector,
-  stepOpenPanelSelector
+  stepOpenPanelSelector,
+  modalSelector
 } from './../selectors'
 
 let Editor = props =>
@@ -19,6 +22,7 @@ let Editor = props =>
       onNewStepClick={props.handleNewStepClick}
     />
     <div className="edit-zone">{selectSubEditor(props)}</div>
+    {makeModal(props)}
   </div>
 
 function selectSubEditor(props) {
@@ -36,10 +40,27 @@ function selectSubEditor(props) {
           step={props.currentObject}
           activePanelKey={props.activeStepPanel}
           handlePanelClick={props.handleStepPanelClick}
+          handleItemDelete={props.handleItemDelete}
+          showModal={props.showModal}
         />
       )
   }
-  throw new Error(`Ùnkwnown type ${props.currentObject}`)
+  throw new Error(`Unkwnown type ${props.currentObject}`)
+}
+
+function makeModal(props) {
+  if (props.modal.type) {
+    invariant(Modals[props.modal.type], `Unknown modal type "${props.modal.type}"`)
+    const Modal = Modals[props.modal.type]
+    return (
+      <Modal
+        show={!props.modal.fading}
+        fadeModal={props.fadeModal}
+        hideModal={props.hideModal}
+        {...props.modal.props}
+      />
+    )
+  }
 }
 
 function mapStateToProps(state) {
@@ -47,7 +68,8 @@ function mapStateToProps(state) {
     thumbnails: thumbnailsSelector(state),
     currentObject: currentObjectDeepSelector(state),
     activeQuizPanel: quizOpenPanelSelector(state),
-    activeStepPanel: stepOpenPanelSelector(state)
+    activeStepPanel: stepOpenPanelSelector(state),
+    modal: modalSelector(state)
   }
 }
 
@@ -64,6 +86,18 @@ function mapDispatchToProps(dispatch) {
     },
     handleStepPanelClick(stepId, panelKey) {
       dispatch(actions.selectStepPanel(stepId, panelKey))
+    },
+    handleItemDelete(itemId, stepId) {
+      dispatch(actions.deleteItem(itemId, stepId))
+    },
+    fadeModal() {
+      dispatch(actions.fadeModal())
+    },
+    hideModal() {
+      dispatch(actions.hideModal())
+    },
+    showModal(type, props) {
+      dispatch(actions.showModal(type, props))
     }
   }
 }
@@ -73,7 +107,11 @@ const T = React.PropTypes
 Editor.propTypes = {
   currentObject: T.shape({
     type: T.string.isRequired
-  }).isRequired
+  }).isRequired,
+  modal: T.shape({
+    type: T.string,
+    props: T.object.isRequired
+  })
 }
 
 Editor = connect(mapStateToProps, mapDispatchToProps)(Editor)
