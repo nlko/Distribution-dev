@@ -60,6 +60,10 @@
   text-decoration: underline;
 }
 
+.quiz-editor .panel-icon {
+  width: 16px;
+}
+
 .quiz-editor .item-header {
   display: flex;
   align-items: center;

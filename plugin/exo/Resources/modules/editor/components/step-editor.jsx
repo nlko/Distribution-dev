@@ -9,7 +9,7 @@ import {t, tex} from './utils'
 
 const ParametersHeader =
   <span>
-    <span className="fa fa-cog"></span>
+    <span className="panel-icon fa fa-cog"></span>
     &nbsp;{t('parameters', {}, 'platform')}
   </span>
 

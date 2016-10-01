@@ -132,7 +132,7 @@ function makeSectionHeader(title, key, {activePanelKey}) {
   const caretIcon = key === activePanelKey ? 'fa-caret-down' :'fa-caret-right'
   return (
     <span>
-      <span className={classes('fa', caretIcon)}/>
+      <span className={classes('panel-icon', 'fa', caretIcon)}/>
       &nbsp;{title}
     </span>
   )
