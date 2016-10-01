@@ -67,17 +67,6 @@ function makeModal(props) {
 }
 
 function mapStateToProps(state) {
-  console.log('1 bef')
-thumbnailsSelector(state)
-  console.log('2 bef')
-  currentObjectDeepSelector(state)
-    console.log('3 bef')
-    quizOpenPanelSelector(state)
-      console.log('4 bef')
-      stepOpenPanelSelector(state)
-      console.log('5 bef')
-      modalSelector(state)
-      console.log('done sele')
   return {
     thumbnails: thumbnailsSelector(state),
     currentObject: currentObjectDeepSelector(state),
