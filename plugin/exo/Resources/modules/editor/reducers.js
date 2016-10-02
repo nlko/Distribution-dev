@@ -31,11 +31,13 @@ function reduceQuiz(quiz = initialQuizState(), action = {}) {
       return update(quiz, {steps: {$splice: [[getIndex(quiz.steps, action.id), 1]]}})
     case STEP_MOVE: {
       const index = getIndex(quiz.steps, action.id)
-      const minusStep = update(quiz, {steps: {$splice: [[index, 1]]}})
-      const newIndex = action.nextSiblingId ?
-        getIndex(minusStep.steps, action.nextSiblingId) :
-        minusStep.steps.length
-      return update(minusStep, {steps: {$splice: [[newIndex, 0, action.id]]}})
+      const swapIndex = getIndex(quiz.steps, action.swapId)
+      return update(quiz, {
+        steps: {
+          [index]: {$set: action.swapId},
+          [swapIndex]: {$set: action.id}
+        }
+      })
     }
   }
 

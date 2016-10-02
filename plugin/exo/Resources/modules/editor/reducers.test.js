@@ -25,16 +25,10 @@ describe('Quiz reducer', () => {
     assertEqual(newState.steps, ['1', '3'])
   })
 
-  it('moves id on step move', () => {
+  it('swaps id on step move', () => {
     const quiz = freeze({steps: ['1', '2', '3']})
     const newState = reducers.quiz(quiz, actions.moveStep('3', '2'))
     assertEqual(newState, {steps: ['1', '3', '2']})
-  })
-
-  it('moves step id at the end of the list when no sibling is given', () => {
-    const quiz = freeze({steps: ['1', '2', '3']})
-    const newState = reducers.quiz(quiz, actions.moveStep('1', null))
-    assertEqual(newState, {steps: ['2', '3', '1']})
   })
 })
 

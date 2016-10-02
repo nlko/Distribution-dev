@@ -3,6 +3,8 @@ import angular from 'angular/index'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {Provider} from 'react-redux'
+import {DragDropContext} from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import {createStore} from './store'
 import {Editor} from './components/editor.jsx'
 
@@ -17,7 +19,7 @@ angular.module('editor', [])
       React.createElement(
         Provider,
         {store},
-        React.createElement(Editor)
+        React.createElement(DragDropContext(HTML5Backend)(Editor))
       ),
       el[0]
     )],

@@ -27,12 +27,14 @@ export class ThumbnailBox extends Component {
         {this.props.thumbnails.map((item, index) =>
           <Thumbnail
             id={item.id}
-            key={index}
+            key={`${item.type}-${item.id}`}
+            index={index}
             title={item.title}
             type={item.type}
             active={item.active}
             onClick={this.props.onThumbnailClick}
             onDeleteClick={this.props.onStepDeleteClick}
+            onMove={this.props.onThumbnailMove}
             showModal={this.props.showModal}
           />
         )}

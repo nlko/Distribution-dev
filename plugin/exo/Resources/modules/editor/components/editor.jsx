@@ -20,6 +20,7 @@ let Editor = props =>
   <div className="panel-body quiz-editor">
     <ThumbnailBox thumbnails={props.thumbnails}
       onThumbnailClick={props.handleThumbnailClick}
+      onThumbnailMove={props.handleThumbnailMove}
       onNewStepClick={props.handleNewStepClick}
       onStepDeleteClick={props.handleStepDeleteClick}
       showModal={props.showModal}
@@ -80,6 +81,9 @@ function mapDispatchToProps(dispatch) {
   return {
     handleThumbnailClick(id, type) {
       dispatch(actions.selectObject(id, type))
+    },
+    handleThumbnailMove(id, swapId) {
+      dispatch(actions.moveStep(id, swapId))
     },
     handleNewStepClick() {
       dispatch(actions.createStep())
