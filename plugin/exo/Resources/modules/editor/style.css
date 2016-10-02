@@ -15,6 +15,11 @@
   padding: 18px 10%;
 }
 
+.quiz-editor .panel-title,
+.quiz-editor .panel-title a {
+  text-decoration: none;
+}
+
 .quiz-editor .thumbnail-box {
   display: flex;
   flex-direction: column;
@@ -88,10 +93,6 @@
   cursor: pointer;
 }
 
-.quiz-editor .panel-title:hover {
-  text-decoration: underline;
-}
-
 .quiz-editor .panel-icon {
   width: 16px;
 }
@@ -100,6 +101,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 }
 
 .quiz-editor .item-actions {

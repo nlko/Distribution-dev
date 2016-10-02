@@ -128,13 +128,15 @@ const CorrectionOptions = props =>
     />
   </div>
 
-function makeSectionHeader(title, key, {activePanelKey}) {
+function makeSectionHeader(title, key, {activePanelKey, handlePanelClick}) {
   const caretIcon = key === activePanelKey ? 'fa-caret-down' :'fa-caret-right'
   return (
-    <span>
-      <span className={classes('panel-icon', 'fa', caretIcon)}/>
-      &nbsp;{title}
-    </span>
+    <div onClick={() => handlePanelClick(key)}>
+      <span>
+        <span className={classes('panel-icon', 'fa', caretIcon)}/>
+        &nbsp;{title}
+      </span>
+    </div>
   )
 }
 
@@ -143,7 +145,6 @@ let QuizEditor = props =>
     <PanelGroup
       accordion
       activeKey={props.activePanelKey}
-      onSelect={props.handlePanelClick}
     >
       <Panel
         eventKey="properties"

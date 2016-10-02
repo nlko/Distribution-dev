@@ -9,11 +9,15 @@ import {Item} from './item.jsx'
 
 const T = React.PropTypes
 
-const ParametersHeader =
-  <span>
+const ParametersHeader = props =>
+  <div onClick={props.onClick} className="panel-title">
     <span className="panel-icon fa fa-cog"></span>
     &nbsp;{t('parameters', {}, 'platform')}
-  </span>
+  </div>
+
+ParametersHeader.propTypes = {
+  onClick: T.func.isRequired
+}
 
 const ItemActions = props =>
   <span className="item-actions">
@@ -21,11 +25,14 @@ const ItemActions = props =>
       role="button"
       title={tex('delete_item')}
       className="fa fa-trash-o"
-      onClick={() => props.showModal(MODAL_DELETE_CONFIRM, {
-        title: tex('delete_item'),
-        question: tex('remove_question_confirm_message'),
-        handleConfirm: () => props.handleItemDeleteClick(props.itemId, props.stepId)
-      })}
+      onClick={e => {
+        e.stopPropagation()
+        props.showModal(MODAL_DELETE_CONFIRM, {
+          title: tex('delete_item'),
+          question: tex('remove_question_confirm_message'),
+          handleConfirm: () => props.handleItemDeleteClick(props.itemId, props.stepId)
+        })
+      }}
     />
     {props.connectDragSource(
       <span
@@ -46,17 +53,17 @@ ItemActions.propTypes = {
 }
 
 const ItemHeader = props =>
-  <div className="item-header">
+  <div
+    className="item-header"
+    onClick={() => props.handlePanelClick(
+      props.stepId,
+      makeItemPanelKey(props.item)
+    )}
+  >
     <span>
       <span className="text-info">[{tex(props.item.type)}]</span>
       &nbsp;
-      <span
-        className="panel-title"
-        onClick={() => props.handlePanelClick(
-          props.stepId,
-          makeItemPanelKey(props.item)
-        )}
-      >
+      <span className="panel-title">
         {props.item.title}
       </span>
     </span>
@@ -78,7 +85,7 @@ ItemHeader.propTypes = {
   connectDragSource: T.func.isRequired
 }
 
-let StepItem = props =>
+let ItemPanel = props =>
   props.connectDragPreview(
     props.connectDropTarget(
       <div
@@ -109,7 +116,7 @@ let StepItem = props =>
       </div>
   ))
 
-StepItem.propTypes = {
+ItemPanel.propTypes = {
   id: T.string.isRequired,
   stepId: T.string.isRequired,
   index: T.number.isRequired,
@@ -124,23 +131,31 @@ StepItem.propTypes = {
   sortDirection: T.string.isRequired
 }
 
-StepItem = makeSortable(StepItem, 'STEP_ITEM')
+ItemPanel = makeSortable(ItemPanel, 'STEP_ITEM')
 
 export const StepEditor = props =>
   <div>
     <PanelGroup
       accordion
       activeKey={props.activePanelKey}
-      onSelect={key => props.handlePanelClick(props.step.id, key)}
     >
       <Panel
-        header={ParametersHeader}
-        eventKey={`step-${props.step.id}-properties`}
+        header={
+          <ParametersHeader
+            onClick={key =>
+              props.handlePanelClick(
+                props.step.id,
+                makePropPanelKey(props.step)
+              )
+            }
+          />
+        }
+        eventKey={makePropPanelKey(props.step)}
       >
         <StepForm/>
       </Panel>
       {props.step.items.map((item, index) =>
-        <StepItem
+        <ItemPanel
           id={item.id}
           index={index}
           item={item}
@@ -173,4 +188,8 @@ StepEditor.propTypes = {
 
 function makeItemPanelKey(item) {
   return `item-${item.type}-${item.id}`
+}
+
+function makePropPanelKey(step) {
+  return `step-${step.id}-properties`
 }
