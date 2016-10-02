@@ -12,6 +12,7 @@ import './style.css'
 
 const rawQuiz = JSON.parse(document.querySelector('exercise').dataset.exercise)
 const store = createStore(rawQuiz)
+const dndEditor = DragDropContext(HTML5Backend)(Editor)
 
 angular.module('editor', [])
   .component('editor', {
@@ -19,7 +20,7 @@ angular.module('editor', [])
       React.createElement(
         Provider,
         {store},
-        React.createElement(DragDropContext(HTML5Backend)(Editor))
+        React.createElement(dndEditor)
       ),
       el[0]
     )],

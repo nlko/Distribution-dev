@@ -45,6 +45,7 @@ function selectSubEditor(props) {
           activePanelKey={props.activeStepPanel}
           handlePanelClick={props.handleStepPanelClick}
           handleItemDeleteClick={props.handleItemDeleteClick}
+          handleItemMove={props.handleItemMove}
           showModal={props.showModal}
         />
       )
@@ -99,6 +100,9 @@ function mapDispatchToProps(dispatch) {
     },
     handleItemDeleteClick(itemId, stepId) {
       dispatch(actions.deleteItem(itemId, stepId))
+    },
+    handleItemMove(id, swapId, stepId) {
+      dispatch(actions.moveItem(id, swapId, stepId))
     },
     fadeModal() {
       dispatch(actions.fadeModal())

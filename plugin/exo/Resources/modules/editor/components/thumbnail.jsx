@@ -1,18 +1,16 @@
 import React from 'react'
-import {findDOMNode} from 'react-dom'
-import {DragSource, DropTarget} from 'react-dnd'
 import classes from 'classnames'
-import {t, tex} from './utils'
+import {t, tex, makeSortable} from './utils'
 import {MODAL_DELETE_CONFIRM} from './modals.jsx'
 import {TYPE_STEP, TYPE_QUIZ} from './../types'
 
-const THUMBNAIL = 'THUMBNAIL'
+const T = React.PropTypes
 
 const Actions = props =>
   <span className="step-actions">
     <span
       role="button"
-      title={t('delete')}
+      title={tex('delete_step')}
       className="fa fa-trash-o"
       onClick={e => {
         e.stopPropagation()
@@ -32,6 +30,12 @@ const Actions = props =>
       />
     )}
   </span>
+
+Actions.propTypes = {
+  onDeleteClick: T.func.isRequired,
+  showModal: T.func.isRequired,
+  connectDragSource: T.func.isRequired
+}
 
 let Thumbnail = props => {
   return props.connectDragPreview(
@@ -55,8 +59,6 @@ let Thumbnail = props => {
   )
 }
 
-const T = React.PropTypes
-
 Thumbnail.propTypes = {
   id: T.string.isRequired,
   index: T.number.isRequired,
@@ -65,66 +67,14 @@ Thumbnail.propTypes = {
   active: T.bool.isRequired,
   onClick: T.func.isRequired,
   onDeleteClick: T.func.isRequired,
-  onMove: T.func.isRequired,
-  showModal: T.func.isRequired
+  onSort: T.func.isRequired,
+  sortDirection: T.string.isRequired,
+  showModal: T.func.isRequired,
+  connectDragPreview: T.func.isRequired,
+  connectDragSource: T.func.isRequired,
+  connectDropTarget: T.func.isRequired
 }
 
-const source = {
-  beginDrag(props) {
-    return {
-      id: props.id,
-      index: props.index
-    }
-  }
-}
-
-const target = {
-  drop(props) {
-    console.log('dropping')
-  },
-  hover(props, monitor, component) {
-    // see https://gaearon.github.io/react-dnd/examples-sortable-simple.html
-    const dragIndex = monitor.getItem().index
-    const hoverIndex = props.index
-
-    if (dragIndex === hoverIndex) {
-      return
-    }
-
-    const hoverBoundingRect = findDOMNode(component).getBoundingClientRect()
-    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
-    const clientOffset = monitor.getClientOffset()
-    const hoverClientY = clientOffset.y - hoverBoundingRect.top
-
-    if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-      return
-    }
-
-    if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-      return
-    }
-
-    props.onMove(monitor.getItem().id, props.id)
-    monitor.getItem().index = hoverIndex
- }
-}
-
-function collectDrag(connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    connectDragPreview: connect.dragPreview(),
-    isDragging: monitor.isDragging()
-  }
-}
-
-function collectDrop(connect, monitor) {
-  return {
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver()
-  }
-}
-
-Thumbnail = DragSource(THUMBNAIL, source, collectDrag)(Thumbnail)
-Thumbnail = DropTarget(THUMBNAIL, target, collectDrop)(Thumbnail)
+Thumbnail = makeSortable(Thumbnail, 'THUMBNAIL')
 
 export {Thumbnail}

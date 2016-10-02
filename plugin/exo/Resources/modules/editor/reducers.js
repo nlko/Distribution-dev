@@ -54,12 +54,15 @@ function reduceSteps(steps = {}, action = {}) {
     }
     case ITEM_MOVE: {
       const index = getIndex(steps[action.stepId].items, action.id)
-      const item = steps[action.stepId].items[index]
-      const minusItem = update(steps, {[action.stepId]: {items: {$splice: [[index, 1]]}}})
-      const newIndex = action.nextSiblingId ?
-        getIndex(minusItem[action.nextStepId].items, action.nextSiblingId) :
-        minusItem[action.nextStepId].items.length
-      return update(minusItem, {[action.nextStepId]: {items: {$splice: [[newIndex, 0, item]]}}})
+      const swapIndex = getIndex(steps[action.stepId].items, action.swapId)
+      return update(steps, {
+        [action.stepId]: {
+          items: {
+            [index]: {$set: action.swapId},
+            [swapIndex]: {$set: action.id}
+          }
+        }
+      })
     }
     case STEP_CREATE: {
       const newStep = {id: action.id, items: []}

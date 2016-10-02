@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import ReactDOM from 'react-dom'
 import OverlayTrigger from 'react-bootstrap/lib/OverlayTrigger'
 import Tooltip from 'react-bootstrap/lib/Tooltip'
-import {trans} from './utils'
+import {tex, SORT_DETECT} from './utils'
 import {Thumbnail} from './thumbnail.jsx'
 
 export class ThumbnailBox extends Component {
@@ -34,14 +34,15 @@ export class ThumbnailBox extends Component {
             active={item.active}
             onClick={this.props.onThumbnailClick}
             onDeleteClick={this.props.onStepDeleteClick}
-            onMove={this.props.onThumbnailMove}
+            onSort={this.props.onThumbnailMove}
+            sortDirection={SORT_DETECT}
             showModal={this.props.showModal}
           />
         )}
         <OverlayTrigger
           placement="bottom"
           overlay={
-            <Tooltip id="new-step-tip">{trans('add_step', {}, 'ujm_exo')}</Tooltip>
+            <Tooltip id="new-step-tip">{tex('add_step')}</Tooltip>
           }
         >
           <button
