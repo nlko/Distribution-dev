@@ -230,6 +230,7 @@ meaning_measure_difficulty: Si l'indice est élevé, c'est que la question est f
 metadata_visible: Afficher les informations
 metadata_visible_help: Si coché, un tableau récapitulatif sera affiché sur la vue d'ensemble de l'exercice.
 minimal_correction: Cacher les solutions
+minimize: Réduire
 model: Modèle
 more_info: Plus d'informations
 move_item: Déplacer la question
@@ -339,6 +340,7 @@ random_step_picking: Tirage des étapes
 random_steps: Ordre des étapes aléatoire
 random_steps_order: Ordre aléatoire des étapes
 raz: => Pour remettre tous les pointeurs à leurs position initiale, appuyez sur "c".
+rich_text_tools: Outils de texte riche
 square: Carré
 remove_advanced_edition: Édition simple
 remove_question_confirm_message:  Êtes-vous sûr de vouloir supprimer cette question ?

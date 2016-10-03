@@ -151,7 +151,7 @@ let QuizEditor = props =>
         eventKey="properties"
         header={makeSectionHeader(t('properties'), 'properties', props)}
       >
-        <Properties/>
+        {props.activePanelKey === 'properties' && <Properties/>}
       </Panel>
       <Panel
         eventKey="step-picking"

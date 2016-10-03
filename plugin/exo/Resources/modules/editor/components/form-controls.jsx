@@ -3,6 +3,7 @@ import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import classes from 'classnames'
 import debounce from 'lodash/debounce'
+import {tex} from './../lib/translate'
 import 'react-datepicker/dist/react-datepicker.css'
 
 const T = React.PropTypes
@@ -113,6 +114,11 @@ export class Text extends Component {
 }
 
 export class Textarea extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {minimal: true}
+  }
+
   componentDidMount() {
     const interval = setInterval(() => {
       const editor = window.tinymce.get(this.props.id)
@@ -136,11 +142,23 @@ export class Textarea extends Component {
   render() {
     return (
       <FormGroup {...this.props}>
-        <textarea
-          id={this.props.id}
-          className="claroline-tiny-mce hide"
-          defaultValue={this.props.input.value}
-        />
+        <div className={classes('text-editor', {'minimal': this.state.minimal === true})}>
+          <span
+            role="button"
+            title={tex(this.state.minimal ? 'rich_text_tools' : 'minimize')}
+            className={classes(
+              'toolbar-toggle',
+              'fa',
+              this.state.minimal ? 'fa-plus-circle' : 'fa-minus-circle'
+            )}
+            onClick={() => this.setState({minimal: !this.state.minimal})}
+          />
+          <textarea
+            id={this.props.id}
+            className="form-control claroline-tiny-mce hide"
+            defaultValue={this.props.input.value}
+          />
+        </div>
       </FormGroup>
     )
   }
