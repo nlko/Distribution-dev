@@ -16,7 +16,7 @@
 }
 
 .quiz-editor .edit-zone .panel-body > * {
-  max-width: 680px;
+  max-width: 620px;
   margin: auto;
 }
 
@@ -156,7 +156,7 @@
 }
 
 .drag-handle {
-  cursor: grab;
+  cursor: move;
 }
 
 .icon-small {

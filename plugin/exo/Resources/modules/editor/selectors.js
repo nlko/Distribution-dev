@@ -1,22 +1,24 @@
 import {createSelector} from 'reselect'
 import {TYPE_QUIZ, TYPE_STEP} from './types'
 
-const quizSelector = state => state.quiz
-const stepsSelector = state => state.steps
-const itemsSelector = state => state.items
-const currentObjectSelector = state => state.currentObject
+const quiz = state => state.quiz
+const steps = state => state.steps
+const items = state => state.items
+const currentObject = state => state.currentObject
+const quizProperties = state => state.quiz.meta
+const quizOpenPanel = state => state.openPanels[TYPE_QUIZ]
+const openStepPanels = state => state.openPanels[TYPE_STEP]
+const modal = state => state.modal
 
-export const quizPropertiesSelector = state => state.quiz.meta
-
-const stepListSelector = createSelector(
-  quizSelector,
-  stepsSelector,
+const stepList = createSelector(
+  quiz,
+  steps,
   (quiz, steps) => quiz.steps.map(id => steps[id])
 )
 
-const quizThumbnailSelector = createSelector(
-  quizSelector,
-  currentObjectSelector,
+const quizThumbnail = createSelector(
+  quiz,
+  currentObject,
   (quiz, current) => {
     return {
       id: quiz.id,
@@ -27,9 +29,9 @@ const quizThumbnailSelector = createSelector(
   }
 )
 
-const stepThumbnailsSelector = createSelector(
-  stepListSelector,
-  currentObjectSelector,
+const stepThumbnails = createSelector(
+  stepList,
+  currentObject,
   (steps, current) => steps.map((step, index) => {
     return {
       id: step.id,
@@ -40,17 +42,17 @@ const stepThumbnailsSelector = createSelector(
   })
 )
 
-export const thumbnailsSelector = createSelector(
-  quizThumbnailSelector,
-  stepThumbnailsSelector,
+const thumbnails = createSelector(
+  quizThumbnail,
+  stepThumbnails,
   (quiz, steps) => [quiz].concat(steps)
 )
 
-export const currentObjectDeepSelector = createSelector(
-  currentObjectSelector,
-  quizSelector,
-  stepsSelector,
-  itemsSelector,
+const currentObjectDeep = createSelector(
+  currentObject,
+  quiz,
+  steps,
+  items,
   (current, quiz, steps, items) => {
     if (current.type === TYPE_QUIZ) {
       return {
@@ -64,17 +66,15 @@ export const currentObjectDeepSelector = createSelector(
     return {
       type: TYPE_STEP,
       id: step.id,
-      items: step.items.map(itemId => items[itemId])
+      items: step.items.map(itemId => items[itemId]),
+      meta: step.meta
     }
   }
 )
 
-export const quizOpenPanelSelector = state => state.openPanels[TYPE_QUIZ]
-const openStepPanelsSelector = state => state.openPanels[TYPE_STEP]
-
-export const stepOpenPanelSelector = createSelector(
-  currentObjectSelector,
-  openStepPanelsSelector,
+const stepOpenPanel = createSelector(
+  currentObject,
+  openStepPanels,
   (current, panels) => {
     if (current.type === TYPE_STEP && panels[current.id] !== undefined) {
       return panels[current.id]
@@ -83,12 +83,10 @@ export const stepOpenPanelSelector = createSelector(
   }
 )
 
-export const modalSelector = state => state.modal
-
-export const nextObjectSelector = createSelector(
-  currentObjectSelector,
-  quizSelector,
-  stepListSelector,
+const nextObject = createSelector(
+  currentObject,
+  quiz,
+  stepList,
   (current, quiz, steps) => {
     if (current.type === TYPE_QUIZ) {
       return current
@@ -110,3 +108,13 @@ export const nextObjectSelector = createSelector(
     }
   }
 )
+
+export default {
+  quizProperties,
+  thumbnails,
+  currentObjectDeep,
+  quizOpenPanel,
+  stepOpenPanel,
+  modal,
+  nextObject
+}

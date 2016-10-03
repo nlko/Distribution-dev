@@ -7,14 +7,7 @@ import {StepEditor} from './step-editor.jsx'
 import Modals from './modals.jsx'
 import {actions} from './../actions'
 import {TYPE_QUIZ, TYPE_STEP} from './../types'
-import {
-  thumbnailsSelector,
-  currentObjectDeepSelector,
-  quizOpenPanelSelector,
-  stepOpenPanelSelector,
-  modalSelector,
-  nextObjectSelector
-} from './../selectors'
+import select from './../selectors'
 
 let Editor = props =>
   <div className="panel-body quiz-editor">
@@ -36,6 +29,7 @@ function selectSubEditor(props) {
         <QuizEditor
           activePanelKey={props.activeQuizPanel}
           handlePanelClick={props.handleQuizPanelClick}
+          initialValues={props.quizProperties}
         />
       )
     case TYPE_STEP:
@@ -72,11 +66,12 @@ function makeModal(props) {
 
 function mapStateToProps(state) {
   return {
-    thumbnails: thumbnailsSelector(state),
-    currentObject: currentObjectDeepSelector(state),
-    activeQuizPanel: quizOpenPanelSelector(state),
-    activeStepPanel: stepOpenPanelSelector(state),
-    modal: modalSelector(state)
+    thumbnails: select.thumbnails(state),
+    currentObject: select.currentObjectDeep(state),
+    activeQuizPanel: select.quizOpenPanel(state),
+    activeStepPanel: select.stepOpenPanel(state),
+    quizProperties: select.quizProperties(state),
+    modal: select.modal(state)
   }
 }
 

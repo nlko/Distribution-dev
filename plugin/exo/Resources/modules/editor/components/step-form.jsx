@@ -1,6 +1,7 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import {Field, reduxForm} from 'redux-form'
-import {t} from './../lib/translate'
+import {t, tex} from './../lib/translate'
 import Controls from './form-controls.jsx'
 
 let StepForm = props =>
@@ -16,10 +17,20 @@ let StepForm = props =>
       component={Controls.Textarea}
       label={t('description')}
     />
+    <Field
+      id={`step-${props.stepId}-max-attempts`}
+      name="maxAttempts"
+      component={Controls.Number}
+      min={0}
+      label={tex('maximum_tries')}
+    />
   </form>
 
+const T = React.PropTypes
+
 StepForm.propTypes = {
-  stepId: React.PropTypes.string.isRequired
+  stepId: T.string.isRequired,
+  initialValues: T.object.isRequired
 }
 
 StepForm = reduxForm({

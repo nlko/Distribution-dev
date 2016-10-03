@@ -1,4 +1,5 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import {Field, reduxForm} from 'redux-form'
 import {t, tex} from './../lib/translate'
 import Controls from './form-controls.jsx'
@@ -38,8 +39,11 @@ let ItemForm = props =>
     />
   </form>
 
+const T = React.PropTypes
+
 ItemForm.propTypes = {
-  id: React.PropTypes.string.isRequired
+  id: T.string.isRequired,
+  initialValues: T.object.isRequired
 }
 
 ItemForm = reduxForm({

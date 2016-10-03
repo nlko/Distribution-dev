@@ -1,5 +1,5 @@
 import invariant from 'invariant'
-import {nextObjectSelector} from './selectors'
+import select from './selectors'
 import {makeActionCreator, makeId} from './util'
 
 export const ITEM_CREATE = 'ITEM_CREATE'
@@ -53,7 +53,7 @@ actions.createStep = () => {
 actions.deleteStepAndItems = id => {
   invariant(id, 'id is mandatory')
   return (dispatch, getState) => {
-    dispatch(actions.nextObject(nextObjectSelector(getState())))
+    dispatch(actions.nextObject(select.nextObject(getState())))
     dispatch(actions.deleteItems(getState().steps[id].items.slice()))
     dispatch(actions.deleteStep(id))
   }

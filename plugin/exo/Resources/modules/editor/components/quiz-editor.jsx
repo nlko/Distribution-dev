@@ -1,11 +1,9 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
 import {Field, Fields, reduxForm} from 'redux-form'
 import Accordion from 'react-bootstrap/lib/Accordion'
 import Panel from 'react-bootstrap/lib/Panel'
 import PanelGroup from 'react-bootstrap/lib/PanelGroup'
 import classes from 'classnames'
-import {quizPropertiesSelector} from './../selectors'
 import {t, tex} from './../lib/translate'
 import Controls from './form-controls.jsx'
 import {
@@ -195,17 +193,10 @@ QuizEditor = reduxForm({
   }
 })(QuizEditor)
 
-function mapStateToProps(state) {
-  return {
-    initialValues: quizPropertiesSelector(state)
-  }
-}
-
-QuizEditor = connect(mapStateToProps)(QuizEditor)
-
 const T = React.PropTypes
 
 QuizEditor.propTypes = {
+  initialValues: T.object.isRequired,
   activePanelKey: T.oneOfType([T.string, T.bool]).isRequired,
   handlePanelClick: T.func.isRequired
 }

@@ -121,8 +121,13 @@ let ItemPanel = props =>
           {props.expanded &&
             <ItemForm
               id={props.item.id}
-              type={props.item.type}
-              data={props.item}
+              initialValues={{
+                question: props.item.invite,
+                title: props.item.title,
+                description: props.item.description,
+                instruction: props.item.specification,
+                info: props.item.supplementary
+              }}
             />
           }
         </Panel>
@@ -184,7 +189,7 @@ export const StepEditor = props =>
           />
         }
       >
-        <StepForm stepId={props.step.id}/>
+        <StepForm stepId={props.step.id} initialValues={props.step.meta}/>
       </Panel>
       {props.step.items.map((item, index) =>
         <ItemPanel
@@ -215,7 +220,8 @@ export const StepEditor = props =>
 StepEditor.propTypes = {
   step: T.shape({
     id: T.string.isRequired,
-    items: T.arrayOf(T.object).isRequired
+    items: T.arrayOf(T.object).isRequired,
+    meta: T.object.isRequired
   }).isRequired,
   activePanelKey: T.oneOfType([T.string, T.bool]).isRequired,
   handlePanelClick: T.func.isRequired,

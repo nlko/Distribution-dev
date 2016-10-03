@@ -1,16 +1,11 @@
 import freeze from 'deep-freeze'
 import {assertEqual} from './test-util'
 import {TYPE_QUIZ, TYPE_STEP} from './types'
-import {
-  thumbnailsSelector,
-  currentObjectDeepSelector,
-  stepOpenPanelSelector,
-  nextObjectSelector
-} from './selectors'
+import select from './selectors'
 
 describe('Thumbnails selector', () => {
   it('returns the quiz and step thumbs with an active flag set', () => {
-    assertEqual(thumbnailsSelector(fixtureState1()), [
+    assertEqual(select.thumbnails(fixtureState1()), [
       {
         id: '1',
         title: 'Exercice',
@@ -35,16 +30,17 @@ describe('Thumbnails selector', () => {
 
 describe('Current object deep selector', () => {
   it('returns quiz properties if quiz is selected', () => {
-    assertEqual(currentObjectDeepSelector(fixtureState2()), {
+    assertEqual(select.currentObjectDeep(fixtureState2()), {
       type: TYPE_QUIZ,
       id: '1'
     })
   })
 
   it('returns step details if step is selected', () => {
-    assertEqual(currentObjectDeepSelector(fixtureState3()), {
+    assertEqual(select.currentObjectDeep(fixtureState3()), {
       type: TYPE_STEP,
       id: 'b',
+      meta: {},
       items: [
         {
           id: 'x',
@@ -57,38 +53,38 @@ describe('Current object deep selector', () => {
 
 describe('Step open panel selector', () => {
   it('returns false if no step is selected', () => {
-    assertEqual(stepOpenPanelSelector(fixtureState4()), false)
+    assertEqual(select.stepOpenPanel(fixtureState4()), false)
   })
 
   it('returns open panel key of current step', () => {
-    assertEqual(stepOpenPanelSelector(fixtureState5()), 'bar')
+    assertEqual(select.stepOpenPanel(fixtureState5()), 'bar')
   })
 })
 
 describe('Next object selector', () => {
   it('returns the quiz if quiz is already current', () => {
-    assertEqual(nextObjectSelector(fixtureState2()), {
+    assertEqual(select.nextObject(fixtureState2()), {
       id: '1',
       type: TYPE_QUIZ
     })
   })
 
   it('returns the quiz if there is only one the step', () => {
-    assertEqual(nextObjectSelector(fixtureState6()), {
+    assertEqual(select.nextObject(fixtureState6()), {
       id: '1',
       type: TYPE_QUIZ
     })
   })
 
   it('returns the next step if there is one', () => {
-    assertEqual(nextObjectSelector(fixtureState7()), {
+    assertEqual(select.nextObject(fixtureState7()), {
       id: 'b',
       type: TYPE_STEP
     })
   })
 
   it('returns the previous step if current is the second and last step', () => {
-    assertEqual(nextObjectSelector(fixtureState8()), {
+    assertEqual(select.nextObject(fixtureState8()), {
       id: 'a',
       type: TYPE_STEP
     })
@@ -156,6 +152,7 @@ function fixtureState3() {
       },
       'b': {
         id: 'b',
+        meta: {},
         items: ['x']
       }
     },
