@@ -92,7 +92,7 @@ const AddItemModal = props =>
             </div>
           </div>
         )}
-      </div>  
+      </div>
     </Modal.Body>
   </BaseModal>
 
