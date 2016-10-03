@@ -49,7 +49,7 @@ const ItemActions = props =>
       <span
         role="button"
         title={tex('move_item')}
-        className="fa fa-bars"
+        className="fa fa-bars drag-handle"
         draggable="true"
       />
     )}
