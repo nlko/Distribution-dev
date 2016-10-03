@@ -35,6 +35,14 @@ export function lastId() {
   return `generated-id-${idCount}`
 }
 
+export function makeItemPanelKey(itemType, itemId) {
+  return `item-${itemType}-${itemId}`
+}
+
+export function makeStepPropPanelKey(stepId) {
+  return `step-${stepId}-properties`
+}
+
 export function getIndex(array, element) {
   if (!Array.isArray(array)) {
     throw new Error(`Excepted array, got ${typeof array}`)

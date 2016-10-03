@@ -6,7 +6,7 @@ import Panel from 'react-bootstrap/lib/Panel'
 import PanelGroup from 'react-bootstrap/lib/PanelGroup'
 import classes from 'classnames'
 import {quizPropertiesSelector} from './../selectors'
-import {t, tex} from './utils'
+import {t, tex} from './../lib/translate'
 import Controls from './form-controls.jsx'
 import {
   quizTypes,

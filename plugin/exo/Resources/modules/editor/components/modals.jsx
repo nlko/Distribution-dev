@@ -2,7 +2,7 @@ import React from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
 import classes from 'classnames'
 import {properties} from './../types'
-import {t, trans} from './utils.js'
+import {t, trans} from './../lib/translate'
 
 export const MODAL_ADD_ITEM = 'ADD_ITEM'
 export const MODAL_CONFIRM = 'CONFIRM'
@@ -78,6 +78,7 @@ const AddItemModal = props =>
             key={type}
             className="modal-item-entry"
             role="option"
+            onClick={() => props.handleSelect(type)}
           >
             <svg className="icon-large">
               <use href={`#icon-${properties[type].name}`}></use>
@@ -95,6 +96,10 @@ const AddItemModal = props =>
       </div>
     </Modal.Body>
   </BaseModal>
+
+AddItemModal.propTypes = {
+  handleSelect: T.func.isRequired
+}
 
 export default {
   [MODAL_ADD_ITEM]: AddItemModal,

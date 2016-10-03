@@ -1,4 +1,4 @@
-import {getIndex, makeId, update} from './util'
+import {getIndex, makeId, makeItemPanelKey, update} from './util'
 import {properties, TYPE_QUIZ, TYPE_STEP} from './types'
 import {
   ITEM_CREATE,
@@ -131,6 +131,10 @@ function reduceOpenPanels(panels = initialPanelState(), action = {}) {
     case PANEL_STEP_SELECT: {
       const value = panels[TYPE_STEP][action.stepId] === action.panelKey ? false : action.panelKey
       return update(panels, {[TYPE_STEP]: {[action.stepId]: {$set: value}}})
+    }
+    case ITEM_CREATE: {
+      const panelKey = makeItemPanelKey(action.itemType, action.id)
+      return update(panels, {[TYPE_STEP]: {[action.stepId]: {$set: panelKey}}})
     }
   }
   return panels

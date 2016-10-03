@@ -1,7 +1,7 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
+import {t} from './../lib/translate'
 import Controls from './form-controls.jsx'
-import {t} from './utils'
 
 let StepForm = props =>
   <form onSubmit={props.handleSubmit(values => console.log(values))}>

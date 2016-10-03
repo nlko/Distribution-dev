@@ -1,5 +1,5 @@
 import React from 'react'
-import {trans} from './utils'
+import {trans} from './../lib/translate'
 
 export const Item = props =>
   <div className="panel panel-default item">
