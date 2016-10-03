@@ -8,6 +8,7 @@ add_proposal: Ajouter une proposition
 add_question: Ajouter une question
 add_step: Ajouter une étape
 add_zone_answer: Ajouter une zone de réponse
+additional_info: Informations complémentaires
 advanced_edition: Edition avancée
 after_the_last_attempt: Après le dernier essai
 alert_ending: Êtes-vous sûr(e) de vouloir terminer ? (Vous ne pourrez plus modifier vos réponses.)
@@ -179,6 +180,7 @@ info_duplicate_question: Pour dupliquer une question, vous devez insérer un nom
 info_exercise_never_published: Cet exercice n'est pas encore publié. Les gestionnaires pourront ajouter des questions, tester l'exercice et supprimer les copies. Après publication, les apprenants pourront passer l'exercice et les copies ne pourront plus être supprimées.
 info_mark: Les éventuelles pénalités sont à prendre en compte dans votre notation
 info_measure_difficulty: Cet indice ne prend pas en compte les étudiants n'ayant pas vu la question.
+instruction: Consigne pédagogique
 inter_matching_shuffle: Ordre des propositions et des labels aléatoire.
 interaction_feedback: Commentaire à afficher avec la correction (facultatif)
 interupt: Interrompre

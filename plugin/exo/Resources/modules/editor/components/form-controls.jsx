@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import TinyMCE from 'react-tinymce'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import classes from 'classnames'
@@ -113,16 +112,43 @@ export class Text extends Component {
   }
 }
 
-export const Textarea = props =>
-  <FormGroup {...props}>
-    <TinyMCE
-      {...props.input}
-      id={props.input.name}
-      className="claroline-tiny-mce"
-      config={window.tinymce.claroline.configuration}
-      content={props.input.value}
-      onChange={e => props.input.onChange(e.target.getContent())}/>
-  </FormGroup>
+export class Textarea extends Component {
+  componentDidMount() {
+    const interval = setInterval(() => {
+      const editor = window.tinymce.get(this.props.id)
+      if (editor) {
+        editor.on('change', e =>
+          this.props.input.onChange(e.target.getContent())
+        )
+        clearInterval(interval)
+      }
+    }, 100)
+  }
+
+  componentWillUnmount() {
+    const editor = window.tinymce.get(this.props.id)
+
+    if (editor) {
+      editor.destroy()
+    }
+  }
+
+  render() {
+    return (
+      <FormGroup {...this.props}>
+        <textarea
+          id={this.props.id}
+          className="claroline-tiny-mce hide"
+          defaultValue={this.props.input.value}
+        />
+      </FormGroup>
+    )
+  }
+}
+
+Textarea.propTypes = {
+  id: T.string.isRequired
+}
 
 export const Select = props =>
   <FormGroup {...props}>

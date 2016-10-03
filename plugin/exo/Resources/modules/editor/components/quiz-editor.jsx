@@ -29,6 +29,7 @@ const Properties = props =>
       label={t('title')}
     />
     <Field
+      id="quiz-description"
       name="description"
       component={Controls.Textarea}
       label={t('description')}

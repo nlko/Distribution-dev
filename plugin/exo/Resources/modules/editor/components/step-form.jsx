@@ -11,11 +11,16 @@ let StepForm = props =>
       label={t('title')}
     />
     <Field
+      id={`step-${props.stepId}-description`}
       name="description"
       component={Controls.Textarea}
       label={t('description')}
     />
   </form>
+
+StepForm.propTypes = {
+  stepId: React.PropTypes.string.isRequired
+}
 
 StepForm = reduxForm({
   form: 'step-properties'

@@ -8,6 +8,7 @@ add_proposal: Add a proposal
 add_question: Add a question
 add_step: Add a step
 add_zone_answer: Add an answer zone
+additional_info: Additional information
 advanced_edition: Advanced edition
 after_the_last_attempt: After the last attempt
 alert_ending: Are you sure you want to finish ? (You won't be allowed to modify your answers anymore.)
@@ -180,6 +181,7 @@ info_duplicate_question: To duplicate a question, you must insert an integer num
 info_exercise_never_published: This exercise is not published yet. The administrators can add questions. Try the exercise and detele the papers. After the publishing, the students will answer the questions and the papers will can not be deleted.
 info_mark: The potential penalties have to be counted during your notation.
 info_measure_difficulty: This measure doesn't count students that haven't seen the question.
+instruction: Instruction
 inter_matching_shuffle: Order of random selection
 interaction_feedback: Feedback to display with the correction (optional)
 interupt: Interrupt

@@ -8,8 +8,8 @@ import {t, tex, trans} from './../lib/translate'
 import {makeSortable, SORT_VERTICAL} from './../lib/sortable'
 import {properties} from './../types'
 import {StepForm} from './step-form.jsx'
+import {ItemForm} from './item-form.jsx'
 import {MODAL_DELETE_CONFIRM, MODAL_ADD_ITEM} from './modals.jsx'
-import {Item} from './item.jsx'
 
 const T = React.PropTypes
 
@@ -118,12 +118,13 @@ let ItemPanel = props =>
           collapsible={true}
           expanded={props.expanded}
         >
-          <Item
-            key={props.item.id}
-            id={props.item.id}
-            type={props.item.type}
-            data={props.item}
-          />
+          {props.expanded &&
+            <ItemForm
+              id={props.item.id}
+              type={props.item.type}
+              data={props.item}
+            />
+          }
         </Panel>
       </div>
   ))
@@ -183,7 +184,7 @@ export const StepEditor = props =>
           />
         }
       >
-        <StepForm/>
+        <StepForm stepId={props.step.id}/>
       </Panel>
       {props.step.items.map((item, index) =>
         <ItemPanel
