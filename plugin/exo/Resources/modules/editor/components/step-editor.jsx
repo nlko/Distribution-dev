@@ -1,21 +1,30 @@
 import React from 'react'
+import classes from 'classnames'
 import Accordion from 'react-bootstrap/lib/Accordion'
 import Panel from 'react-bootstrap/lib/Panel'
 import PanelGroup from 'react-bootstrap/lib/PanelGroup'
 import {t, tex, makeSortable, SORT_VERTICAL} from './utils'
+import {properties} from './../types'
 import {StepForm} from './step-form.jsx'
-import {MODAL_DELETE_CONFIRM} from './modals.jsx'
+import {MODAL_DELETE_CONFIRM, MODAL_ADD_ITEM} from './modals.jsx'
 import {Item} from './item.jsx'
 
 const T = React.PropTypes
 
 const ParametersHeader = props =>
   <div onClick={props.onClick} className="panel-title">
-    <span className="panel-icon fa fa-cog"></span>
+    <span className={
+      classes(
+        'panel-icon',
+        'fa',
+        props.active ? 'fa-caret-down' : 'fa-caret-right'
+      )}
+    />
     &nbsp;{t('parameters', {}, 'platform')}
   </div>
 
 ParametersHeader.propTypes = {
+  active: T.bool.isRequired,
   onClick: T.func.isRequired
 }
 
@@ -61,8 +70,9 @@ const ItemHeader = props =>
     )}
   >
     <span>
-      <span className="text-info">[{tex(props.item.type)}]</span>
-      &nbsp;
+      <svg className="icon-small">
+        <use href={`#icon-${properties[props.item.type].name}`}></use>
+      </svg>
       <span className="panel-title">
         {props.item.title}
       </span>
@@ -133,24 +143,37 @@ ItemPanel.propTypes = {
 
 ItemPanel = makeSortable(ItemPanel, 'STEP_ITEM')
 
+const StepFooter = props =>
+  <div className="step-footer">
+    <button
+      className="btn btn-primary"
+      onClick={() => props.showModal(MODAL_ADD_ITEM, {
+        title: tex('add_question')
+      })}
+    >
+      <span className="fa fa-plus"></span>
+      &nbsp;{tex('add_question')}
+    </button>
+  </div>
+
+StepFooter.propTypes = {
+  showModal: T.func.isRequired
+}
+
 export const StepEditor = props =>
   <div>
-    <PanelGroup
-      accordion
-      activeKey={props.activePanelKey}
-    >
+    <PanelGroup accordion activeKey={props.activePanelKey}>
       <Panel
+        eventKey={makePropPanelKey(props.step)}
         header={
           <ParametersHeader
-            onClick={key =>
-              props.handlePanelClick(
-                props.step.id,
-                makePropPanelKey(props.step)
-              )
-            }
+            active={props.activePanelKey === makePropPanelKey(props.step)}
+            onClick={key => props.handlePanelClick(
+              props.step.id,
+              makePropPanelKey(props.step)
+            )}
           />
         }
-        eventKey={makePropPanelKey(props.step)}
       >
         <StepForm/>
       </Panel>
@@ -171,7 +194,7 @@ export const StepEditor = props =>
         />
       )}
     </PanelGroup>
-    <button className="btn btn-primary">Nouvel élément</button>
+    <StepFooter showModal={props.showModal}/>
   </div>
 
 StepEditor.propTypes = {

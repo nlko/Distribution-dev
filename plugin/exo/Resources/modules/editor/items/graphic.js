@@ -6,6 +6,7 @@ function reducer(graphic = {}, action) {
 
 export default {
   type: 'application/x.graphic+json',
+  name: 'graphic',
   question: true,
   component,
   reducer

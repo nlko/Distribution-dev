@@ -1,8 +1,8 @@
 import choice from './items/choice'
-import cloze from './items/cloze'
-import graphic from './items/graphic'
 import match from './items/match'
 import short from './items/short'
+import cloze from './items/cloze'
+import graphic from './items/graphic'
 
 export const TYPE_QUIZ = 'quiz'
 export const TYPE_STEP = 'step'
@@ -41,19 +41,20 @@ export const markModes = [
 
 let definitions = [
   choice,
-  cloze,
-  graphic,
   match,
-  short
+  short,
+  cloze,
+  graphic
 ]
 
 export const mimeTypes = definitions.map(def => def.type)
 
 export const properties = definitions.reduce((props, def) => {
   props[def.type] = {
+    name: def.name,
     question: def.question,
     component: def.component,
-    reducer: def.reducer
+    reducer: def.reducer,
   }
   return props
 }, {})

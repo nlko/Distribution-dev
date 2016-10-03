@@ -6,6 +6,7 @@ function reducer(cloze = {}, action) {
 
 export default {
   type: 'application/x.cloze+json',
+  name: 'cloze',
   question: true,
   component,
   reducer

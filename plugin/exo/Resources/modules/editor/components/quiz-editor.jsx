@@ -172,13 +172,6 @@ let QuizEditor = props =>
         <CorrectionOptions/>
       </Panel>
     </PanelGroup>
-    <button
-      className="btn btn-primary"
-      type="submit"
-      disabled={props.submitting}
-    >
-      {t('ok')}
-    </button>
   </form>
 
 QuizEditor = reduxForm({

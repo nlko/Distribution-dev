@@ -6,6 +6,7 @@ function reducer(match = {}, action) {
 
 export default {
   type: 'application/x.match+json',
+  name: 'match-1',
   question: true,
   component,
   reducer

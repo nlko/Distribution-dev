@@ -6,6 +6,7 @@ function reducer(short = {}, action) {
 
 export default {
   type: 'application/x.short+json',
+  name: 'short',
   question: true,
   component,
   reducer

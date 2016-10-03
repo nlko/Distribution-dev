@@ -27,6 +27,7 @@ function reducer(choice = {}, action) {
 
 export default {
   type: 'application/x.choice+json',
+  name: 'choice',
   question: true,
   component,
   reducer

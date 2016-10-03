@@ -1,8 +1,10 @@
 import React from 'react'
 import Modal from 'react-bootstrap/lib/Modal'
 import classes from 'classnames'
-import {t} from './utils.js'
+import {properties} from './../types'
+import {t, trans} from './utils.js'
 
+export const MODAL_ADD_ITEM = 'ADD_ITEM'
 export const MODAL_CONFIRM = 'CONFIRM'
 export const MODAL_DELETE_CONFIRM = 'DELETE_CONFIRM'
 
@@ -13,6 +15,7 @@ const BaseModal = props =>
     show={props.show}
     onHide={props.fadeModal}
     onExited={props.hideModal}
+    dialogClassName={props.className}
   >
     <Modal.Header closeButton>
       <Modal.Title>{props.title}</Modal.Title>
@@ -24,7 +27,8 @@ BaseModal.propTypes = {
   fadeModal: T.func.isRequired,
   hideModal: T.func.isRequired,
   show: T.bool.isRequired,
-  title: T.string.isRequired
+  title: T.string.isRequired,
+  className: T.string
 }
 
 const ConfirmModal = props =>
@@ -65,7 +69,35 @@ const DeleteConfirmModal = props =>
     {...props}
   />
 
+const AddItemModal = props =>
+  <BaseModal {...props} className="add-item-modal">
+    <Modal.Body>
+      <div role="listbox">
+        {Object.keys(properties).map(type =>
+          <div
+            key={type}
+            className="modal-item-entry"
+            role="option"
+          >
+            <svg className="icon-large">
+              <use href={`#icon-${properties[type].name}`}></use>
+            </svg>
+            <div className="modal-item-desc">
+              <span className="modal-item-name">
+                {trans(properties[type].name, {}, 'question_types')}
+              </span>
+              <p>
+                {trans(`${properties[type].name}_desc`, {}, 'question_types')}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>  
+    </Modal.Body>
+  </BaseModal>
+
 export default {
+  [MODAL_ADD_ITEM]: AddItemModal,
   [MODAL_CONFIRM]: ConfirmModal,
   [MODAL_DELETE_CONFIRM]: DeleteConfirmModal
 }
