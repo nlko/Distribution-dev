@@ -140,7 +140,7 @@ function makeSectionHeader(title, key, {activePanelKey, handlePanelClick}) {
 }
 
 let QuizEditor = props =>
-  <form onSubmit={props.handleSubmit(values => console.log(values))}>
+  <form onSubmit={props.handleSubmit(values => {})}>
     <PanelGroup
       accordion
       activeKey={props.activePanelKey}

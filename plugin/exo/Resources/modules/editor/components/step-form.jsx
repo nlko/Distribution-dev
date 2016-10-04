@@ -5,7 +5,7 @@ import {t, tex} from './../lib/translate'
 import Controls from './form-controls.jsx'
 
 let StepForm = props =>
-  <form onSubmit={props.handleSubmit(values => console.log(values))}>
+  <form onSubmit={props.handleSubmit(values => {})}>
     <Field
       name="title"
       component={Controls.Text}
