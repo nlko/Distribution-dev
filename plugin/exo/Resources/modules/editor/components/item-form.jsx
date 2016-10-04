@@ -9,7 +9,10 @@ const id = (field, itemId) => `item-${itemId}-field-${field}`
 class ItemForm extends Component {
   constructor(props) {
     super(props)
-    this.state = {metaHidden: true}
+    this.state = {
+      metaHidden: true,
+      metaRendered: false
+    }
   }
 
   render() {
@@ -22,12 +25,16 @@ class ItemForm extends Component {
           label={tex('question')}
         />
 
-        <button onClick={() => this.setState({metaHidden: !this.state.metaHidden})}>
+        <button onClick={() => this.setState({
+            metaHidden: !this.state.metaHidden,
+            metaRendered: true,
+          })
+        }>
           {this.state.metaHidden ? 'Meta' : 'Hide'}
         </button>
 
-        {!this.state.metaHidden &&
-          <fieldset>
+        {(!this.state.metaHidden || this.state.metaRendered) &&
+          <fieldset style={{display: this.state.metaHidden ? 'none' : 'block'}}>
             <Field
               name="title"
               component={Controls.Text}
