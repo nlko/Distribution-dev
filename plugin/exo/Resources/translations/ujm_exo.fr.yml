@@ -172,6 +172,8 @@ hole_edition: Edition d'une question à trous
 hole_selector: Proposer une liste
 home_exercise: Accueil de l'exercice
 hide_additional_info: Masquer les informations supplémentaires
+hide_interact_fields: Cacher les indices et le feedback global
+hide_metadata_fields: Cacher les métadonnées et consignes
 hint_points: "[0,1] - %count% point|]1,Inf[ - %count% points"
 
 # I
@@ -383,13 +385,15 @@ shared_with: Partager avec
 short: Courte
 show: Afficher
 show_instructions: Montrer les consignes
+show_additional_info: Afficher les informations supplémentaires
+show_interact_fields: Indices et feedback global
+show_metadata_fields: Métadonnées et consignes
 signing: Passation
 size: Taille
 start_again: Recommencer
 start_date: Date de début
 sort: Trier les documents
 summative : Sommatif
-show_additional_info: Afficher les informations supplémentaires
 step: Étape
 step_score: Score de l'étape
 statistics: Afficher les statistiques
@@ -440,7 +444,7 @@ InteractionHole: Texte à trous
 InteractionMatching: Association
 InteractionOpen: Ouverte
 InteractionQCM: QCM
-Multiple response: Réponse multiples
+Multiple responses: Réponses multiples
 oneWord: Un mot
 To drag: Panier
 To bind: A lier

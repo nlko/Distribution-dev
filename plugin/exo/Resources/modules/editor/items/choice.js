@@ -1,11 +1,12 @@
+import zipObject from 'lodash/zipObject'
 import {ITEM_CREATE} from './../actions'
 import {makeId, update} from './../util'
 import {Choice as component} from './choice.jsx'
 
-function reducer(choice = {}, action) {
+function reducer(item = {}, action) {
   switch (action.type) {
     case ITEM_CREATE:
-      return update(choice, {
+      return update(item, {
         multiple: {$set: false},
         random: {$set: false},
         choices: {$set: [
@@ -19,10 +20,38 @@ function reducer(choice = {}, action) {
             data: null,
             score: null
           }
-        ]}
+        ]},
+        solutions: {$set: []}
       })
   }
-  return choice
+  return item
+}
+
+function formValues(item) {
+  const solutionsById = zipObject(item.solutions.map(solution => solution.id), item.solutions)
+  let mergedChoices = item.choices.map(choice => Object.assign({}, choice, solutionsById[choice.id]))
+
+  if (item.multiple) {
+    mergedChoices = mergedChoices.map(choice => {
+      choice.correct = choice.score > 0
+      return choice
+    })
+  } else {
+    let max = mergedChoices[0].score
+    let maxId = mergedChoices[0].id
+    mergedChoices.forEach(choice => {
+      if (choice.score > max) {
+        max = choice.score
+        maxId = choice.id
+      }
+    })
+    mergedChoices = mergedChoices.map(choice => {
+      choice.correct = choice.id === maxId
+      return choice
+    })
+  }
+
+  return update(item, {choices: {$set: mergedChoices}})
 }
 
 export default {
@@ -30,5 +59,6 @@ export default {
   name: 'choice',
   question: true,
   component,
-  reducer
+  reducer,
+  formValues
 }

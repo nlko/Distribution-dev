@@ -173,6 +173,8 @@ hole_edition: Edit cloze
 hole_selector: Submit a list
 home_exercise: Home exercise
 hide_additional_info: Hide additional information
+hide_interact_fields: Hide hints and feedback
+hide_metadata_fields: Hide metadata and instructions
 hint_points: "[0,1] - %count% point|]1,Inf[ - %count% points"
 
 # I
@@ -389,6 +391,8 @@ shared_user: Share of questions
 shared_with: Shared with
 short: Short
 show: Show
+hide_metadata_fields: Hints and global feedback
+show_metadata_fields: Metadata and instructions
 show_instructions: Show instructions
 signing: Signing
 size: Size
@@ -448,7 +452,7 @@ InteractionHole: Cloze text
 InteractionMatching: Matching
 InteractionOpen: Open
 InteractionQCM: QCM
-Multiple response: Multiple response
+Multiple responses: Multiple responses
 oneWord: One word
 To drag: To drag
 To bind: To bind

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import Collapse from 'react-bootstrap/lib/Collapse'
 import DatePicker from 'react-datepicker'
 import moment from 'moment'
 import classes from 'classnames'
@@ -218,6 +219,35 @@ export const Date = props =>
       onChange={date => props.input.onChange(date)}/>
   </FormGroup>
 
+export const CollapsibleSection = props =>
+  <div>
+    {props.hidden &&
+      <a role="button" onClick={props.toggle}>
+        <span className="fa fa-caret-right"/>
+        &nbsp;{props.showText}
+      </a>
+    }
+    {(!props.hidden || props.rendered) &&
+      <Collapse in={!props.hidden}>
+        <div style={{display: props.hidden ? 'none' : 'block'}}>
+          {props.children}
+          <a role="button" onClick={props.toggle}>
+            <span className="fa fa-caret-right"/>
+            &nbsp;{props.hideText}
+          </a>
+        </div>
+      </Collapse>
+    }
+  </div>
+
+CollapsibleSection.propTypes = {
+  hidden: T.bool.isRequired,
+  rendered: T.bool.isRequired,
+  showText: T.string.isRequired,
+  hideText: T.string.isRequired,
+  toggle: T.func.isRequired
+}
+
 function helpId(fieldName, type = 'error') {
   return `help-${type}-${fieldName}`
 }
@@ -230,6 +260,7 @@ function helpIds(fieldName, hasHelpInfo) {
 }
 
 export default {
+  CollapsibleSection,
   SingleCheck,
   Text,
   Textarea,

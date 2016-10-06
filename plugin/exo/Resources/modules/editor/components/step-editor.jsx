@@ -121,14 +121,13 @@ let ItemPanel = props =>
           {props.expanded &&
             <ItemForm
               id={props.item.id}
-              initialValues={{
-                question: props.item.invite,
-                title: props.item.title,
-                description: props.item.description,
-                instruction: props.item.specification,
-                info: props.item.supplementary
-              }}
-            />
+              initialValues={properties[props.item.type].formValues(props.item)}
+            >
+              {React.createElement(
+                properties[props.item.type].component,
+                {item: props.item}
+              )}
+            </ItemForm>
           }
         </Panel>
       </div>

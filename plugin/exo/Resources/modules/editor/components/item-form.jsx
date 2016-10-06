@@ -1,17 +1,66 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import Collapse from 'react-bootstrap/lib/Collapse'
 import {Field, reduxForm} from 'redux-form'
 import {t, tex} from './../lib/translate'
 import Controls from './form-controls.jsx'
 
+const T = React.PropTypes
 const id = (field, itemId) => `item-${itemId}-field-${field}`
+
+const Metadata = props =>
+  <fieldset>
+    <Field
+      name="title"
+      component={Controls.Text}
+      label={t('title')}
+    />
+    <Field
+      id={id('description', props.itemId)}
+      name="description"
+      component={Controls.Textarea}
+      label={t('description')}
+    />
+    <Field
+      id={id('instruction', props.itemId)}
+      name="specification"
+      component={Controls.Textarea}
+      label={tex('instruction')}
+    />
+    <Field
+      id={id('info', props.itemId)}
+      name="supplementary"
+      component={Controls.Textarea}
+      label={tex('additional_info')}
+    />
+  </fieldset>
+
+Metadata.propTypes = {
+  itemId: T.string.isRequired
+}
+
+const Interact = props =>
+  <fieldset>
+    <Field
+      id={id('feedback', props.itemId)}
+      name="feedback"
+      component={Controls.Textarea}
+      label={tex('feedback')}
+    />
+  </fieldset>
+
+Interact.propTypes = {
+  itemId: T.string.isRequired
+}
 
 class ItemForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
       metaHidden: true,
-      metaRendered: false
+      metaRendered: false,
+      feedbackHidden: true,
+      feedbackRendered: false
     }
   }
 
@@ -20,54 +69,44 @@ class ItemForm extends Component {
       <form onSubmit={this.props.handleSubmit(values => {})}>
         <Field
           id={id('question', this.props.id)}
-          name="question"
+          name="invite"
           component={Controls.Textarea}
           label={tex('question')}
         />
-
-        <button onClick={() => this.setState({
+        <Controls.CollapsibleSection
+          hidden={this.state.metaHidden}
+          rendered={this.state.metaRendered}
+          showText={tex('show_metadata_fields')}
+          hideText={tex('hide_metadata_fields')}
+          toggle={() => this.setState({
             metaHidden: !this.state.metaHidden,
-            metaRendered: true,
-          })
-        }>
-          {this.state.metaHidden ? 'Meta' : 'Hide'}
-        </button>
-
-        {(!this.state.metaHidden || this.state.metaRendered) &&
-          <fieldset style={{display: this.state.metaHidden ? 'none' : 'block'}}>
-            <Field
-              name="title"
-              component={Controls.Text}
-              label={t('title')}
-            />
-            <Field
-              id={id('description', this.props.id)}
-              name="description"
-              component={Controls.Textarea}
-              label={t('description')}
-            />
-            <Field
-              id={id('instruction', this.props.id)}
-              name="instruction"
-              component={Controls.Textarea}
-              label={tex('instruction')}
-            />
-            <Field
-              id={id('info', this.props.id)}
-              name="info"
-              component={Controls.Textarea}
-              label={tex('additional_info')}
-            />
-          </fieldset>
-        }
+            metaRendered: true
+          })}
+        >
+          <Metadata itemId={this.props.id}/>
+        </Controls.CollapsibleSection>
+        <hr/>
+        {this.props.children}
+        <hr/>
+        <Controls.CollapsibleSection
+          hidden={this.state.feedbackHidden}
+          rendered={this.state.feedbackRendered}
+          showText={tex('show_interact_fields')}
+          hideText={tex('hide_interact_fields')}
+          toggle={() => this.setState({
+            feedbackHidden: !this.state.feedbackHidden,
+            feedbackRendered: true
+          })}
+        >
+          <Interact itemId={this.props.id}/>
+        </Controls.CollapsibleSection>
       </form>
     )
   }
 }
 
-// Missing: categories, hints, feedback
-
-const T = React.PropTypes
+// TODO: update field names (specification, supplementary, etc.)
+// Missing: categories, hints
 
 ItemForm.propTypes = {
   id: T.string.isRequired,

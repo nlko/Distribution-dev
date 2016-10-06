@@ -55,7 +55,10 @@ class ExerciseController extends Controller
             'nbPapers' => $nbPapers,
 
             // Angular JS data
-            'exercise' => $this->get('ujm.exo.exercise_manager')->exportExercise($exercise, false),
+            'exercise' => $this->get('ujm.exo.exercise_manager')->exportExercise(
+                $exercise,
+                $this->hasPermission('ADMINISTRATE', $exercise)
+            ),
             'editEnabled' => $exerciseSer->isExerciseAdmin($exercise),
         ]);
     }
@@ -182,7 +185,7 @@ class ExerciseController extends Controller
     {
         $this->assertHasPermission('ADMINISTRATE', $exercise);
 
-        if ($QuestionsExo == '') {
+        if ((string) $QuestionsExo === '') {
             $QuestionsExo = false;
         }
 
@@ -210,16 +213,16 @@ class ExerciseController extends Controller
         $pageToGo = $request->query->get('pageGoNow'); // Page to go for the list of the questions of the exercise
 
         // If change page of my questions array
-        if ($click == 'my') {
+        if ((string) $click === 'my') {
             // The choosen new page is for my questions array
             $pagerMy = $page;
         // Else if change page of my shared questions array
-        } elseif ($click == 'shared') {
+        } elseif ((string) $click === 'shared') {
             // The choosen new page is for my shared questions array
             $pagerShared = $page;
         }
 
-        if ($QuestionsExo == 'true') {
+        if ((string) $QuestionsExo === 'true') {
             $listQExo = $questionSer->getListQuestionExo($idExo, $user, $exercise);
             $allActions = $questionSer->getActionsAllQuestions($listQExo, $user->getId());
 
@@ -255,7 +258,7 @@ class ExerciseController extends Controller
                     ->getRepository('UJMExoBundle:Exercise')
                     ->getExerciseAdmin($user->getId());
 
-        if ($QuestionsExo == 'false') {
+        if ((string) $QuestionsExo === 'false') {
             $vars['pagerMy'] = $pagerfantaMy;
             $vars['pagerShared'] = $pagerfantaShared;
             $vars['interactions'] = $interactionsPager;
@@ -405,11 +408,16 @@ class ExerciseController extends Controller
         }
     }
 
-    private function assertHasPermission($permission, Exercise $exercise)
+    private function hasPermission($permission, Exercise $exercise)
     {
         $collection = new ResourceCollection([$exercise->getResourceNode()]);
 
-        if (!$this->get('security.authorization_checker')->isGranted($permission, $collection)) {
+        return $this->get('security.authorization_checker')->isGranted($permission, $collection);
+    }
+
+    private function assertHasPermission($permission, Exercise $exercise)
+    {
+        if (!$this->hasPermission($permission, $exercise)) {
             throw new AccessDeniedHttpException();
         }
     }
