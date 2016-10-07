@@ -60,7 +60,9 @@ SingleCheck.propTypes = {
 
 const FormGroup = ({input, label, meta: {touched, error}, children, help}) =>
   <div className={classes('form-group', {'has-error': touched && error})}>
-    <label className="control-label" htmlFor={input.name}>{label}</label>
+    {label &&
+      <label className="control-label" htmlFor={input.name}>{label}</label>
+    }
     {children}
     <HelpTexts
       fieldName={input.name}
@@ -117,27 +119,69 @@ export class Text extends Component {
 export class Textarea extends Component {
   constructor(props) {
     super(props)
-    this.state = {minimal: true}
+    this.state = {
+      minimal: true,
+      content: props.input.value
+    }
   }
 
   componentDidMount() {
-    const interval = setInterval(() => {
-      const editor = window.tinymce.get(this.props.id)
-      if (editor) {
-        editor.on('change', e =>
-          this.props.input.onChange(e.target.getContent())
-        )
-        clearInterval(interval)
-      }
-    }, 100)
+    if (!this.state.minimal) {
+      const interval = setInterval(() => {
+        const editor = window.tinymce.get(this.props.id)
+        if (editor) {
+          editor.on('change', e => {
+            this.content = e.target.getContent()
+            this.props.input.onChange(this.content)
+          })
+          clearInterval(interval)
+        }
+      }, 100)
+    }
   }
 
   componentWillUnmount() {
+    if (!this.state.minimal) {
+      this.destroyTinymce()
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (!this.state.minimal && nextState.minimal) {
+      this.destroyTinymce()
+    }
+  }
+
+  destroyTinymce() {
     const editor = window.tinymce.get(this.props.id)
 
     if (editor) {
       editor.destroy()
     }
+  }
+
+  makeMinimalEditor() {
+    return (
+      <div
+        className="form-control"
+        role="textbox"
+        contentEditable="true"
+        aria-multiline="true"
+        onInput={e => this.props.input.onChange(e.target.innerHTML)}
+        dangerouslySetInnerHTML={{__html: this.state.content}}
+        style={{minHeight: `${this.props.minRows * 32}px`}}
+      />
+    )
+  }
+
+  makeFullEditor() {
+    return (
+      <textarea
+        id={this.props.id}
+        className="form-control claroline-tiny-mce hide"
+        defaultValue={this.state.content}
+      />
+    )
   }
 
   render() {
@@ -154,11 +198,10 @@ export class Textarea extends Component {
             )}
             onClick={() => this.setState({minimal: !this.state.minimal})}
           />
-          <textarea
-            id={this.props.id}
-            className="form-control claroline-tiny-mce hide"
-            defaultValue={this.props.input.value}
-          />
+          {this.state.minimal ?
+            this.makeMinimalEditor() :
+            this.makeFullEditor()
+          }
         </div>
       </FormGroup>
     )
@@ -166,7 +209,12 @@ export class Textarea extends Component {
 }
 
 Textarea.propTypes = {
-  id: T.string.isRequired
+  id: T.string.isRequired,
+  minRows: T.number
+}
+
+Textarea.defaultProps = {
+  minRows: 2
 }
 
 export const Select = props =>
@@ -227,9 +275,8 @@ export const CollapsibleSection = props =>
         &nbsp;{props.showText}
       </a>
     }
-    {(!props.hidden || props.rendered) &&
-      <Collapse in={!props.hidden}>
-        <div style={{display: props.hidden ? 'none' : 'block'}}>
+      <Collapse in={!props.hidden} timeout={1000}>
+        <div>
           {props.children}
           <a role="button" onClick={props.toggle}>
             <span className="fa fa-caret-right"/>
@@ -237,12 +284,10 @@ export const CollapsibleSection = props =>
           </a>
         </div>
       </Collapse>
-    }
   </div>
 
 CollapsibleSection.propTypes = {
   hidden: T.bool.isRequired,
-  rendered: T.bool.isRequired,
   showText: T.string.isRequired,
   hideText: T.string.isRequired,
   toggle: T.func.isRequired

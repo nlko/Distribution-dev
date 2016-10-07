@@ -73,7 +73,7 @@ const ItemHeader = props =>
   >
     <span>
       <svg className="icon-small">
-        <use href={`#icon-${properties[props.item.type].name}`}></use>
+        <use xlinkHref={`#icon-${properties[props.item.type].name}`}/>
       </svg>
       <span className="panel-title">
         {props.item.title || trans(properties[props.item.type].name, {}, 'question_types')}

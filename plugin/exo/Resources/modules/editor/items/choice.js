@@ -13,12 +13,12 @@ function reducer(item = {}, action) {
           {
             id: makeId(),
             data: null,
-            score: null
+            score: 0
           },
           {
             id: makeId(),
             data: null,
-            score: null
+            score: 0
           }
         ]},
         solutions: {$set: []}
@@ -28,30 +28,34 @@ function reducer(item = {}, action) {
 }
 
 function formValues(item) {
-  const solutionsById = zipObject(item.solutions.map(solution => solution.id), item.solutions)
-  let mergedChoices = item.choices.map(choice => Object.assign({}, choice, solutionsById[choice.id]))
+  const solutionsById = zipObject(
+    item.solutions.map(solution => solution.id),
+    item.solutions
+  )
+  const choicesWithSolutions = item.choices.map(
+    choice => Object.assign({}, choice, solutionsById[choice.id])
+  )
+  return update(item, {choices: {$set: choicesWithSolutions}})
+}
 
-  if (item.multiple) {
-    mergedChoices = mergedChoices.map(choice => {
-      choice.correct = choice.score > 0
-      return choice
-    })
-  } else {
-    let max = mergedChoices[0].score
-    let maxId = mergedChoices[0].id
-    mergedChoices.forEach(choice => {
-      if (choice.score > max) {
-        max = choice.score
-        maxId = choice.id
-      }
-    })
-    mergedChoices = mergedChoices.map(choice => {
-      choice.correct = choice.id === maxId
-      return choice
-    })
+export function choiceTicksSelector(state) {
+  const formValues = state.form['item-properties'].values
+
+  if (formValues.multiple) {
+    return formValues.choices.map(choice => choice.score > 0)
   }
 
-  return update(item, {choices: {$set: mergedChoices}})
+  let max = 0
+  let maxId = null
+
+  formValues.choices.forEach(choice => {
+    if (choice.score > max) {
+      max = choice.score
+      maxId = choice.id
+    }
+  })
+
+  return formValues.choices.map(choice => max > 0 && choice.id === maxId)
 }
 
 export default {

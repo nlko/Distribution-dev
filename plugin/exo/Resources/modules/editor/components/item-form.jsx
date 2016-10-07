@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
 import Collapse from 'react-bootstrap/lib/Collapse'
 import {Field, reduxForm} from 'redux-form'
 import {t, tex} from './../lib/translate'
@@ -58,9 +57,7 @@ class ItemForm extends Component {
     super(props)
     this.state = {
       metaHidden: true,
-      metaRendered: false,
       feedbackHidden: true,
-      feedbackRendered: false
     }
   }
 
@@ -75,13 +72,9 @@ class ItemForm extends Component {
         />
         <Controls.CollapsibleSection
           hidden={this.state.metaHidden}
-          rendered={this.state.metaRendered}
           showText={tex('show_metadata_fields')}
           hideText={tex('hide_metadata_fields')}
-          toggle={() => this.setState({
-            metaHidden: !this.state.metaHidden,
-            metaRendered: true
-          })}
+          toggle={() => this.setState({metaHidden: !this.state.metaHidden})}
         >
           <Metadata itemId={this.props.id}/>
         </Controls.CollapsibleSection>
@@ -90,13 +83,9 @@ class ItemForm extends Component {
         <hr/>
         <Controls.CollapsibleSection
           hidden={this.state.feedbackHidden}
-          rendered={this.state.feedbackRendered}
           showText={tex('show_interact_fields')}
           hideText={tex('hide_interact_fields')}
-          toggle={() => this.setState({
-            feedbackHidden: !this.state.feedbackHidden,
-            feedbackRendered: true
-          })}
+          toggle={() => this.setState({feedbackHidden: !this.state.feedbackHidden})}
         >
           <Interact itemId={this.props.id}/>
         </Controls.CollapsibleSection>
