@@ -5,24 +5,35 @@ import {Choice as component} from './choice.jsx'
 
 function reducer(item = {}, action) {
   switch (action.type) {
-    case ITEM_CREATE:
+    case ITEM_CREATE: {
+      const firstChoiceId = makeId()
+      const secondChoiceId = makeId()
+
       return update(item, {
         multiple: {$set: false},
         random: {$set: false},
         choices: {$set: [
           {
-            id: makeId(),
-            data: null,
+            id: firstChoiceId,
+            data: null
+          },
+          {
+            id: firstChoiceId,
+            data: null
+          }
+        ]},
+        solutions: {$set: [
+          {
+            id: firstChoiceId,
             score: 0
           },
           {
-            id: makeId(),
-            data: null,
+            id: secondChoiceId,
             score: 0
           }
-        ]},
-        solutions: {$set: []}
+        ]}
       })
+    }
   }
   return item
 }

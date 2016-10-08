@@ -60,6 +60,7 @@ change: Changer
 change_name: Changer le nom du document
 change_order: Pour changer l'ordre des questions, déplacez-les en utilisant le glisser/déposer.
 choice: Choix
+choice_feedback_info: Commentaire si la réponse est selectionnée
 choose_image : Choisir une image
 choose_category : Choisir une catégorie
 choose_type: Choisir un type
