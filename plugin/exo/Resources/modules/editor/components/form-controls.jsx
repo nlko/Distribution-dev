@@ -119,40 +119,39 @@ export class Text extends Component {
 export class Textarea extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      minimal: true,
-      content: props.input.value
-    }
+    this.state = {minimal: true}
+    this.content = props.input.value
   }
 
-  componentDidMount() {
-    if (!this.state.minimal) {
-      const interval = setInterval(() => {
-        const editor = window.tinymce.get(this.props.id)
-        if (editor) {
-          editor.on('change', e => {
-            this.content = e.target.getContent()
-            this.props.input.onChange(this.content)
-          })
-          clearInterval(interval)
-        }
-      }, 100)
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.state.minimal && prevState.minimal) {
+      this.setupTinyMce(prevProps.input.value)
+    } else if (this.state.minimal && !prevState.minimal) {
+      this.destroyTinyMce()
     }
   }
 
   componentWillUnmount() {
     if (!this.state.minimal) {
-      this.destroyTinymce()
+      this.destroyTinyMce()
     }
   }
 
-  componentWillUpdate(nextProps, nextState) {
-    if (!this.state.minimal && nextState.minimal) {
-      this.destroyTinymce()
-    }
+  setupTinyMce(content) {
+    const interval = setInterval(() => {
+      const editor = window.tinymce.get(this.props.id)
+      if (editor) {
+        editor.setContent(content)
+        editor.on('change', e => {
+          this.content = e.target.getContent()
+          this.props.input.onChange(this.content)
+        })
+        clearInterval(interval)
+      }
+    }, 100)
   }
 
-  destroyTinymce() {
+  destroyTinyMce() {
     const editor = window.tinymce.get(this.props.id)
 
     if (editor) {
@@ -168,7 +167,7 @@ export class Textarea extends Component {
         contentEditable="true"
         aria-multiline="true"
         onInput={e => this.props.input.onChange(e.target.innerHTML)}
-        dangerouslySetInnerHTML={{__html: this.state.content}}
+        dangerouslySetInnerHTML={{__html: this.content}}
         style={{minHeight: `${this.props.minRows * 32}px`}}
       />
     )
@@ -179,7 +178,7 @@ export class Textarea extends Component {
       <textarea
         id={this.props.id}
         className="form-control claroline-tiny-mce hide"
-        defaultValue={this.state.content}
+        defaultValue={this.content}
       />
     )
   }
