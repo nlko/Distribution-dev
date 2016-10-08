@@ -145,6 +145,9 @@ find_question_advance: question advanced
 find_what: What you're looking for
 final_mark: Final mark
 finish: Finish
+fixed_score: Fixed score
+fixed_score_on_success: Result on success
+fixed_score_on_failure: Result on failure
 for_type_of: for a question of type
 frequency: Frequency
 from: From

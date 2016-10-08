@@ -7,6 +7,8 @@ import Controls from './form-controls.jsx'
 const T = React.PropTypes
 const id = (field, itemId) => `item-${itemId}-field-${field}`
 
+export const ITEM_FORM = 'item-properties'
+
 const Metadata = props =>
   <fieldset>
     <Field
@@ -103,7 +105,7 @@ ItemForm.propTypes = {
 }
 
 ItemForm = reduxForm({
-  form: 'item-properties'
+  form: ITEM_FORM
 })(ItemForm)
 
 export {ItemForm}

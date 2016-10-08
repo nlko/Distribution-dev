@@ -144,6 +144,9 @@ find_question_advance: Recherche avancée
 find_what: Ce que vous cherchez
 final_mark: Note finale
 finish: Terminer
+fixed_score: Résultat fixe
+fixed_score_on_success: Points en cas de succès
+fixed_score_on_failure: Points en cas d'échec
 for_type_of: pour une question de type
 frequency: Fréquence
 from: A partir du

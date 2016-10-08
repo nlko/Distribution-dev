@@ -1,9 +1,12 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {Field, FieldArray, Fields} from 'redux-form'
+import {Field, FieldArray, Fields, change} from 'redux-form'
 import {t, tex} from './../lib/translate'
+import {ITEM_FORM} from './../components/item-form.jsx'
 import Controls from './../components/form-controls.jsx'
 import {choiceTicksSelector} from './choice'
+
+const T = React.PropTypes
 
 class ChoiceItem extends Component {
   constructor(props) {
@@ -16,11 +19,16 @@ class ChoiceItem extends Component {
       <div>
         <div className="choice-tick">
           <input
-            disabled
+            disabled={!this.props.fixedScore}
             name={`${this.props.name}.tick`}
             type={this.props.multiple ? 'checkbox' : 'radio'}
             checked={this.props.checked}
-            readOnly={true}
+            readOnly={!this.props.fixedScore}
+            onChange={(e) =>
+              this.props.changeFieldValue(
+              `${this.props.name}.score`,
+              e.target.checked ? 1 : 0
+            )}
           />
         </div>
         <div className="text-fields">
@@ -38,12 +46,14 @@ class ChoiceItem extends Component {
         }
         </div>
         <div className="right-controls">
-            <Field
-              name={`${this.props.name}.score`}
-              component="input"
-              type="number"
-              className="form-control choice-score"
-            />
+            {!this.props.fixedScore &&
+              <Field
+                name={`${this.props.name}.score`}
+                component="input"
+                type="number"
+                className="form-control choice-score"
+              />
+            }
             <span
               role="button"
               title={t('delete')}
@@ -62,13 +72,13 @@ class ChoiceItem extends Component {
   }
 }
 
-const T = React.PropTypes
-
 ChoiceItem.propTypes = {
   name: T.string.isRequired,
   multiple: T.bool.isRequired,
+  fixedScore: T.bool.isRequired,
   checked: T.bool.isRequired,
-  onRemove: T.func.isRequired
+  onRemove: T.func.isRequired,
+  changeFieldValue: T.func.isRequired
 }
 
 const ChoiceItems = props =>
@@ -78,7 +88,9 @@ const ChoiceItems = props =>
         <ChoiceItem
           name={choice}
           multiple={props.multiple}
+          fixedScore={props.fixedScore}
           checked={props.choiceTicks[index]}
+          changeFieldValue={props.changeFieldValue}
           onRemove={() => props.fields.remove(index)}
         />
       </li>
@@ -94,6 +106,14 @@ const ChoiceItems = props =>
     </div>
   </ul>
 
+ChoiceItems.propTypes = {
+  fields: T.object.isRequired,
+  choiceTicks: T.arrayOf(T.bool).isRequired,
+  multiple: T.bool.isRequired,
+  fixedScore: T.bool.isRequired,
+  changeFieldValue: T.func.isRequired
+}
+
 const ChoiceForm = props =>
   <fieldset>
     <Field
@@ -106,29 +126,68 @@ const ChoiceForm = props =>
       component={Controls.SingleCheck}
       label={tex('qcm_shuffle')}
     />
+    <Field
+      name="fixedScore"
+      component={Controls.SingleCheck}
+      label={tex('fixed_score')}
+    />
+    {props.fixedScore.input.value === true &&
+      <div className="sub-field">
+        <Field
+          name="fixedSuccess"
+          component={Controls.Number}
+          label={tex('fixed_score_on_success')}
+        />
+        <Field
+          name="fixedFailure"
+          component={Controls.Number}
+          label={tex('fixed_score_on_failure')}
+        />
+      </div>
+    }
     <hr/>
     <FieldArray
       name="choices"
       component={ChoiceItems}
       choiceTicks={props.choiceTicks}
-      props={{multiple: props.multiple.input.value}}
+      changeFieldValue={props.changeFieldValue}
+      props={{
+        multiple: props.multiple.input.value,
+        fixedScore: props.fixedScore.input.value
+      }}
     />
   </fieldset>
+
+ChoiceForm.propTypes = {
+  choiceTicks: T.arrayOf(T.bool).isRequired,
+  changeFieldValue: T.func.isRequired
+}
 
 let Choice = props =>
   <Fields
     component={ChoiceForm}
     choiceTicks={props.choiceTicks}
+    changeFieldValue={props.changeFieldValue}
     names={[
       'multiple',
       'random',
+      'fixedScore',
       'choices'
     ]}
   />
 
+Choice.propTypes = {
+  choiceTicks: T.arrayOf(T.bool).isRequired,
+  changeFieldValue: T.func.isRequired
+}
+
 Choice = connect(
   state => ({
     choiceTicks: choiceTicksSelector(state)
+  }),
+  dispatch => ({
+    changeFieldValue: (field, value) =>
+      dispatch(change(ITEM_FORM, field, value))
   })
 )(Choice)
 

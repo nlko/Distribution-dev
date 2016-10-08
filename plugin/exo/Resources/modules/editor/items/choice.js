@@ -25,13 +25,16 @@ function reducer(item = {}, action) {
         solutions: {$set: [
           {
             id: firstChoiceId,
-            score: 0
+            score: 1
           },
           {
             id: secondChoiceId,
             score: 0
           }
-        ]}
+        ]},
+        score: {
+          type: 'sum'
+        }
       })
     }
   }
@@ -46,7 +49,12 @@ function formValues(item) {
   const choicesWithSolutions = item.choices.map(
     choice => Object.assign({}, choice, solutionsById[choice.id])
   )
-  return update(item, {choices: {$set: choicesWithSolutions}})
+  return update(item, {
+    choices: {$set: choicesWithSolutions},
+    scoreSum: {$set: item.score.type === 'sum'},
+    fixedFailure: {$set: 0},
+    fixedSuccess: {$set: 1}
+  })
 }
 
 export function choiceTicksSelector(state) {
