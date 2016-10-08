@@ -51,7 +51,7 @@ function formValues(item) {
   )
   return update(item, {
     choices: {$set: choicesWithSolutions},
-    scoreSum: {$set: item.score.type === 'sum'},
+    fixedScore: {$set: item.score.type === 'fixed'},
     fixedFailure: {$set: 0},
     fixedSuccess: {$set: 1}
   })

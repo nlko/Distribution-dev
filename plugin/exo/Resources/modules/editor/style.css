@@ -233,7 +233,7 @@
   margin-left: 20px;
 }
 
-.sub-field {
+.sub-fields {
   margin-left: 20px;
 }
 
@@ -276,7 +276,7 @@ a[role=tab] {
   margin-right: 8px;
 }
 
-.quiz-editor .choice-items .choice-feedback {
+.quiz-editor .choice-items .feedback-container {
   padding-left: 20px;
 }
 

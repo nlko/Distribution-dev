@@ -48,7 +48,7 @@ const StepPicking = props =>
       label={tex('random_steps_order')}
     />
     {props.random.input.value === true &&
-      <div className="sub-field">
+      <div className="sub-fields">
         <Field
           name="pick"
           component={Controls.Number}
@@ -97,7 +97,7 @@ const CorrectionMode = props =>
       label={tex('availability_of_correction')}
     />
     {props.correctionMode.input.value === SHOW_CORRECTION_AT_DATE &&
-      <div className="sub-field">
+      <div className="sub-fields">
         <Field
           name="correctionDate"
           component={Controls.Date}

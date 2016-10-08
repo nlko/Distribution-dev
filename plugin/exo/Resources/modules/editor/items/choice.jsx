@@ -38,11 +38,13 @@ class ChoiceItem extends Component {
             component={Controls.Textarea}
           />
         {this.state.showFeedback &&
-          <Field
-            id={`${this.props.name}.feedback`}
-            component={Controls.Textarea}
-            name={`${this.props.name}.feedback`}
-          />
+          <div className="feedback-container">
+            <Field
+              id={`${this.props.name}.feedback`}
+              component={Controls.Textarea}
+              name={`${this.props.name}.feedback`}
+            />
+          </div>
         }
         </div>
         <div className="right-controls">
@@ -132,7 +134,7 @@ const ChoiceForm = props =>
       label={tex('fixed_score')}
     />
     {props.fixedScore.input.value === true &&
-      <div className="sub-field">
+      <div className="sub-fields">
         <Field
           name="fixedSuccess"
           component={Controls.Number}
