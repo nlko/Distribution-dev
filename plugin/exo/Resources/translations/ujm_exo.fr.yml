@@ -273,6 +273,7 @@ no_thing_import: Aucune question à importer n'est cochée
 not_image_messsage: Le document doit être une image
 not_enought_papers: Pour afficher la docimologie, il doit y avoir au moins 12 copies.
 not_yet_mark: Pas encore noté
+no_hint_info: Aucun indice n'est associé à cette question.
 no_user_found: Pas d'utilisateur trouvé
 n_question: Question n°
 number_max_attempts_help: Entrez 0 pour un nombre d'essais illimité

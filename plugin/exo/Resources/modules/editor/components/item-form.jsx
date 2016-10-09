@@ -76,9 +76,7 @@ const Hints = props =>
       {tex('hints')}
     </label>
     {props.fields.length === 0 &&
-      <div className="no-hint-info">
-        Aucun indice n'est associé à cette question.
-      </div>
+      <div className="no-hint-info">{tex('no_hint_info')}</div>
     }
     <ul id="hint-list">
       {props.fields.map((hint, index) =>
@@ -162,8 +160,8 @@ class ItemForm extends Component {
   }
 }
 
-// TODO: update field names (specification, supplementary, etc.)
-// Missing: categories, objects, resources
+// TODO: update field names when available (specification, supplementary, etc.)
+// Missing: categories, objects, resources, models
 
 ItemForm.propTypes = {
   id: T.string.isRequired,

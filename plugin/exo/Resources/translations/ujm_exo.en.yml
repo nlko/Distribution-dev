@@ -266,11 +266,12 @@ no_img: You must upload a picture
 no_img_select: You must select a picture
 no_label: No labels associated
 none: None
+no_hint_info: There are no hints yet.
 no_paper_found: No paper found
 no_question: You don't ask for anything
 no_question_found: No question found
 no_rights: Your aren't the owner of this question and it's not shared with you.
-not_allowed_modify_paper: You can't change your answers anymore !
+not_allowed_modify_paper: You can't change your answers anymore!
 no_thing_import: No question is checked for the import.
 not_image_messsage: The document should be an image.
 not_enought_papers: At leasr 12 papers are necessary to display the grading system.
