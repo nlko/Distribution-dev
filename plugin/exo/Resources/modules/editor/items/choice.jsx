@@ -44,6 +44,7 @@ class ChoiceItem extends Component {
               id={`${this.props.name}.feedback`}
               component={Controls.Textarea}
               name={`${this.props.name}.feedback`}
+              title={tex('feedback')}
             />
           </div>
         }
