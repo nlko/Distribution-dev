@@ -163,6 +163,7 @@ export class Textarea extends Component {
     return (
       <div
         className="form-control"
+        title={this.props.title}
         role="textbox"
         contentEditable="true"
         aria-multiline="true"
@@ -177,6 +178,7 @@ export class Textarea extends Component {
     return (
       <textarea
         id={this.props.id}
+        title={this.props.title}
         className="form-control claroline-tiny-mce hide"
         defaultValue={this.content}
       />
@@ -209,7 +211,8 @@ export class Textarea extends Component {
 
 Textarea.propTypes = {
   id: T.string.isRequired,
-  minRows: T.number
+  minRows: T.number,
+  title: T.string
 }
 
 Textarea.defaultProps = {
@@ -274,7 +277,7 @@ export const CollapsibleSection = props =>
         &nbsp;{props.showText}
       </a>
     }
-      <Collapse in={!props.hidden} timeout={1000}>
+      <Collapse in={!props.hidden}>
         <div>
           {props.children}
           <a role="button" onClick={props.toggle}>

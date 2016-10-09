@@ -128,6 +128,34 @@
   text-align: center;
 }
 
+.quiz-editor .hint-items > ul {
+  padding-left: 0;
+  list-style-type: none;
+}
+
+.quiz-editor .hint-item {
+  display: flex;
+}
+
+.quiz-editor .hint-value {
+  flex-grow: 1;
+}
+
+.quiz-editor .hint-penalty {
+  width: 60px;
+  margin: 0 12px;
+}
+
+.quiz-editor .no-hint-info {
+  padding: 12px 0;
+}
+
+.quiz-editor .hint-items .footer {
+  margin-left: 20px;
+  margin-right: 98px;
+  text-align: center;
+}
+
 .quiz-editor .text-editor {
   position: relative;
 }
@@ -259,8 +287,6 @@ a[role=tab] {
 
 .quiz-editor .choice-items li > div {
   display: flex;
-  flex-direction: row;
-  align-items: flex-start;
 }
 
 .quiz-editor .choice-items .choice-tick {

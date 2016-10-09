@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import Collapse from 'react-bootstrap/lib/Collapse'
-import {Field, reduxForm} from 'redux-form'
+import {Field, FieldArray, reduxForm} from 'redux-form'
 import {t, tex} from './../lib/translate'
+import {makeId} from './../util'
 import Controls from './form-controls.jsx'
 
 const T = React.PropTypes
@@ -40,8 +41,73 @@ Metadata.propTypes = {
   itemId: T.string.isRequired
 }
 
+const Hint = props =>
+  <div className="hint-item">
+    <div className="hint-value">
+      <Field
+        id={`${props.name}.data`}
+        name={`${props.name}.data`}
+        title={tex('hint')}
+        component={Controls.Textarea}
+      />
+    </div>
+    <Field
+      name={`${props.name}.penalty`}
+      className="form-control hint-penalty"
+      title={tex('penalty')}
+      component="input"
+      type="number"
+      min="0"
+    />
+    <span
+      role="button"
+      title={t('delete')}
+      className="fa fa-trash-o"
+      onClick={props.onRemove}
+    />
+  </div>
+
+const Hints = props =>
+  <div className="hint-items">
+    <label
+      className="control-label"
+      htmlFor="hint-list"
+    >
+      {tex('hints')}
+    </label>
+    {props.fields.length === 0 &&
+      <div className="no-hint-info">
+        Aucun indice n'est associé à cette question.
+      </div>
+    }
+    <ul id="hint-list">
+      {props.fields.map((hint, index) =>
+        <li key={hint}>
+          <Hint
+            name={hint}
+            onRemove={() => props.fields.remove(index)}
+          />
+        </li>
+      )}
+      <div className="footer">
+        <button
+          className="btn btn-default"
+          onClick={() => props.fields.push({id: makeId(), penalty: 0})}
+        >
+          <span className="fa fa-plus"/>
+          &nbsp;{tex('add_hint')}
+        </button>
+      </div>
+    </ul>
+  </div>
+
 const Interact = props =>
   <fieldset>
+    <FieldArray
+      name="hints"
+      component={Hints}
+    />
+    <hr/>
     <Field
       id={id('feedback', props.itemId)}
       name="feedback"
@@ -97,7 +163,7 @@ class ItemForm extends Component {
 }
 
 // TODO: update field names (specification, supplementary, etc.)
-// Missing: categories, hints
+// Missing: categories, objects, resources
 
 ItemForm.propTypes = {
   id: T.string.isRequired,

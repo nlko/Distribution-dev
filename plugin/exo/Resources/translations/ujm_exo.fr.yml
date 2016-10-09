@@ -2,6 +2,7 @@
 actions: Actions
 add: Ajouter
 add_choice: Ajouter un choix
+add_hint: Ajouter un indice
 add_label: Ajouter un label
 add_new_picture: Ajouter une nouvelle image
 add_proposal: Ajouter une proposition
@@ -176,7 +177,7 @@ hole_edition: Edition d'une question à trous
 hole_selector: Proposer une liste
 home_exercise: Accueil de l'exercice
 hide_additional_info: Masquer les informations supplémentaires
-hide_interact_fields: Cacher les indices et le feedback global
+hide_interact_fields: Cacher les indices et le commentaire final
 hide_metadata_fields: Cacher les métadonnées et consignes
 hint_points: "[0,1] - %count% point|]1,Inf[ - %count% points"
 
@@ -390,7 +391,7 @@ short: Courte
 show: Afficher
 show_instructions: Montrer les consignes
 show_additional_info: Afficher les informations supplémentaires
-show_interact_fields: Indices et feedback global
+show_interact_fields: Indices et commentaire final
 show_metadata_fields: Métadonnées et consignes
 signing: Passation
 size: Taille

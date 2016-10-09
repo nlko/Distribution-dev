@@ -35,6 +35,7 @@ class ChoiceItem extends Component {
           <Field
             id={`${this.props.name}.data`}
             name={`${this.props.name}.data`}
+            title={tex('response')}
             component={Controls.Textarea}
           />
         {this.state.showFeedback &&
@@ -51,6 +52,7 @@ class ChoiceItem extends Component {
             {!this.props.fixedScore &&
               <Field
                 name={`${this.props.name}.score`}
+                title={tex('score')}
                 component="input"
                 type="number"
                 className="form-control choice-score"
