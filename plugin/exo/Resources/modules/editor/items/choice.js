@@ -2,6 +2,7 @@ import zipObject from 'lodash/zipObject'
 import {ITEM_CREATE} from './../actions'
 import {makeId, update} from './../util'
 import {Choice as component} from './choice.jsx'
+import {ITEM_FORM} from './../components/item-form.jsx'
 
 function reducer(item = {}, action) {
   switch (action.type) {
@@ -18,7 +19,7 @@ function reducer(item = {}, action) {
             data: null
           },
           {
-            id: firstChoiceId,
+            id: secondChoiceId,
             data: null
           }
         ]},
@@ -31,10 +32,7 @@ function reducer(item = {}, action) {
             id: secondChoiceId,
             score: 0
           }
-        ]},
-        score: {
-          type: 'sum'
-        }
+        ]}
       })
     }
   }
@@ -58,7 +56,7 @@ function formValues(item) {
 }
 
 export function choiceTicksSelector(state) {
-  const formValues = state.form['item-properties'].values
+  const formValues = state.form[ITEM_FORM].values
 
   if (formValues.multiple) {
     return formValues.choices.map(choice => choice.score > 0)

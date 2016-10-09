@@ -79,7 +79,10 @@ function reduceItems(items = {}, action = {}) {
     case ITEM_CREATE: {
       let newItem = {
         id: action.id,
-        type: action.itemType
+        type: action.itemType,
+        score: {
+          type: 'sum'
+        }
       }
       switch (action.itemType) {
         case 'application/x.choice+json':
