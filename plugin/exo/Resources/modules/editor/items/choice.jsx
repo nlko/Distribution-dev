@@ -1,10 +1,15 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Field, FieldArray, Fields, change} from 'redux-form'
+import classes from 'classnames'
 import {t, tex} from './../lib/translate'
 import {ITEM_FORM} from './../components/item-form.jsx'
 import Controls from './../components/form-controls.jsx'
-import {choiceTicksSelector} from './choice'
+import {
+  makeNewChoice,
+  choiceDeletablesSelector,
+  choiceTicksSelector,
+} from './choice'
 
 const T = React.PropTypes
 
@@ -61,9 +66,10 @@ class ChoiceItem extends Component {
             }
             <span
               role="button"
+              aria-disabled={!this.props.deletable}
               title={t('delete')}
-              className="fa fa-trash-o"
-              onClick={this.props.onRemove}
+              className={classes('fa', 'fa-trash-o', {disabled: !this.props.deletable})}
+              onClick={() => this.props.deletable && this.props.onRemove()}
             />
             <span
               role="button"
@@ -82,37 +88,45 @@ ChoiceItem.propTypes = {
   multiple: T.bool.isRequired,
   fixedScore: T.bool.isRequired,
   checked: T.bool.isRequired,
+  deletable: T.bool.isRequired,
   onRemove: T.func.isRequired,
   changeFieldValue: T.func.isRequired
 }
 
 const ChoiceItems = props =>
-  <ul className="choice-items">
-    {props.fields.map((choice, index) =>
-      <li key={choice}>
-        <ChoiceItem
-          name={choice}
-          multiple={props.multiple}
-          fixedScore={props.fixedScore}
-          checked={props.choiceTicks[index]}
-          changeFieldValue={props.changeFieldValue}
-          onRemove={() => props.fields.remove(index)}
-        />
-      </li>
-    )}
-    <div className="footer">
-      <button
-        className="btn btn-default"
-        onClick={() => props.fields.push({score: 0})}
-      >
-        <span className="fa fa-plus"/>
-        &nbsp;{tex('add_choice')}
-      </button>
-    </div>
-  </ul>
+  <div>
+    {props.meta.error &&
+      <Controls.ErrorText error={props.meta.error}/>
+    }
+    <ul className="choice-items">
+      {props.fields.map((choice, index) =>
+        <li key={choice}>
+          <ChoiceItem
+            name={choice}
+            multiple={props.multiple}
+            fixedScore={props.fixedScore}
+            checked={props.choiceTicks[index]}
+            deletable={props.choiceDeletables[index]}
+            changeFieldValue={props.changeFieldValue}
+            onRemove={() => {props.fields.remove(index)}}
+          />
+        </li>
+      )}
+      <div className="footer">
+        <button
+          className="btn btn-default"
+          onClick={() => props.fields.push(makeNewChoice())}
+        >
+          <span className="fa fa-plus"/>
+          &nbsp;{tex('add_choice')}
+        </button>
+      </div>
+    </ul>
+  </div>
 
 ChoiceItems.propTypes = {
   fields: T.object.isRequired,
+  choiceDeletables: T.arrayOf(T.bool).isRequired,
   choiceTicks: T.arrayOf(T.bool).isRequired,
   multiple: T.bool.isRequired,
   fixedScore: T.bool.isRequired,
@@ -141,6 +155,7 @@ const ChoiceForm = props =>
         <Field
           name="fixedSuccess"
           component={Controls.Number}
+          min={0}
           label={tex('fixed_score_on_success')}
         />
         <Field
@@ -155,6 +170,7 @@ const ChoiceForm = props =>
       name="choices"
       component={ChoiceItems}
       choiceTicks={props.choiceTicks}
+      choiceDeletables={props.choiceDeletables}
       changeFieldValue={props.changeFieldValue}
       props={{
         multiple: props.multiple.input.value,
@@ -164,6 +180,7 @@ const ChoiceForm = props =>
   </fieldset>
 
 ChoiceForm.propTypes = {
+  choiceDeletables: T.arrayOf(T.bool).isRequired,
   choiceTicks: T.arrayOf(T.bool).isRequired,
   changeFieldValue: T.func.isRequired
 }
@@ -171,6 +188,7 @@ ChoiceForm.propTypes = {
 let Choice = props =>
   <Fields
     component={ChoiceForm}
+    choiceDeletables={props.choiceDeletables}
     choiceTicks={props.choiceTicks}
     changeFieldValue={props.changeFieldValue}
     names={[
@@ -182,12 +200,14 @@ let Choice = props =>
   />
 
 Choice.propTypes = {
+  choiceDeletables: T.arrayOf(T.bool).isRequired,
   choiceTicks: T.arrayOf(T.bool).isRequired,
   changeFieldValue: T.func.isRequired
 }
 
 Choice = connect(
   state => ({
+    choiceDeletables: choiceDeletablesSelector(state),
     choiceTicks: choiceTicksSelector(state)
   }),
   dispatch => ({

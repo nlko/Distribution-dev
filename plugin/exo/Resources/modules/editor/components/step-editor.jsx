@@ -121,7 +121,7 @@ let ItemPanel = props =>
           {props.expanded &&
             <ItemForm
               id={props.item.id}
-              initialValues={properties[props.item.type].formValues(props.item)}
+              initialValues={properties[props.item.type].initialFormValues(props.item)}
             >
               {React.createElement(
                 properties[props.item.type].component,

@@ -146,7 +146,11 @@ find_question_advance: question advanced
 find_what: What you're looking for
 final_mark: Final mark
 finish: Finish
+fixed_failure_above_success_error: This value should be lesser than the score in case of success.
+fixed_success_under_failure_error: This value should be greater than or equal to the score in case of failure.
 fixed_score: Fixed score
+fixed_score_choice_at_least_one_correct_answer_error: At least one correct answer must be checked.
+fixed_score_choice_no_correct_answer_error: The correct answer must be checked.
 fixed_score_on_success: Result on success
 fixed_score_on_failure: Result on failure
 for_type_of: for a question of type
@@ -415,6 +419,8 @@ step_item_add: Drag'n' drop or click the "+" button to add questions.
 step_need_manual_correction: This step needs manual correction
 stat_users: "[0, 1] %count% user|]1,Inf[ %count% users"
 stat_have_responded: have responded
+sum_score_choice_at_least_one_correct_answer_error: At least one answer must have a positive score.
+sum_score_choice_no_correct_answer_error: The correct answer must have a positive score.
 
 # T
 temporary_mark: Temporary score

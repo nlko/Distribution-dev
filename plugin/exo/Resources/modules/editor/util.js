@@ -60,3 +60,14 @@ export function getIndex(array, element) {
 
   return index
 }
+
+export function extractTextFromHtml(html) {
+  if (!html) {
+    return ''
+  }
+
+  const wrapper = document.createElement('div')
+  wrapper.innerHTML = html
+
+  return wrapper.textContent
+}

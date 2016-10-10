@@ -192,6 +192,16 @@
   border: none;
 }
 
+.quiz-editor .error-text {
+  color: #b94a48;
+  margin: 5px auto 10px auto;
+}
+
+.quiz-editor .help-block .fa,
+.quiz-editor .error-text .fa {
+  margin-right: 7px;
+}
+
 .drag-handle {
   cursor: move;
 }
@@ -213,6 +223,11 @@
   border-radius: 16px;
   fill: #777;
   stroke: #777;
+}
+
+.fa.disabled {
+  color: #aaa;
+  cursor: not-allowed;
 }
 
 .add-item-modal .modal-body {

@@ -9,13 +9,24 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 const T = React.PropTypes
 
+export const ErrorText = ({error}) =>
+  <div className="error-text">
+    <span className="fa fa-warning"></span>
+    {error}
+  </div>
+
+ErrorText.propTypes = {
+  error: T.string.isRequired
+}
+
 const HelpTexts = ({fieldName, touched, error, help}) =>
   <div className="help-texts">
     {touched && error &&
       <span
         id={helpId(fieldName)}
-        className="help-block">
-        <span className="fa fa-warning"></span>&nbsp;
+        className="help-block"
+      >
+        <span className="fa fa-warning"></span>
         {error}
       </span>
     }
@@ -23,7 +34,7 @@ const HelpTexts = ({fieldName, touched, error, help}) =>
       <span
         id={helpId(fieldName, 'info')}
         className="help-block">
-        <span className="fa fa-info-circle"></span>&nbsp;
+        <span className="fa fa-info-circle"></span>
         {help}
       </span>
     }
@@ -116,71 +127,135 @@ export class Text extends Component {
   }
 }
 
-export class Textarea extends Component {
+// see https://github.com/lovasoa/react-contenteditable
+class ContentEditable extends Component {
+  constructor() {
+    super()
+    this.emitChange = this.emitChange.bind(this)
+  }
+
+  render() {
+    return React.createElement('div', {
+      ref: el => this.el = el,
+      onInput: this.emitChange,
+      onBlur: this.props.onBlur || this.emitChange,
+      dangerouslySetInnerHTML: {__html: this.props.content},
+      contentEditable: true,
+      title: this.props.title,
+      role: 'textbox',
+      className: 'form-control',
+      'aria-multiline': true,
+      style: {minHeight: `${this.props.minRows * 32}px`}
+    }, this.props.children)
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return (
+      !this.el
+      || (nextProps.content !== this.el.innerHTML
+        && nextProps.content !== this.props.content)
+    )
+  }
+
+  componentDidUpdate() {
+    if (this.el && this.props.content !== this.el.innerHTML) {
+      this.el.innerHTML = this.props.content
+    }
+  }
+
+  emitChange(evt) {
+    if (!this.el) {
+      return
+    }
+
+    const content = this.el.innerHTML
+
+    if (this.props.onChange && content !== this.lastContent) {
+      this.props.onChange(content)
+    }
+
+    this.lastContent = content
+  }
+}
+
+ContentEditable.propTypes = {
+  minRows: T.number.isRequired,
+  content: T.string.isRequired,
+  onChange: T.func.isRequired,
+  title: T.string
+}
+
+class Tinymce extends Component {
   constructor(props) {
     super(props)
-    this.state = {minimal: true}
-    this.content = props.input.value
+    this.editor = null
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!this.state.minimal && prevState.minimal) {
-      this.setupTinyMce(prevProps.input.value)
-    } else if (this.state.minimal && !prevState.minimal) {
-      this.destroyTinyMce()
-    }
-  }
-
-  componentWillUnmount() {
-    if (!this.state.minimal) {
-      this.destroyTinyMce()
-    }
-  }
-
-  setupTinyMce(content) {
+  componentDidMount() {console.log('mounted')
     const interval = setInterval(() => {
       const editor = window.tinymce.get(this.props.id)
+
       if (editor) {
-        editor.setContent(content)
-        editor.on('change', e => {
-          this.content = e.target.getContent()
-          this.props.input.onChange(this.content)
+        this.editor = editor
+        this.editor.on('change', e => {
+          this.props.onChange(e.target.getContent())
         })
         clearInterval(interval)
       }
     }, 100)
   }
 
-  destroyTinyMce() {
-    const editor = window.tinymce.get(this.props.id)
+  componentWillReceiveProps(nextProps) {
+    this.editor.setContent(nextProps.content)
+  }
 
-    if (editor) {
-      editor.destroy()
-    }
+  componentWillUnmount() {
+    this.editor.destroy()
+  }
+
+  render() {
+    return (
+      <textarea
+        id={this.props.id}
+        title={this.props.title}
+        className="form-control claroline-tiny-mce hide"
+        defaultValue={this.props.content}
+      />
+    )
+  }
+}
+
+Tinymce.propTypes = {
+  id: T.string.isRequired,
+  content: T.string.isRequired,
+  onChange: T.func.isRequired,
+  title: T.string
+}
+
+export class Textarea extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {minimal: true}
   }
 
   makeMinimalEditor() {
     return (
-      <div
-        className="form-control"
+      <ContentEditable
         title={this.props.title}
-        role="textbox"
-        contentEditable="true"
-        aria-multiline="true"
-        onInput={e => this.props.input.onChange(e.target.innerHTML)}
-        dangerouslySetInnerHTML={{__html: this.content}}
-        style={{minHeight: `${this.props.minRows * 32}px`}}
+        minRows={this.props.minRows}
+        content={this.props.input.value}
+        onChange={this.props.input.onChange}
       />
     )
   }
 
   makeFullEditor() {
     return (
-      <textarea
+      <Tinymce
         id={this.props.id}
         title={this.props.title}
-        className="form-control claroline-tiny-mce hide"
-        defaultValue={this.content}
+        content={this.props.input.value}
+        onChange={this.props.input.onChange}
       />
     )
   }
@@ -246,7 +321,7 @@ export const Number = props =>
       min={props.min}
       max={props.max}
       aria-describedby={helpIds(props.input.name, props.help)}
-      {...props.input}/>
+    />
   </FormGroup>
 
 Number.propTypes = {
@@ -307,6 +382,7 @@ function helpIds(fieldName, hasHelpInfo) {
 }
 
 export default {
+  ErrorText,
   CollapsibleSection,
   SingleCheck,
   Text,

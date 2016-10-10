@@ -5,6 +5,7 @@ import Panel from 'react-bootstrap/lib/Panel'
 import PanelGroup from 'react-bootstrap/lib/PanelGroup'
 import classes from 'classnames'
 import {t, tex} from './../lib/translate'
+import {notBlank} from './../lib/validate'
 import Controls from './form-controls.jsx'
 import {
   quizTypes,
@@ -176,21 +177,9 @@ let QuizEditor = props =>
 QuizEditor = reduxForm({
   form: 'quiz-properties',
   touchOnChange: true,
-  validate: values => {
-    const errors = {}
-    if (!values.title) {
-      errors.title = 'required'
-    } else if (values.title !== 'BOOM') {
-      errors.title = 'should be BOOM'
-    }
-    if (!values.description) {
-      errors.description = 'required'
-    }
-
-    console.log('validation errors', errors)
-
-    return errors
-  }
+  validate: values => ({
+    title: notBlank(values.title)
+  })
 })(QuizEditor)
 
 const T = React.PropTypes

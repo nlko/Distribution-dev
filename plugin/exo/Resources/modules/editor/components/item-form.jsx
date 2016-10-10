@@ -2,8 +2,13 @@ import React, {Component} from 'react'
 import Collapse from 'react-bootstrap/lib/Collapse'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {t, tex} from './../lib/translate'
+import {notBlank} from './../lib/validate'
 import {makeId} from './../util'
+import {properties} from './../types'
 import Controls from './form-controls.jsx'
+
+// TODO: update field names when available (specification, supplementary, etc.)
+// TODO: add categories, objects, resources, define-as-model
 
 const T = React.PropTypes
 const id = (field, itemId) => `item-${itemId}-field-${field}`
@@ -160,16 +165,23 @@ class ItemForm extends Component {
   }
 }
 
-// TODO: update field names when available (specification, supplementary, etc.)
-// Missing: categories, objects, resources, models
-
 ItemForm.propTypes = {
   id: T.string.isRequired,
   initialValues: T.object.isRequired
 }
 
 ItemForm = reduxForm({
-  form: ITEM_FORM
+  form: ITEM_FORM,
+  touchOnChange: true,
+  validate: values => {
+    const errors = {
+      invite: notBlank(values.invite, true)
+    }
+    const typeValidate = properties[values.type].validateFormValues
+    const typeErrors = typeValidate(values)
+
+    return Object.assign(errors, typeErrors)
+  }
 })(ItemForm)
 
 export {ItemForm}
