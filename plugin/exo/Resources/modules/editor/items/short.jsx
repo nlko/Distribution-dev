@@ -1,4 +1,4 @@
 import React from 'react'
 
-export const Short = props =>
+export const Short = () =>
   <div>SHORT</div>

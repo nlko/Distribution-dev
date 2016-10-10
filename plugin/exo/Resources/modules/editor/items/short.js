@@ -1,6 +1,6 @@
 import {Short as component} from './short.jsx'
 
-function reducer(short = {}, action) {
+function reducer(short = {}) {
   return short
 }
 

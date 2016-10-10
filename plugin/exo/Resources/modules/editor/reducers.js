@@ -65,7 +65,7 @@ function reduceSteps(steps = {}, action = {}) {
       })
     }
     case STEP_CREATE: {
-      const newStep = {id: action.id, items: []}
+      const newStep = {id: action.id, items: [], meta: {}}
       return update(steps, {[action.id]: {$set: newStep}})
     }
     case STEP_DELETE:

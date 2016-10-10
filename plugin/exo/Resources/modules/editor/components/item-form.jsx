@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import Collapse from 'react-bootstrap/lib/Collapse'
 import {Field, FieldArray, reduxForm} from 'redux-form'
 import {t, tex} from './../lib/translate'
 import {notBlank} from './../lib/validate'
@@ -72,6 +71,11 @@ const Hint = props =>
     />
   </div>
 
+Hint.propTypes = {
+  name: T.string.isRequired,
+  onRemove: T.func.isRequired
+}
+
 const Hints = props =>
   <div className="hint-items">
     <label
@@ -94,6 +98,7 @@ const Hints = props =>
       )}
       <div className="footer">
         <button
+          type="button"
           className="btn btn-default"
           onClick={() => props.fields.push({id: makeId(), penalty: 0})}
         >
@@ -103,6 +108,10 @@ const Hints = props =>
       </div>
     </ul>
   </div>
+
+Hints.propTypes = {
+  fields: T.object.isRequired
+}
 
 const Interact = props =>
   <fieldset>
@@ -128,13 +137,13 @@ class ItemForm extends Component {
     super(props)
     this.state = {
       metaHidden: true,
-      feedbackHidden: true,
+      feedbackHidden: true
     }
   }
 
   render() {
     return (
-      <form onSubmit={this.props.handleSubmit(values => {})}>
+      <form>
         <Field
           id={id('question', this.props.id)}
           name="invite"
@@ -167,10 +176,11 @@ class ItemForm extends Component {
 
 ItemForm.propTypes = {
   id: T.string.isRequired,
-  initialValues: T.object.isRequired
+  initialValues: T.object.isRequired,
+  children: T.object.isRequired
 }
 
-ItemForm = reduxForm({
+const ReduxedItemForm = reduxForm({
   form: ITEM_FORM,
   touchOnChange: true,
   validate: values => {
@@ -184,4 +194,4 @@ ItemForm = reduxForm({
   }
 })(ItemForm)
 
-export {ItemForm}
+export {ReduxedItemForm as ItemForm}

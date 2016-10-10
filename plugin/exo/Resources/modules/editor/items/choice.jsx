@@ -8,7 +8,7 @@ import Controls from './../components/form-controls.jsx'
 import {
   makeNewChoice,
   choiceDeletablesSelector,
-  choiceTicksSelector,
+  choiceTicksSelector
 } from './choice'
 
 const T = React.PropTypes
@@ -114,6 +114,7 @@ const ChoiceItems = props =>
       )}
       <div className="footer">
         <button
+          type="button"
           className="btn btn-default"
           onClick={() => props.fields.push(makeNewChoice())}
         >
@@ -130,7 +131,10 @@ ChoiceItems.propTypes = {
   choiceTicks: T.arrayOf(T.bool).isRequired,
   multiple: T.bool.isRequired,
   fixedScore: T.bool.isRequired,
-  changeFieldValue: T.func.isRequired
+  changeFieldValue: T.func.isRequired,
+  meta: T.shape({
+    error: T.string
+  }).isRequired
 }
 
 const ChoiceForm = props =>
@@ -182,7 +186,17 @@ const ChoiceForm = props =>
 ChoiceForm.propTypes = {
   choiceDeletables: T.arrayOf(T.bool).isRequired,
   choiceTicks: T.arrayOf(T.bool).isRequired,
-  changeFieldValue: T.func.isRequired
+  changeFieldValue: T.func.isRequired,
+  fixedScore: T.shape({
+    input: T.shape({
+      value: T.bool.isRequired
+    }).isRequired
+  }).isRequired,
+  multiple: T.shape({
+    input: T.shape({
+      value: T.bool.isRequired
+    }).isRequired
+  }).isRequired
 }
 
 let Choice = props =>

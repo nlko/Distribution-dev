@@ -28,7 +28,8 @@ BaseModal.propTypes = {
   hideModal: T.func.isRequired,
   show: T.bool.isRequired,
   title: T.string.isRequired,
-  className: T.string
+  className: T.string,
+  children: T.oneOfType([T.object, T.array]).isRequired
 }
 
 const ConfirmModal = props =>
@@ -59,7 +60,8 @@ ConfirmModal.propTypes = {
   confirmButtonText: T.string,
   isDangerous: T.bool,
   question: T.string.isRequired,
-  handleConfirm: T.func.isRequired
+  handleConfirm: T.func.isRequired,
+  fadeModal: T.func.isRequired
 }
 
 const DeleteConfirmModal = props =>

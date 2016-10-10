@@ -1,11 +1,10 @@
 import React from 'react'
-import {connect} from 'react-redux'
 import {Field, reduxForm} from 'redux-form'
 import {t, tex} from './../lib/translate'
 import Controls from './form-controls.jsx'
 
 let StepForm = props =>
-  <form onSubmit={props.handleSubmit(values => {})}>
+  <form>
     <Field
       name="title"
       component={Controls.Text}

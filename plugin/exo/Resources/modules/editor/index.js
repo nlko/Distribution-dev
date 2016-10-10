@@ -16,13 +16,15 @@ const dndEditor = DragDropContext(HTML5Backend)(Editor)
 
 angular.module('editor', [])
   .component('editor', {
-    controller: ['$element', el => ReactDOM.render(
-      React.createElement(
-        Provider,
-        {store},
-        React.createElement(dndEditor)
-      ),
-      el[0]
-    )],
+    controller: ['$element', el => {
+      ReactDOM.render(
+        React.createElement(
+          Provider,
+          {store},
+          React.createElement(dndEditor)
+        ),
+        el[0]
+      )
+    }],
     template: '<div></div>'
   })

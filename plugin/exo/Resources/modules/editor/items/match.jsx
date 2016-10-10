@@ -1,4 +1,4 @@
 import React from 'react'
 
-export const Match = props =>
+export const Match = () =>
   <div>MATCH</div>

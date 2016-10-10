@@ -58,7 +58,7 @@ function initialFormValues(item) {
 }
 
 function validateFormValues(values) {
-  const errors = {}
+  const errors = {choices: []}
 
   if (values.fixedScore) {
     if (values.fixedFailure >= values.fixedSuccess) {

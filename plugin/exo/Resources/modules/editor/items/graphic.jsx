@@ -1,4 +1,4 @@
 import React from 'react'
 
-export const Graphic = props =>
+export const Graphic = () =>
   <div>Graphic</div>

@@ -1,4 +1,4 @@
 import React from 'react'
 
-export const Cloze = props =>
+export const Cloze = () =>
   <div>CLOZE</div>

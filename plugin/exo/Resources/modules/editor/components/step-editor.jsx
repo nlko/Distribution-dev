@@ -1,6 +1,5 @@
 import React from 'react'
 import classes from 'classnames'
-import Accordion from 'react-bootstrap/lib/Accordion'
 import Panel from 'react-bootstrap/lib/Panel'
 import PanelGroup from 'react-bootstrap/lib/PanelGroup'
 import {makeItemPanelKey, makeStepPropPanelKey} from './../util'
@@ -181,7 +180,7 @@ export const StepEditor = props =>
         header={
           <ParametersHeader
             active={props.activePanelKey === makeStepPropPanelKey(props.step.id)}
-            onClick={key => props.handlePanelClick(
+            onClick={() => props.handlePanelClick(
               props.step.id,
               makeStepPropPanelKey(props.step.id)
             )}

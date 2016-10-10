@@ -1,6 +1,6 @@
 import {Cloze as component} from './cloze.jsx'
 
-function reducer(cloze = {}, action) {
+function reducer(cloze = {}) {
   return cloze
 }
 

@@ -66,6 +66,15 @@ export const SingleCheck = ({input, label, meta: {touched, error}, help}) =>
   </div>
 
 SingleCheck.propTypes = {
+  input: T.shape({
+    name: T.string.isRequired,
+    value: T.bool.isRequired
+  }),
+  label: T.string.isRequired,
+  meta: T.shape({
+    touched: T.bool.isRequired,
+    error: T.string
+  }),
   help: T.string
 }
 
@@ -83,7 +92,16 @@ const FormGroup = ({input, label, meta: {touched, error}, children, help}) =>
   </div>
 
 FormGroup.propTypes = {
+  input: T.shape({
+    name: T.string.isRequired,
+    value: T.any.isRequired
+  }),
+  meta: T.shape({
+    touched: T.bool.isRequired,
+    error: T.string
+  }),
   children: T.object.isRequired,
+  label: T.string,
   help: T.string
 }
 
@@ -94,7 +112,7 @@ export class Text extends Component {
     this.state = {value: props.input.value}
     this.debouncedOnChange = debounce(event => {
       props.input.onChange(event.target.value)
-    }, 200);
+    }, 200)
     this.handleChange = event => {
       event.persist()
       this.setState({value: event.target.value})
@@ -127,6 +145,15 @@ export class Text extends Component {
   }
 }
 
+Text.propTypes = {
+  input: T.shape({
+    name: T.string.isRequired,
+    value: T.string.isRequired,
+    onChange: T.func.isRequired
+  }),
+  help: T.string
+}
+
 // see https://github.com/lovasoa/react-contenteditable
 class ContentEditable extends Component {
   constructor() {
@@ -138,7 +165,7 @@ class ContentEditable extends Component {
     return React.createElement('div', {
       ref: el => this.el = el,
       onInput: this.emitChange,
-      onBlur: this.props.onBlur || this.emitChange,
+      onBlur: this.emitChange,
       dangerouslySetInnerHTML: {__html: this.props.content},
       contentEditable: true,
       title: this.props.title,
@@ -146,7 +173,7 @@ class ContentEditable extends Component {
       className: 'form-control',
       'aria-multiline': true,
       style: {minHeight: `${this.props.minRows * 32}px`}
-    }, this.props.children)
+    })
   }
 
   shouldComponentUpdate(nextProps) {
@@ -163,7 +190,7 @@ class ContentEditable extends Component {
     }
   }
 
-  emitChange(evt) {
+  emitChange() {
     if (!this.el) {
       return
     }
@@ -191,7 +218,7 @@ class Tinymce extends Component {
     this.editor = null
   }
 
-  componentDidMount() {console.log('mounted')
+  componentDidMount() {
     const interval = setInterval(() => {
       const editor = window.tinymce.get(this.props.id)
 
@@ -287,7 +314,11 @@ export class Textarea extends Component {
 Textarea.propTypes = {
   id: T.string.isRequired,
   minRows: T.number,
-  title: T.string
+  title: T.string,
+  input: T.shape({
+    value: T.string.isRequired,
+    onChange: T.func.isRequired
+  })
 }
 
 Textarea.defaultProps = {
@@ -308,7 +339,11 @@ export const Select = props =>
   </FormGroup>
 
 Select.propTypes = {
-  options: T.arrayOf(T.arrayOf(T.string)).isRequired
+  options: T.arrayOf(T.arrayOf(T.string)).isRequired,
+  input: T.shape({
+    name: T.string.isRequired,
+    onChange: T.func.isRequired
+  })
 }
 
 export const Number = props =>
@@ -326,7 +361,11 @@ export const Number = props =>
 
 Number.propTypes = {
   min: T.number,
-  max: T.number
+  max: T.number,
+  input: T.shape({
+    name: T.string.isRequired
+  }),
+  help: T.string
 }
 
 // tmp
@@ -341,8 +380,17 @@ export const Date = props =>
       selected={props.input.value ? moment.utc(props.input.value) : null}
       minDate={moment.utc()}
       locale={locale}
-      onChange={date => props.input.onChange(date)}/>
+      onChange={date => props.input.onChange(date)}
+    />
   </FormGroup>
+
+Date.propTypes = {
+  input: T.shape({
+    name: T.string.isRequired,
+    value: T.string.isRequired,
+    onChange: T.func.isRequired
+  })
+}
 
 export const CollapsibleSection = props =>
   <div>
@@ -367,7 +415,8 @@ CollapsibleSection.propTypes = {
   hidden: T.bool.isRequired,
   showText: T.string.isRequired,
   hideText: T.string.isRequired,
-  toggle: T.func.isRequired
+  toggle: T.func.isRequired,
+  children: T.object.isRequired
 }
 
 function helpId(fieldName, type = 'error') {
@@ -377,7 +426,7 @@ function helpId(fieldName, type = 'error') {
 function helpIds(fieldName, hasHelpInfo) {
   return classes(
     helpId(fieldName),
-    [helpId(fieldName, 'info')]: hasHelpInfo
+    {[helpId(fieldName, 'info')]: hasHelpInfo}
   )
 }
 

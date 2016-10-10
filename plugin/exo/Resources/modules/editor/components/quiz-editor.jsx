@@ -1,6 +1,5 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {Field, Fields, reduxForm} from 'redux-form'
-import Accordion from 'react-bootstrap/lib/Accordion'
 import Panel from 'react-bootstrap/lib/Panel'
 import PanelGroup from 'react-bootstrap/lib/PanelGroup'
 import classes from 'classnames'
@@ -14,7 +13,9 @@ import {
   SHOW_CORRECTION_AT_DATE
 } from './../types'
 
-const Properties = props =>
+const T = React.PropTypes
+
+const Properties = () =>
   <div>
     <Field
       name="type"
@@ -61,7 +62,15 @@ const StepPicking = props =>
     }
   </div>
 
-const Signing = props =>
+StepPicking.propTypes = {
+  random: T.shape({
+    input: T.shape({
+      value: T.bool.isRequired
+    }).isRequired
+  }).isRequired
+}
+
+const Signing = () =>
   <div>
     <Field
       name="duration"
@@ -108,7 +117,15 @@ const CorrectionMode = props =>
     }
   </div>
 
-const CorrectionOptions = props =>
+CorrectionMode.propTypes = {
+  correctionMode: T.shape({
+    input: T.shape({
+      value: T.string.isRequired
+    }).isRequired
+  }).isRequired
+}
+
+const CorrectionOptions = () =>
   <div>
     <Field
       name="markMode"
@@ -141,7 +158,7 @@ function makeSectionHeader(title, key, {activePanelKey, handlePanelClick}) {
 }
 
 let QuizEditor = props =>
-  <form onSubmit={props.handleSubmit(values => {})}>
+  <form>
     <PanelGroup
       accordion
       activeKey={props.activePanelKey}
@@ -181,8 +198,6 @@ QuizEditor = reduxForm({
     title: notBlank(values.title)
   })
 })(QuizEditor)
-
-const T = React.PropTypes
 
 QuizEditor.propTypes = {
   initialValues: T.object.isRequired,

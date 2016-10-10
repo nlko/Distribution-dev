@@ -1,6 +1,6 @@
 import {Match as component} from './match.jsx'
 
-function reducer(match = {}, action) {
+function reducer(match = {}) {
   return match
 }
 

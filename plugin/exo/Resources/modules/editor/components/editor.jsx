@@ -9,9 +9,12 @@ import {actions} from './../actions'
 import {TYPE_QUIZ, TYPE_STEP} from './../types'
 import select from './../selectors'
 
+const T = React.PropTypes
+
 let Editor = props =>
   <div className="panel-body quiz-editor">
-    <ThumbnailBox thumbnails={props.thumbnails}
+    <ThumbnailBox
+      thumbnails={props.thumbnails}
       onThumbnailClick={props.handleThumbnailClick}
       onThumbnailMove={props.handleThumbnailMove}
       onNewStepClick={props.handleNewStepClick}
@@ -21,6 +24,15 @@ let Editor = props =>
     <div className="edit-zone">{selectSubEditor(props)}</div>
     {makeModal(props)}
   </div>
+
+Editor.propTypes = {
+  thumbnails: T.arrayOf(T.object).isRequired,
+  handleThumbnailClick: T.func.isRequired,
+  handleThumbnailMove: T.func.isRequired,
+  handleNewStepClick: T.func.isRequired,
+  handleStepDeleteClick: T.func.isRequired,
+  showModal: T.func.isRequired
+}
 
 function selectSubEditor(props) {
   switch (props.currentObject.type) {
@@ -49,6 +61,22 @@ function selectSubEditor(props) {
   throw new Error(`Unkwnown type ${props.currentObject}`)
 }
 
+selectSubEditor.propTypes = {
+  activeQuizPanel: T.string.isRequired,
+  handleQuizPanelClick: T.func.isRequired,
+  quizProperties: T.object.isRequired,
+  currentObject: T.shape({
+    type: T.string.isRequired
+  }).isRequired,
+  activeStepPanel: T.string.isRequired,
+  handleStepPanelClick: T.func.isRequired,
+  handleItemDeleteClick: T.func.isRequired,
+  handleItemMove: T.func.isRequired,
+  handleItemCreate: T.func.isRequired,
+  showModal: T.func.isRequired,
+  fadeModal: T.func.isRequired
+}
+
 function makeModal(props) {
   if (props.modal.type) {
     invariant(Modals[props.modal.type], `Unknown modal type "${props.modal.type}"`)
@@ -62,6 +90,16 @@ function makeModal(props) {
       />
     )
   }
+}
+
+makeModal.propTypes = {
+  modal: T.shape({
+    type: T.string.isRequired,
+    fading: T.bool.isRequired,
+    props: T.object.isRequired
+  }),
+  fadeModal: T.func.isRequired,
+  hideModal: T.func.isRequired
 }
 
 function mapStateToProps(state) {
@@ -114,18 +152,6 @@ function mapDispatchToProps(dispatch) {
       dispatch(actions.showModal(type, props))
     }
   }
-}
-
-const T = React.PropTypes
-
-Editor.propTypes = {
-  currentObject: T.shape({
-    type: T.string.isRequired
-  }).isRequired,
-  modal: T.shape({
-    type: T.string,
-    props: T.object.isRequired
-  })
 }
 
 Editor = connect(mapStateToProps, mapDispatchToProps)(Editor)

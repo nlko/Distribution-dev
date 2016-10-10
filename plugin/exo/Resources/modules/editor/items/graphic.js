@@ -1,6 +1,6 @@
 import {Graphic as component} from './graphic.jsx'
 
-function reducer(graphic = {}, action) {
+function reducer(graphic = {}) {
   return graphic
 }
 
