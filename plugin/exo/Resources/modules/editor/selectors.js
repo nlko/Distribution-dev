@@ -5,10 +5,18 @@ const quiz = state => state.quiz
 const steps = state => state.steps
 const items = state => state.items
 const currentObject = state => state.currentObject
-const quizProperties = state => state.quiz.meta
 const quizOpenPanel = state => state.openPanels[TYPE_QUIZ]
 const openStepPanels = state => state.openPanels[TYPE_STEP]
 const modal = state => state.modal
+
+const quizProperties = createSelector(
+  quiz,
+  quiz => Object.assign({
+    id: quiz.id,
+    title: quiz.title,
+    description: quiz.description
+  }, quiz.parameters)
+)
 
 const stepList = createSelector(
   quiz,
@@ -66,8 +74,10 @@ const currentObjectDeep = createSelector(
     return {
       type: TYPE_STEP,
       id: step.id,
-      items: step.items.map(itemId => items[itemId]),
-      meta: step.meta
+      title: step.title,
+      description: step.description,
+      maxAttempts: step.parameters.maxAttempts,
+      items: step.items.map(itemId => items[itemId])
     }
   }
 )

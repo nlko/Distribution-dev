@@ -6,7 +6,6 @@ import {makeId} from './../util'
 import {properties} from './../types'
 import Controls from './form-controls.jsx'
 
-// TODO: update field names when available (specification, supplementary, etc.)
 // TODO: add categories, objects, resources, define-as-model
 
 const T = React.PropTypes
@@ -146,7 +145,7 @@ class ItemForm extends Component {
       <form>
         <Field
           id={id('question', this.props.id)}
-          name="invite"
+          name="content"
           component={Controls.Textarea}
           label={tex('question')}
         />

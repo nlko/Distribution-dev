@@ -55,8 +55,8 @@ export const properties = definitions.reduce((props, def) => {
     question: def.question,
     component: def.component,
     reducer: def.reducer,
-    initialFormValues: def.initialFormValues,
-    validateFormValues: def.validateFormValues
+    initialFormValues: def.initialFormValues || (values => values),
+    validateFormValues: def.validateFormValues || (() => {})
   }
   return props
 }, {})

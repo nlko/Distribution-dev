@@ -54,7 +54,9 @@ function normalizeState(rawQuiz) {
   return {
     quiz: {
       id: rawQuiz.id,
-      meta: rawQuiz.meta,
+      title: rawQuiz.title,
+      description: rawQuiz.description,
+      parameters: rawQuiz.parameters,
       steps: rawQuiz.steps.map(step => step.id)
     },
     steps,

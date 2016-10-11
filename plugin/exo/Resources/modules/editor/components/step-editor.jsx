@@ -187,7 +187,10 @@ export const StepEditor = props =>
           />
         }
       >
-        <StepForm stepId={props.step.id} initialValues={props.step.meta}/>
+        <StepForm
+          stepId={props.step.id}
+          initialValues={props.step}
+        />
       </Panel>
       {props.step.items.map((item, index) =>
         <ItemPanel
@@ -218,8 +221,10 @@ export const StepEditor = props =>
 StepEditor.propTypes = {
   step: T.shape({
     id: T.string.isRequired,
-    items: T.arrayOf(T.object).isRequired,
-    meta: T.object.isRequired
+    title: T.string,
+    description: T.string,
+    maxAttempts: T.number,
+    items: T.arrayOf(T.object).isRequired
   }).isRequired,
   activePanelKey: T.oneOfType([T.string, T.bool]).isRequired,
   handlePanelClick: T.func.isRequired,

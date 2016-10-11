@@ -1,5 +1,6 @@
 import update from 'immutability-helper'
 import invariant from 'invariant'
+import React from 'react'
 
 // re-export immutability-helper with a custom delete command
 update.extend('$delete', (property, object) => {
@@ -70,4 +71,12 @@ export function extractTextFromHtml(html) {
   wrapper.innerHTML = html
 
   return wrapper.textContent
+}
+
+export function makeInputPropType(valueType) {
+  return React.PropTypes.shape({
+    input: React.PropTypes.shape({
+      value: valueType
+    }).isRequired
+  })
 }

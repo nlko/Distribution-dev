@@ -14,17 +14,4 @@ export const Open = () =>
       label={tex('score_max')}
       help={tex('score_max_help')}
     />
-    <Field
-      name="maxLength"
-      component={Controls.Number}
-      min={0}
-      style="display:none;"
-      label={tex('open_maximum_length')}
-      help={tex('open_maximum_length_help')}
-    />
   </fieldset>
-
-Open.propTypes = {
-  maxScore: T.number.isRequired,
-  maxLength: T.number.isRequired
-}

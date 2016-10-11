@@ -5,6 +5,7 @@ import PanelGroup from 'react-bootstrap/lib/PanelGroup'
 import classes from 'classnames'
 import {t, tex} from './../lib/translate'
 import {notBlank} from './../lib/validate'
+import {makeInputPropType as input} from './../util'
 import Controls from './form-controls.jsx'
 import {
   quizTypes,
@@ -35,7 +36,7 @@ const Properties = () =>
       label={t('description')}
     />
     <Field
-      name="metadataVisible"
+      name="showMetadata"
       component={Controls.SingleCheck}
       label={tex('metadata_visible')}
       help={tex('metadata_visible_help')}
@@ -62,14 +63,6 @@ const StepPicking = props =>
     }
   </div>
 
-StepPicking.propTypes = {
-  random: T.shape({
-    input: T.shape({
-      value: T.bool.isRequired
-    }).isRequired
-  }).isRequired
-}
-
 const Signing = () =>
   <div>
     <Field
@@ -87,7 +80,7 @@ const Signing = () =>
       help={tex('number_max_attempts_help')}
     />
     <Field
-      name="dispButtonInterrupt"
+      name="interruptible"
       component={Controls.SingleCheck}
       label={tex('allow_test_exit')}
     />
@@ -101,7 +94,7 @@ const Signing = () =>
 const CorrectionMode = props =>
   <div>
     <Field
-      name="correctionMode"
+      name="showCorrectionAt"
       component={Controls.Select}
       options={correctionModes.map(mode => [mode[0], tex(mode[1])])}
       label={tex('availability_of_correction')}
@@ -117,29 +110,21 @@ const CorrectionMode = props =>
     }
   </div>
 
-CorrectionMode.propTypes = {
-  correctionMode: T.shape({
-    input: T.shape({
-      value: T.string.isRequired
-    }).isRequired
-  }).isRequired
-}
-
 const CorrectionOptions = () =>
   <div>
     <Field
-      name="markMode"
+      name="showScoreAt"
       component={Controls.Select}
       options={markModes.map(mode => [mode[0], tex(mode[1])])}
       label={tex('score_displaying')}
     />
     <Field
-      name="statistics"
+      name="showStatistics"
       component={Controls.SingleCheck}
       label={tex('statistics')}
     />
     <Field
-      name="minimalCorrection"
+      name="showFullCorrection"
       component={Controls.SingleCheck}
       label={tex('minimal_correction')}
     />
@@ -167,7 +152,7 @@ let QuizEditor = props =>
         eventKey="properties"
         header={makeSectionHeader(t('properties'), 'properties', props)}
       >
-        {props.activePanelKey === 'properties' && <Properties/>}
+        {props.activePanelKey === 'properties' && <Properties {...props}/>}
       </Panel>
       <Panel
         eventKey="step-picking"

@@ -69,12 +69,12 @@ SingleCheck.propTypes = {
   input: T.shape({
     name: T.string.isRequired,
     value: T.bool.isRequired
-  }),
+  }).isRequired,
   label: T.string.isRequired,
   meta: T.shape({
     touched: T.bool.isRequired,
     error: T.string
-  }),
+  }).isRequired,
   help: T.string
 }
 
@@ -150,7 +150,7 @@ Text.propTypes = {
     name: T.string.isRequired,
     value: T.string.isRequired,
     onChange: T.func.isRequired
-  }),
+  }).isRequired,
   help: T.string
 }
 
@@ -318,7 +318,7 @@ Textarea.propTypes = {
   input: T.shape({
     value: T.string.isRequired,
     onChange: T.func.isRequired
-  })
+  }).isRequired
 }
 
 Textarea.defaultProps = {
@@ -343,7 +343,7 @@ Select.propTypes = {
   input: T.shape({
     name: T.string.isRequired,
     onChange: T.func.isRequired
-  })
+  }).isRequired
 }
 
 export const Number = props =>
@@ -364,7 +364,7 @@ Number.propTypes = {
   max: T.number,
   input: T.shape({
     name: T.string.isRequired
-  }),
+  }).isRequired,
   help: T.string
 }
 
@@ -390,7 +390,7 @@ Date.propTypes = {
     name: T.string.isRequired,
     onChange: T.func.isRequired,
     value: T.string
-  })
+  }).isRequired
 }
 
 export const CollapsibleSection = props =>

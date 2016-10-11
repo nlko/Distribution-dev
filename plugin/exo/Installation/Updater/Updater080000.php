@@ -30,41 +30,42 @@ class Updater080000
     {
         $this->log('Add mime-type to Questions...');
 
-        // Update choice questions
-        $query = 'UPDATE ujm_question SET mime_type= "'.QuestionType::CHOICE.'" WHERE type="InteractionQCM"';
-        $this->connection->query($query);
+        $oneToOneTypes = [
+            'InteractionQCM' => QuestionType::CHOICE,
+            'InteractionGraphic' => QuestionType::GRAPHIC,
+            'InteractionHole' => QuestionType::CLOZE,
+            'InteractionMatching' => QuestionType::MATCH,
+        ];
 
-        // Update graphic questions
-        $query = 'UPDATE ujm_question SET mime_type= "'.QuestionType::GRAPHIC.'" WHERE type="InteractionGraphic"';
-        $this->connection->query($query);
+        $sql = 'UPDATE ujm_question SET mime_type = :mime WHERE type = :type';
+        $stmt = $this->connection->prepare($sql);
 
-        // Update cloze questions
-        $query = 'UPDATE ujm_question SET mime_type= "'.QuestionType::CLOZE.'" WHERE type="InteractionHole"';
-        $this->connection->query($query);
+        foreach ($oneToOneTypes as $type => $mime) {
+            $stmt->bindValue(':mime', $mime);
+            $stmt->bindValue(':type', $type);
+            $stmt->execute();
+        }
 
-        // Update words questions (InteractionOpen + type = oneWord | short)
-        $query = 'UPDATE ujm_question AS q ';
-        $query .= 'LEFT JOIN ujm_interaction_open AS o ON (o.question_id = q.id) ';
-        $query .= 'LEFT JOIN ujm_type_open_question AS t ON (o.typeopenquestion_id = t.id) ';
-        $query .= 'SET q.mime_type= "'.QuestionType::WORDS.'" ';
-        $query .= 'WHERE q.type="InteractionOpen" ';
-        $query .= '  AND t.value != "long" ';
-        $this->connection->query($query);
+        $wordsSql = sprintf('
+            UPDATE ujm_question AS q
+            LEFT JOIN ujm_interaction_open AS o ON (o.question_id = q.id)
+            LEFT JOIN ujm_type_open_question AS t ON (o.typeopenquestion_id = t.id)
+            SET q.mime_type= "%s"
+            WHERE q.type= "InteractionOpen"
+            AND t.value != "long"
+        ', QuestionType::WORDS);
 
-        // Update open questions (InteractionOpen + type = long)
-        $query = 'UPDATE ujm_question AS q ';
-        $query .= 'LEFT JOIN ujm_interaction_open AS o ON (o.question_id = q.id) ';
-        $query .= 'LEFT JOIN ujm_type_open_question AS t ON (o.typeopenquestion_id = t.id) ';
-        $query .= 'SET q.mime_type= "'.QuestionType::OPEN.'" ';
-        $query .= 'WHERE q.type="InteractionOpen" ';
-        $query .= '  AND t.value = "long" ';
-        $this->connection->query($query);
+        $openSql = sprintf('
+            UPDATE ujm_question AS q
+            LEFT JOIN ujm_interaction_open AS o ON (o.question_id = q.id)
+            LEFT JOIN ujm_type_open_question AS t ON (o.typeopenquestion_id = t.id)
+            SET q.mime_type= "%s"
+            WHERE q.type= "InteractionOpen"
+            AND t.value = "long"
+        ', QuestionType::OPEN);
 
-        // Update match questions
-        $query = 'UPDATE ujm_question SET mime_type= "'.QuestionType::MATCH.'" WHERE type="InteractionMatch"';
-        $this->connection->query($query);
-
-        $this->log('done !');
+        $this->connection->exec($wordsSql);
+        $this->connection->exec($openSql);
     }
 
     private function initializeUuid()
