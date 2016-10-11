@@ -209,4 +209,9 @@ class SectionRepository extends NestedTreeRepository
             ->setParameter('sectionId', $parent->getId());
         $queryBuilder->getQuery()->getSingleScalarResult();
     }
+
+    public function findDeletedSections(Wiki $wiki)
+    {
+        return $this->findDeletedSectionsQuery($wiki)->getArrayResult();
+    }
 }

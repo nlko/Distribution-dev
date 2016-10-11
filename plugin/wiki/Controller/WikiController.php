@@ -26,6 +26,19 @@ class WikiController extends Controller
 {
     /**
      * @Route(
+     *      "pif/{wikiId}/{placeholder}",
+     *      defaults={"_format":"html"},
+     *      requirements={"wikiId" = "\d+", "placeholder" = ".*"},
+     *      name="icap_wiki_redirect"
+     * )
+     * @ParamConverter("wiki", class="IcapWikiBundle:Wiki", options={"id" = "wikiId"})
+     */
+    /*public function redirectAction(Wiki $wiki, Request $request) {
+        return $this->redirectToRoute('icap_wiki_view', array('wikiId' => $wiki->getId()));
+    }*/
+
+    /**
+     * @Route(
      *      "/{wikiId}.{_format}",
      *      defaults={"_format":"html"},
      *      requirements={"wikiId" = "\d+", "_format":"html|pdf"},
@@ -40,6 +53,7 @@ class WikiController extends Controller
         $user = $this->getLoggedUser();
         $sectionRepository = $this->get('icap.wiki.section_repository');
         $tree = $sectionRepository->buildSectionTree($wiki, $isAdmin);
+        $deletedSections = $sectionRepository->findDeletedSections($wiki);
         $format = $request->get('_format');
         $response = new Response();
         $this->render(sprintf('IcapWikiBundle:Wiki:view.%s.twig', $format), array(
@@ -48,6 +62,7 @@ class WikiController extends Controller
             'workspace' => $wiki->getResourceNode()->getWorkspace(),
             'isAdmin' => $isAdmin,
             'user' => $user,
+            'deletedSections' => $deletedSections
         ), $response);
         if ($format == 'pdf') {
             return new Response(

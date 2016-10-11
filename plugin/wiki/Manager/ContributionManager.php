@@ -51,7 +51,16 @@ class ContributionManager
         $contribution->setContributor($contributions[1]->getContributor());
         $contribution->setCreationDate($contributions[1]->getCreationDate());
         $contributions[1] = $contribution;
-
+        
         return $contributions;
     }
+
+    public function getContributions(Section $section) {
+        return $this->contributionRepository->findAllForSection($section);
+    }
+
+    public function getContribution(Contribution $contribution) {
+        return $this->contributionRepository->findById($contribution->getId());
+    }
+
 }

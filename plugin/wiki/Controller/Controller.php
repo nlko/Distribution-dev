@@ -19,6 +19,7 @@ use Icap\WikiBundle\Event\Log\LogWikiConfigureEvent;
 use Claroline\CoreBundle\Library\Resource\ResourceCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class Controller extends BaseController
 {
@@ -48,7 +49,7 @@ class Controller extends BaseController
      *
      * @return bool
      */
-    protected function isUserGranted($permission, Wiki $wiki, $collection = null)
+    public function isUserGranted($permission, Wiki $wiki, $collection = null)
     {
         if ($collection === null) {
             $collection = new ResourceCollection(array($wiki->getResourceNode()));
