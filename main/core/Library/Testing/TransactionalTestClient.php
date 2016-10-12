@@ -12,9 +12,9 @@
 namespace Claroline\CoreBundle\Library\Testing;
 
 use Symfony\Bundle\FrameworkBundle\Client;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-use Symfony\Component\BrowserKit\History;
 use Symfony\Component\BrowserKit\CookieJar;
+use Symfony\Component\BrowserKit\History;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 /**
  * @see http://alexandre-salome.fr/blog/Symfony2-Isolation-Of-Tests
@@ -26,21 +26,27 @@ class TransactionalTestClient extends Client
 
     public function __construct(
         HttpKernelInterface $kernel,
-        array $server = array(),
+        array $server = [],
         History $history = null,
         CookieJar $cookieJar = null
     ) {
         parent::__construct($kernel, $server, $history, $cookieJar);
         $this->connection = $this->getContainer()->get('doctrine.dbal.default_connection');
+        //$this->om = $this->getContainer()->get('claroline.persistence.object_manager');
+        //$this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
     }
 
     public function beginTransaction()
     {
+        //$this->om->beginTransaction();
+        //$this->em->beginTransaction();
         $this->connection->beginTransaction();
     }
 
     public function rollback()
     {
+        //$this->om->rollback();
+        //$this->em->rollback();
         $this->connection->rollback();
     }
 
@@ -51,6 +57,7 @@ class TransactionalTestClient extends Client
 
     public function shutdown()
     {
+        var_dump($this->connection->isTransactionActive());
         if ($this->connection->isTransactionActive()) {
             $this->rollback();
         }
