@@ -6,6 +6,7 @@ import {tex} from './../lib/translate'
 function reducer(open = {}, action) {
   switch (action.type) {
     case ITEM_CREATE: {
+
       return update(open, {
         maxScore: {$set: 0},
         maxLength: {$set: 0}

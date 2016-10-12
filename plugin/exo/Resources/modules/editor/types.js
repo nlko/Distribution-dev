@@ -44,7 +44,7 @@ let definitions = [
   match,
   open,
   cloze,
-  graphic  
+  graphic
 ]
 
 export const mimeTypes = definitions.map(def => def.type)
