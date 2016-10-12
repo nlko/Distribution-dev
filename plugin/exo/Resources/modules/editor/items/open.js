@@ -6,9 +6,8 @@ import {tex} from './../lib/translate'
 function reducer(open = {}, action) {
   switch (action.type) {
     case ITEM_CREATE: {
-
       return update(open, {
-        score: {$set: 0},
+        maxScore: {$set: 0},
         maxLength: {$set: 0}
       })
     }
@@ -18,19 +17,19 @@ function reducer(open = {}, action) {
 
 function initialFormValues(open) {
   return update(open, {
-    score: {$set: open.score},
+    maxScore: {$set: open.maxScore},
     maxLength: {$set: open.maxLength}
   })
 }
 
 function validateFormValues(values) {
   const errors = {open: []}
-  if(!values.score || values.score <= 0){
-    errors.score = tex('should_have_a_positive_score')
+  if(values.maxScore < 0){
+    errors.maxScore = tex('should_be_greater_or_equal_to_zero')
   }
 
   if(!values.maxLength || values.maxLength < 0){
-    errors.score = tex('max_length_under_zero')
+    errors.maxLength = tex('should_be_greater_or_equal_to_zero')
   }
   return errors
 }
