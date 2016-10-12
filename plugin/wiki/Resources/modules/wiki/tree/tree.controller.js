@@ -55,9 +55,8 @@ export default class TestController {
 
     // Save on server
     this.treeService.moveSection(this.wiki, section, newParent, newPreviousSibling).then(
-      success => {
-      },
-      failure => {
+      () => {},
+      () => {
         this.dragEnabled = false
         this._setMessage('danger', 'icap_wiki_section_move_error')
       }

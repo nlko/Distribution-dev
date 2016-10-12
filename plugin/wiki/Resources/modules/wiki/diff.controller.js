@@ -16,7 +16,7 @@ export default class Diff {
     let sectionId = _$route.get(this).current.params.sectionId
 
     this.wiki.setDisplayedSection(sectionId).then(
-      success => {
+      () => {
         this.wiki.setDiffContributions(sectionId, oldId, newId)
       }
     )

@@ -3,14 +3,16 @@ let _$resource = new WeakMap()
 let _$location = new WeakMap()
 let _$route = new WeakMap()
 let _transFilter = new WeakMap()
+let _Messages= new WeakMap()
 
 export default class SectionController {
-  constructor ($scope, $resource, $location, $route, wiki, transFilter) {
+  constructor ($scope, $resource, $location, $route, wiki, transFilter, Messages) {
     _$scope.set(this, $scope)
     _$resource.set(this, $resource)
     _$location.set(this, $location)
     _$route.set(this, $route)
     _transFilter.set(this, transFilter)
+    _Messages.set(this, Messages)
 
     this.wiki = wiki
     this.parent = null
@@ -49,9 +51,8 @@ export default class SectionController {
 
   setActiveContribution (section, contribution) {
     this.wiki.defineAsActive(section, contribution).then(
-      success => {
-      },
-      failure => {
+      () => {},
+      () => {
         this._setMessage('success', 'icap_wiki_set_active_contribution_error')
       }
     )
@@ -76,5 +77,6 @@ SectionController.$inject = [
   '$location',
   '$route',
   'WikiService',
-  'transFilter'
+  'transFilter',
+  'Messages'
 ]

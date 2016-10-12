@@ -22,8 +22,7 @@ export default class TreeService {
     section.newPreviousSibling = newPreviousSibling !== null ? newPreviousSibling.id : null
 
     return section.$move(
-      success => {
-      },
+      () => {},
       failure => {
         _wiki.get(this).sections = failure.sections
       }

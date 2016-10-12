@@ -1,15 +1,15 @@
 import angular from 'angular/index'
-import {} from 'angular-bootstrap'
-import {} from 'angular-route'
-import {} from 'angular-ui-tinymce'
-import {} from 'angular-ui-tree'
-import {} from 'angular-loading-bar'
-import {} from 'angular-animate'
-import {} from 'angular-resource'
-import {} from 'angular-loading-bar'
-import translation from 'angular-ui-translation/angular-translation'
-import routing from './routing/routing'
-import {} from 'angular-datetime'
+import 'angular-bootstrap'
+import 'angular-route'
+import 'angular-ui-tinymce'
+import 'angular-ui-tree'
+import 'angular-loading-bar'
+import 'angular-animate'
+import 'angular-resource'
+import 'angular-loading-bar'
+import 'angular-ui-translation/angular-translation'
+import '#/main/core/fos-js-router/module'
+import 'angular-datetime'
 import tinyMceConfig from './tinymce/tinymce.config'
 import restInterceptor from './rest/interceptor.factory'
 import wikiService from './wiki.service'
@@ -143,7 +143,7 @@ angular
 
     return {
       restrict: 'A',
-      link: (scope, element, attrs) => {
+      link: (scope, element) => {
 
         let titles = recur(wikiService.sections)
         for (let key in recur(wikiService.sections)) {

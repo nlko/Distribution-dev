@@ -57,11 +57,13 @@ class ContributionRepository extends EntityRepository
         return $queryBuilder->getQuery()->getResult();
     }
 
-    public function findAllForSection(Section $section) {
+    public function findAllForSection(Section $section)
+    {
         $queryBuilder = $this->createQueryBuilder('contribution')
             ->orderBy('contribution.creationDate', 'DESC')
             ->andWhere('contribution.section = :section')
             ->setParameter('section', $section);
+
         return $queryBuilder->getQuery()->getResult();
     }
 }

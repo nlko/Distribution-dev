@@ -1,3 +1,4 @@
+import angular from 'angular/index'
 import confirmDeletionTemplate from './confirmDeletion.partial.html'
 import confirmHardDeletionTemplate from './confirmHardDeletion.partial.html'
 
@@ -120,7 +121,7 @@ export default class WikiController {
     this.createRootSection = false
   }
 
-  saveSection (section, form) {
+  saveSection (section) {
     this.disableFormButtons = true
 
     // Has the title or text been modified ? If not, just toggle visibility or move section
@@ -150,12 +151,12 @@ export default class WikiController {
     let withChildren = !!(form.deleteChildren && form.deleteChildren.$modelValue)
 
     this.wiki.softDeleteSection(section, withChildren).then(
-      success => {
+      () => {
         this.currentContributions = []
         this.currentSections = []
         this._setMessage('success', 'icap_wiki_section_delete_success')
       },
-      failure => {
+      () => {
         this._setMessage('danger', 'icap_wiki_section_delete_error')
       }
     ).finally(
@@ -180,10 +181,10 @@ export default class WikiController {
     this.disableModalButtons = true
 
     this.wiki.hardDeleteSection(section, this.sectionToHardDelete.idx).then(
-      success => {
+      () => {
         this._setMessage('success', 'icap_wiki_section_remove_success')
       },
-      failure => {
+      () => {
         this._setMessage('danger', 'icap_wiki_section_remove_error')
       }
     ).finally(() => {
@@ -202,11 +203,11 @@ export default class WikiController {
     this.disableFormButtons = true
 
     this.wiki.updateOptions().then(
-      success => {
+      () => {
         _$location.get(this).url('/')
         this._setMessage('success', 'icap_wiki_options_save_success')
       },
-      failure => {
+      () => {
         this._setMessage('danger', 'icap_wiki_options_save_error')
       }
     ).finally(() => {
@@ -218,10 +219,10 @@ export default class WikiController {
     this.disableFormButtons = true
 
     this.wiki.restoreSection(section).then(
-      success => {
+      () => {
         this._setMessage('success', 'icap_wiki_section_restore_success')
       },
-      failure => {
+      () => {
         this._setMessage('danger', 'icap_wiki_section_restore_error')
       }
     ).finally(() => {
@@ -231,14 +232,14 @@ export default class WikiController {
 
   _saveSectionWithNewContribution (section, newContrib, updatedSection) {
     this.wiki.editSection(section, newContrib, updatedSection).then(
-      success => {
+      () => {
         if (newContrib.id === 0) {
           this._setMessage('success', 'icap_wiki_section_add_success')
         } else {
           this._setMessage('success', 'icap_wiki_section_update_success')
         }
       },
-      failure => {
+      () => {
         if (newContrib.id === 0) {
           this._setMessage('danger', 'icap_wiki_section_add_error')
         } else {
@@ -257,12 +258,12 @@ export default class WikiController {
 
   _saveSectionWithoutNewContribution (section, updatedSection) {
     this.wiki.updateSection(section, updatedSection).then(
-      success => {
+      () => {
         this.currentContributions[section.id] = null
         this.currentSections[section.id] = null
         this._setMessage('success', 'icap_wiki_section_update_success')
       },
-      failure => {
+      () => {
         this._setMessage('danger', 'icap_wiki_section_update_error')
       }
     ).finally(() => {

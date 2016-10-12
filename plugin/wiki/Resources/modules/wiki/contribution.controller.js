@@ -14,7 +14,7 @@ export default class ContributionController {
   init () {
     let sectionId = _$route.get(this).current.pathParams.sectionId
     this.wiki.setDisplayedSection(sectionId).then(
-      success => {
+      () => {
         let contributionId = _$route.get(this).current.pathParams.contributionId
         this.wiki.setDisplayedContribution(contributionId)
       }

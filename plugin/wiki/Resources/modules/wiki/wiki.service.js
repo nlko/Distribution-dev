@@ -120,8 +120,6 @@ export default class WikiService {
     return contribution.$save(
       success => {
         this.sections = success.sections
-      },
-      failure => {
       }
     )
   }
@@ -143,8 +141,6 @@ export default class WikiService {
     return section.$update(
       success => {
         this.sections = success.sections
-      },
-      failure => {
       }
     )
   }
@@ -161,12 +157,10 @@ export default class WikiService {
       })
     let contrib = new Contribution(contribution)
     return contrib.$setActive(
-      success => {
+      () => {
         // Find old active contribution and mark it as pre-active
         contribution.is_active = true
         section.activeContribution = contribution
-      },
-      failure => {
       }
     )
   }
@@ -185,9 +179,8 @@ export default class WikiService {
 
     let wiki = new Wiki(_wiki.get(this))
     return wiki.$updateOptions(
-      success => {
-      },
-      failure => {
+      () => {},
+      () => {
         // revert wiki mode
         this.revertMode()
       }
@@ -212,8 +205,6 @@ export default class WikiService {
         // Get updated list of sections and soft deleted sections from server response
         this.sections = success.sections
         this.deletedSections = success.deletedSections
-      },
-      failure => {
       }
     )
   }
@@ -227,10 +218,8 @@ export default class WikiService {
     let section = new Section(sect)
 
     return section.$delete(
-      success => {
+      () => {
         this.deletedSections.splice(idx, 1)
-      },
-      failure => {
       }
     )
   }
@@ -247,7 +236,7 @@ export default class WikiService {
 
     let section = new Section(sect)
     return section.$restore(
-      success => {
+      () => {
         // Strip section out of the soft deleted ones
         let restoredSectionIdx = this.deletedSections.indexOf(sect)
         let restoredSection = this.deletedSections.splice(restoredSectionIdx, 1)[0]
@@ -256,8 +245,6 @@ export default class WikiService {
 
         // Place section at the end of the wiki
         this.sections[0].__children.push(restoredSection)
-      },
-      failure => {
       }
     )
   }

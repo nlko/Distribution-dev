@@ -35,9 +35,9 @@ export default class tinyMceConfig {
   }
 
   _setFromTinymceConfiguration (config) {
-    angular.forEach(config, (value, key) => {
-      this[key] = value
-    })
+    for (let prop of Object.getOwnPropertyNames(config)) {
+      this[ prop ] = config[ prop ]
+    }
   }
 
   _configurationOverrides () {
@@ -49,7 +49,7 @@ export default class tinyMceConfig {
     // The ExecCommand is fired manually in order to be catchable by angular-ui-tinymce and
     // ensure the model is updated right after color change
     this.setup = function (ed) {
-      ed.on('init', function (event) {
+      ed.on('init', function () {
         let oldApply = ed.formatter.apply
         ed.formatter.apply = function apply (name, vars, node) {
           oldApply(name, vars, node)

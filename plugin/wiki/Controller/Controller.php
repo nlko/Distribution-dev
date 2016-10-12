@@ -5,21 +5,20 @@ namespace Icap\WikiBundle\Controller;
 use Claroline\CoreBundle\Event\Log\LogResourceChildUpdateEvent;
 use Claroline\CoreBundle\Event\Log\LogResourceReadEvent;
 use Claroline\CoreBundle\Event\Log\LogResourceUpdateEvent;
-use Icap\WikiBundle\Entity\Wiki;
-use Icap\WikiBundle\Entity\Section;
+use Claroline\CoreBundle\Library\Resource\ResourceCollection;
 use Icap\WikiBundle\Entity\Contribution;
+use Icap\WikiBundle\Entity\Section;
+use Icap\WikiBundle\Entity\Wiki;
+use Icap\WikiBundle\Event\Log\LogContributionCreateEvent;
 use Icap\WikiBundle\Event\Log\LogSectionCreateEvent;
 use Icap\WikiBundle\Event\Log\LogSectionDeleteEvent;
-use Icap\WikiBundle\Event\Log\LogSectionRestoreEvent;
-use Icap\WikiBundle\Event\Log\LogSectionRemoveEvent;
 use Icap\WikiBundle\Event\Log\LogSectionMoveEvent;
+use Icap\WikiBundle\Event\Log\LogSectionRemoveEvent;
+use Icap\WikiBundle\Event\Log\LogSectionRestoreEvent;
 use Icap\WikiBundle\Event\Log\LogSectionUpdateEvent;
-use Icap\WikiBundle\Event\Log\LogContributionCreateEvent;
 use Icap\WikiBundle\Event\Log\LogWikiConfigureEvent;
-use Claroline\CoreBundle\Library\Resource\ResourceCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 class Controller extends BaseController
 {
@@ -34,7 +33,7 @@ class Controller extends BaseController
      */
     protected function checkAccess($permission, Wiki $wiki)
     {
-        $collection = new ResourceCollection(array($wiki->getResourceNode()));
+        $collection = new ResourceCollection([$wiki->getResourceNode()]);
         if (!$this->get('security.authorization_checker')->isGranted($permission, $collection)) {
             throw new AccessDeniedException($collection->getErrorsForDisplay());
         }
@@ -52,7 +51,7 @@ class Controller extends BaseController
     public function isUserGranted($permission, Wiki $wiki, $collection = null)
     {
         if ($collection === null) {
-            $collection = new ResourceCollection(array($wiki->getResourceNode()));
+            $collection = new ResourceCollection([$wiki->getResourceNode()]);
         }
         $checkPermission = false;
         if ($this->get('security.authorization_checker')->isGranted($permission, $collection)) {
@@ -82,7 +81,7 @@ class Controller extends BaseController
      *
      * @return Controller
      */
-    protected function dispatchChildEvent(Wiki $wiki, $childType, $action, $details = array())
+    protected function dispatchChildEvent(Wiki $wiki, $childType, $action, $details = [])
     {
         $event = new LogResourceChildUpdateEvent(
             $wiki->getResourceNode(),
@@ -226,7 +225,7 @@ class Controller extends BaseController
     {
         $section = $this
             ->get('icap.wiki.section_repository')
-            ->findOneBy(array('id' => $sectionId, 'wiki' => $wiki));
+            ->findOneBy(['id' => $sectionId, 'wiki' => $wiki]);
         if ($section === null) {
             throw new NotFoundHttpException();
         }
@@ -246,7 +245,7 @@ class Controller extends BaseController
     {
         $contribution = $this
             ->get('icap.wiki.contribution_repository')
-            ->findOneBy(array('id' => $contributionId, 'section' => $section));
+            ->findOneBy(['id' => $contributionId, 'section' => $section]);
         if ($section === null) {
             throw new NotFoundHttpException();
         }
