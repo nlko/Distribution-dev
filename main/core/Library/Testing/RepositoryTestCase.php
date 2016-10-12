@@ -48,14 +48,13 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 abstract class RepositoryTestCase extends WebTestCase
 {
     private static $om;
-    private static $client;
+    public static $client;
     private static $references;
     private static $time;
     private static $persister;
 
     public static function setUpBeforeClass()
     {
-        //parent::setUpBeforeClass();
         self::$client = static::createClient();
         self::$om = self::$client->getContainer()->get('claroline.persistence.object_manager');
         self::$persister = self::$client->getContainer()->get('claroline.library.testing.persister');
@@ -63,6 +62,12 @@ abstract class RepositoryTestCase extends WebTestCase
         self::$time = new \DateTime();
         self::$client->beginTransaction();
         self::disableTimestampableListener();
+    }
+
+    public function tearDown()
+    {
+        //we don't want to tear down between each tests because we lose the container otherwise
+        //and can't shut down everything properly afterwards
     }
 
     public static function tearDownAfterClass()

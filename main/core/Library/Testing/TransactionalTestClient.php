@@ -32,21 +32,15 @@ class TransactionalTestClient extends Client
     ) {
         parent::__construct($kernel, $server, $history, $cookieJar);
         $this->connection = $this->getContainer()->get('doctrine.dbal.default_connection');
-        //$this->om = $this->getContainer()->get('claroline.persistence.object_manager');
-        //$this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
     }
 
     public function beginTransaction()
     {
-        //$this->om->beginTransaction();
-        //$this->em->beginTransaction();
         $this->connection->beginTransaction();
     }
 
     public function rollback()
     {
-        //$this->om->rollback();
-        //$this->em->rollback();
         $this->connection->rollback();
     }
 
@@ -57,7 +51,6 @@ class TransactionalTestClient extends Client
 
     public function shutdown()
     {
-        var_dump($this->connection->isTransactionActive());
         if ($this->connection->isTransactionActive()) {
             $this->rollback();
         }
