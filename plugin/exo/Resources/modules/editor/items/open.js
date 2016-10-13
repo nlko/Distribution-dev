@@ -1,12 +1,12 @@
 import {Open as component} from './open.jsx'
 import {ITEM_CREATE} from './../actions'
 import {update} from './../util'
-import {tex} from './../lib/translate'
+import {tex, t} from './../lib/translate'
 
 function reducer(open = {}, action) {
+  open.hideMaxLength = true
   switch (action.type) {
     case ITEM_CREATE: {
-
       return update(open, {
         maxScore: {$set: 0},
         maxLength: {$set: 0}
@@ -24,13 +24,11 @@ function initialFormValues(open) {
 }
 
 function validateFormValues(values) {
-  const errors = {open: []}
-  if(values.maxScore < 0){
+  const errors = {}
+  if(values.maxScore === ''){
+    errors.maxScore = t('not_blank_expected')
+  } else if(Number(values.maxScore) < 0){
     errors.maxScore = tex('should_be_greater_or_equal_to_zero')
-  }
-
-  if(!values.maxLength || values.maxLength < 0){
-    errors.maxLength = tex('should_be_greater_or_equal_to_zero')
   }
   return errors
 }
