@@ -36,6 +36,8 @@ use Claroline\CoreBundle\Entity\Workspace\RelWorkspaceTag;
 use Claroline\CoreBundle\Entity\Workspace\Workspace;
 use Claroline\CoreBundle\Entity\Workspace\WorkspaceTag;
 use Claroline\CoreBundle\Entity\Workspace\WorkspaceTagHierarchy;
+use Claroline\MessageBundle\Entity\Message;
+use Claroline\MessageBundle\Entity\UserMessage;
 use Gedmo\Timestampable\TimestampableListener;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -604,6 +606,43 @@ abstract class RepositoryTestCase extends WebTestCase
 
         self::$om->persist($instance);
         self::$om->flush();
+    }
+
+    protected static function createMessage(
+        $alias,
+        User $sender,
+        array $receivers,
+        $object,
+        $content,
+        Message $parent = null,
+        $removed = false
+    ) {
+        $message = new Message();
+        $message->setSender($sender);
+        $message->setObject($object);
+        $message->setContent($content);
+        $message->setDate(self::$time);
+        $message->setTo('x1;x2;x3');
+        if ($parent) {
+            $message->setParent($parent);
+        }
+        self::$om->startFlushSuite();
+        self::create($alias, $message);
+        $userMessage = new UserMessage();
+        $userMessage->setIsSent(true);
+        $userMessage->setUser($sender);
+        $userMessage->setMessage($message);
+        if ($removed) {
+            $userMessage->markAsRemoved($removed);
+        }
+        self::create($alias.'/'.$sender->getUsername(), $userMessage);
+        foreach ($receivers as $receiver) {
+            $userMessage = new UserMessage();
+            $userMessage->setUser($receiver);
+            $userMessage->setMessage($message);
+            self::create($alias.'/'.$receiver->getUsername(), $userMessage);
+        }
+        self::$om->endFlushSuite();
     }
 
     /**
