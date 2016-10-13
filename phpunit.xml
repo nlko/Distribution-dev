@@ -79,7 +79,7 @@
             <!-- <file>main/core/Tests/Database/Repository/ResourceRightsRepositoryTest.php</file> -->
             <!-- <file>main/core/Tests/Database/Repository/ResourceTypeRepositoryTest.php</file> -->
             <!-- <file>main/core/Tests/Database/Repository/RevisionRepositoryTest.php</file> -->
-            <!-- <file>main/core/Tests/Database/Repository/RoleRepositoryTest.php</file> -->
+            <file>main/core/Tests/Database/Repository/RoleRepositoryTest.php</file>
             <!-- <file>main/core/Tests/Database/Repository/ToolRepositoryTest.php</file> -->
             <file>main/core/Tests/Database/Repository/UserMessageRepositoryTest.php</file>
             <file>main/core/Tests/Database/Repository/UserRepositoryTest.php</file>
