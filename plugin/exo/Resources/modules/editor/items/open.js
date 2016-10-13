@@ -7,6 +7,7 @@ function reducer(open = {}, action) {
   open.hideMaxLength = true
   switch (action.type) {
     case ITEM_CREATE: {
+
       return update(open, {
         maxScore: {$set: 0},
         maxLength: {$set: 0}
