@@ -182,7 +182,6 @@ abstract class RepositoryTestCase extends WebTestCase
 
     protected static function createWorkspace($name)
     {
-        //$workspace = self::$persister->workspace($name);
         $workspace = new Workspace();
         $workspace->setName($name);
         $workspace->setCode($name.'Code');
