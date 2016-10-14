@@ -335,10 +335,6 @@ abstract class RepositoryTestCase extends WebTestCase
         $orderedTool->setWorkspace($workspace);
         $orderedTool->setOrder($position);
 
-//        foreach ($roles as $role) {
-//            $orderedTool->addRole($role);
-//        }
-
         self::create("orderedTool/{$workspace->getName()}-{$tool->getName()}", $orderedTool);
     }
 
