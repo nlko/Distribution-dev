@@ -9,6 +9,7 @@ add_proposal: Add a proposal
 add_question: Add a question
 add_step: Add a step
 add_zone_answer: Add an answer zone
+add_keyword: Add a key word
 additional_info: Additional information
 advanced_edition: Advanced edition
 after_the_last_attempt: After the last attempt
@@ -456,6 +457,8 @@ weight_choice: Assign points by answer
 wrong: Wrong
 wrong_name: The input name is wrong
 wrong_point: The input value is wrong
+words_case_sensitive_answer: Should the answer respect the key word case to be considered as valid?
+words_feedback_info: Comment if the keyword appear in the answer
 
 # Y
 yes: Yes

@@ -339,6 +339,58 @@ a[role=tab] {
   margin-left: 8px;
 }
 
+/* WORDS */
+
+/* CHOICES */
+
+.quiz-editor .words-items {
+  padding: 0;
+}
+
+.quiz-editor .words-items li {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.quiz-editor .words-items li > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.quiz-editor .words-items .feedback-container {
+  padding-left: 20px;
+}
+
+.quiz-editor .words-items .footer {
+  margin-left: 20px;
+  margin-right: 98px;
+  text-align: center;
+}
+
+.quiz-editor .words-items .texts-fields {
+  flex-grow: 1;
+  padding-right: 10px;
+}
+
+.quiz-editor .words-items .right-controls {
+  display: flex;
+  flex-direction: row;
+}
+
+.quiz-editor .words-items .right-controls .word-score {
+  width: 60px;
+}
+
+.quiz-editor .words-items .case-sensitive-checkbox {
+  margin: 10px;
+}
+
+.quiz-editor .words-items .right-controls [role=button]{
+  margin-left: 8px;
+}
+
+
 @media (max-width: 991px) {
   .quiz-editor {
     flex-direction: column;

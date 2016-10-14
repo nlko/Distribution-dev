@@ -9,6 +9,7 @@ add_proposal: Ajouter une proposition
 add_question: Ajouter une question
 add_step: Ajouter une étape
 add_zone_answer: Ajouter une zone de réponse
+add_keyword: Ajouter un mot clé
 additional_info: Informations complémentaires
 advanced_edition: Edition avancée
 after_the_last_attempt: Après le dernier essai
@@ -449,6 +450,8 @@ weight_choice: Attribuer les points par réponse
 wrong: Fausse
 wrong_name: Le nom saisi est incorrect
 wrong_point: La valeur saisie est incorrecte
+words_case_sensitive_answer: La réponse doit elle respecter la casse du mot clé pour être valide ?
+words_feedback_info: Commentaire si le mot clé apparait dans la réponse
 
 # Y
 yes: Oui
