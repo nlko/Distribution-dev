@@ -68,19 +68,5 @@
 
 {% block javascripts %}
 {{ parent() }}
-{% javascripts output='js/blog.js'
-    '@FrontEndBundle/Resources/public/jquery-ui/ui/minified/position.min.js'
-    '@FrontEndBundle/Resources/public/jquery-ui/ui/minified/menu.min.js'
-    '@FrontEndBundle/Resources/public/jquery-ui/ui/minified/autocomplete.min.js'
-    '@FrontEndBundle/Resources/public/tag-it/js/tag-it.min.js'
-    %}<script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
-<script type="text/javascript">
-    $(function() {
-        $(".tags").tagit({
-            'availableTags' : ["{{ blog_tags(_resource)|tagnames|join('","')|raw }}"],
-            'allowSpaces' : true
-        });
-    });
-</script>
+<script src="{{ hotAsset('dist/claroline-distribution-plugin-blog-post-edit.js') }}"></script>
 {% endblock %}

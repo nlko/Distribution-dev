@@ -1,0 +1,16 @@
+{
+  "webpack": {
+    "entry": {
+      "comment": "comment/comment",
+      "post": "post/post",
+      "widget-list": "widget/listConfigure",
+      "widget-tags": "widget/tags",
+      "layout": "layout/layout",
+      "layout-banner": "layout/banner",
+      "layout-tagcloud": "layout/tagcloud",
+      "form": "form/fields",
+      "post-edit": "post/edit",
+      "post-new": "post/new"
+    }
+  }
+}
