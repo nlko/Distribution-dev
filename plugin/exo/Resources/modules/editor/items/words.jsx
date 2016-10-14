@@ -41,18 +41,14 @@ class WordsItem extends Component {
           </div>
         }
         </div>
-        <input
+        <Field
           className="case-sensitive-checkbox"
           name={`${this.props.name}.caseSensitive`}
-          type='checkbox'
+          component="input"
+          type="checkbox"
           disabled={!this.props.showCaseSensitive}
           title={tex('words_case_sensitive_answer')}
           checked={this.props.checked}
-          onChange={(e) =>
-            this.props.changeFieldValue(
-            `${this.props.name}.caseSensitive`,
-            e.target.checked ? true : false
-          )}
         />
         <div className="right-controls">
           <Field
