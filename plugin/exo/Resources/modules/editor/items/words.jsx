@@ -9,8 +9,7 @@ import {ITEM_FORM} from './../components/item-form.jsx'
 import {
   makeNewWord,
   wordsDeletablesSelector,
-  wordCaseSensitiveSelector,
-  toggleCaseSensitiveSelector
+  wordCaseSensitiveSelector
 } from './words'
 
 const T = React.PropTypes
@@ -42,22 +41,19 @@ class WordsItem extends Component {
           </div>
         }
         </div>
-
         <input
           className="case-sensitive-checkbox"
           name={`${this.props.name}.caseSensitive`}
-          disabled={!this.props.showCaseSensitive}
           type='checkbox'
+          disabled={!this.props.showCaseSensitive}
           title={tex('words_case_sensitive_answer')}
           checked={this.props.checked}
-          value={this.props.showCaseSensitive ? this.props.checked:false}
           onChange={(e) =>
             this.props.changeFieldValue(
             `${this.props.name}.caseSensitive`,
             e.target.checked ? true : false
           )}
         />
-
         <div className="right-controls">
           <Field
             name={`${this.props.name}.score`}
@@ -106,7 +102,7 @@ const WordsItems = props =>
             name={word}
             deletable={props.wordsDeletables[index]}
             changeFieldValue={props.changeFieldValue}
-            checked={props.showCaseSensitive ? props.wordsCaseSensitive[index]:false}
+            checked={props.wordsCaseSensitive[index]}
             onRemove={() => {props.fields.remove(index)}}
             showCaseSensitive={props.showCaseSensitive}
           />
@@ -137,56 +133,49 @@ WordsItems.propTypes = {
 
 const WordsForm = props =>
   <fieldset>
-    <input
-      className="show-case-sensitive"
-      type='checkbox'
-      name='showCaseSensitive'
-      title={tex('words_case_sensitive_answer')}
-      checked={props.showCaseSensitive}
-      onChange={(e) =>
-        props.changeFieldValue(
-          'showCaseSensitive',
-        e.target.checked ? true : false
-      )}
-    />
     <Field
       className="show-case-sensitive"
       name="showCaseSensitive"
       component={Controls.SingleCheck}
-      label={tex('words_case_sensitive_answer')}
+      label={tex('show_case_sensitive_option')}
     />
     <FieldArray
       name="solutions"
       component={WordsItems}
       wordsDeletables={props.wordsDeletables}
       wordsCaseSensitive={props.wordsCaseSensitive}
-      showCaseSensitive={props.showCaseSensitive}
       changeFieldValue={props.changeFieldValue}
+      props={{
+        showCaseSensitive: props.showCaseSensitive.input.value
+      }}
     />
   </fieldset>
 
 WordsForm.propTypes = {
   wordsDeletables: T.arrayOf(T.bool).isRequired,
-  showCaseSensitive: T.bool.isRequired,
   wordsCaseSensitive: T.arrayOf(T.bool).isRequired,
-  changeFieldValue: T.func.isRequired
+  changeFieldValue: T.func.isRequired,
+  showCaseSensitive: T.shape({
+    input: T.shape({
+      value: T.bool.isRequired
+    }).isRequired
+  }).isRequired
 }
 
 let Words = props =>
   <Fields
     component={WordsForm}
     wordsDeletables={props.wordsDeletables}
-    showCaseSensitive={props.showCaseSensitive}
     wordsCaseSensitive={props.wordsCaseSensitive}
     changeFieldValue={props.changeFieldValue}
     names={[
-      'solutions'
+      'solutions',
+      'showCaseSensitive'
     ]}
   />
 
 Words.propTypes = {
   wordsCaseSensitive: T.arrayOf(T.bool).isRequired,
-  showCaseSensitive: T.bool.isRequired,
   wordsDeletables: T.arrayOf(T.bool).isRequired,
   changeFieldValue: T.func.isRequired
 }
@@ -194,7 +183,6 @@ Words.propTypes = {
 Words = connect(
   state => ({
     wordsDeletables: wordsDeletablesSelector(state),
-    showCaseSensitive: toggleCaseSensitiveSelector(state),
     wordsCaseSensitive: wordCaseSensitiveSelector(state)
   }),
   dispatch => ({

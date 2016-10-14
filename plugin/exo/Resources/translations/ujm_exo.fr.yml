@@ -400,6 +400,7 @@ short: Courte
 show: Afficher
 show_instructions: Montrer les consignes
 show_additional_info: Afficher les informations supplémentaires
+show_case_sensitive_option: Montrer l'option de contrôle de la casse
 show_interact_fields: Indices et commentaire final
 show_metadata_fields: Métadonnées et consignes
 signing: Passation

@@ -415,6 +415,7 @@ start_date: Start date
 sort: Sort documents
 summative : Summative
 show_additional_info: Display additional information
+show_case_sensitive_option: Show case control option
 step: Step
 step_score: Step score
 statistics: Display statistics

@@ -4,11 +4,9 @@ import {update} from './../util'
 import {ITEM_FORM} from './../components/item-form.jsx'
 
 function reducer(words = {}, action) {
-  //words.showCaseSensitive = false
+  
   switch (action.type) {
     case ITEM_CREATE: {
-    //  words.active = false
-      words.showCaseSensitive = false
       return update(words, {
         solutions: {$set: [
           {
@@ -21,12 +19,13 @@ function reducer(words = {}, action) {
       })
     }
   }
-  return open
+  return words
 }
 
 function initialFormValues(words) {
 
   return update(words, {
+    showCaseSensitive: {$set: words.solutions && (words.solutions.find(el => el.caseSensitive) !== undefined) ? true:false},
     solutions: {$set: words.solutions}
   })
 
@@ -34,7 +33,7 @@ function initialFormValues(words) {
 
 function validateFormValues(values) {
   const errors = {}
-  console.log(values)
+  //console.log(values)
   return errors
 }
 
@@ -55,43 +54,12 @@ export function wordsDeletablesSelector(state) {
 
 export function wordCaseSensitiveSelector(state){
   const formValues = state.form[ITEM_FORM].values
-  console.log('called')
   if(formValues.showCaseSensitive){
     return formValues.solutions.map(word => word.caseSensitive)
   } else {
-    return formValues.solutions.map(word => false)
-  }
-}
-
-export function toggleCaseSensitiveSelector(state){
-  const formValues = state.form[ITEM_FORM].values
-  console.log(formValues)
-
-  if(!formValues.showCaseSensitive){
-    /*formValues.solutions.forEach(word => {
-      update(word, {
-        caseSensitive: {$set: false}
-      })
-    })*/
-
-    /*formValues.solutions.map(word => {
-      console.log(word.caseSensitive)
-      console.log(formValues.showCaseSensitive)
-      return update(word, {
-        caseSensitive: {$set: false}
-      })
-      //word.caseSensitive = formValues.showCaseSensitive
-      //return word
-    })*/
+    return formValues.solutions.map(() => false)
   }
 
-
-  /*formValues.solutions.map(function(obj){
-    let rObj = {}
-    rObj[obj.caseSensitive] = formValues.showCaseSensitive
-    return rObj
-  })**/
-  return formValues.showCaseSensitive
 }
 
 export default {
