@@ -38,7 +38,7 @@ class UserRepositoryTest extends RepositoryTestCase
      */
     public function testLoadUserByUsernameOnUnknownUsername()
     {
-        $user = self::$repo->loadUserByUsername('unknown_user');
+        self::$repo->loadUserByUsername('unknown_user');
     }
 
     public function testLoadUserByUsername()
