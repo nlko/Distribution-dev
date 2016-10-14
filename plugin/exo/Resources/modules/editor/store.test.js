@@ -1,4 +1,4 @@
-import {assertEqual} from './test-util'
+import {assertEqual} from './test-utils'
 import {createStore} from './store'
 import {TYPE_QUIZ, TYPE_STEP, mimeTypes as itemTypes} from './types'
 
@@ -6,7 +6,9 @@ describe('#createStore', () => {
   it('normalizes and augments quiz data', () => {
     const quiz = {
       id: '1',
-      meta: {},
+      title: 'Quiz title',
+      description: 'Quiz desc',
+      parameters: {},
       steps: [
         {
           'id': 'a',
@@ -23,7 +25,9 @@ describe('#createStore', () => {
     assertEqual(store.getState(), {
       quiz: {
         id: '1',
-        meta: {},
+        title: 'Quiz title',
+        description: 'Quiz desc',
+        parameters: {},
         steps: ['a']
       },
       steps: {

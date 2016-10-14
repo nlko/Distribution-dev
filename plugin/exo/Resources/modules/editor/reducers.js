@@ -1,3 +1,4 @@
+import merge from 'lodash/merge'
 import {getIndex, makeId, makeItemPanelKey, update} from './util'
 import {properties, TYPE_QUIZ, TYPE_STEP} from './types'
 import {
@@ -13,7 +14,8 @@ import {
   PANEL_STEP_SELECT,
   STEP_CREATE,
   STEP_MOVE,
-  STEP_DELETE
+  STEP_DELETE,
+  QUIZ_UPDATE
 } from './actions'
 
 function initialQuizState() {
@@ -25,6 +27,8 @@ function initialQuizState() {
 
 function reduceQuiz(quiz = initialQuizState(), action = {}) {
   switch (action.type) {
+    case QUIZ_UPDATE:
+      return merge({}, quiz, action.newProperties)
     case STEP_CREATE:
       return update(quiz, {steps: {$push: [action.id]}})
     case STEP_DELETE:
@@ -65,7 +69,7 @@ function reduceSteps(steps = {}, action = {}) {
       })
     }
     case STEP_CREATE: {
-      const newStep = {id: action.id, items: [], meta: {}}
+      const newStep = {id: action.id, items: [], parameters: {}}
       return update(steps, {[action.id]: {$set: newStep}})
     }
     case STEP_DELETE:
@@ -80,9 +84,7 @@ function reduceItems(items = {}, action = {}) {
       let newItem = {
         id: action.id,
         type: action.itemType,
-        score: {
-          type: 'sum'
-        }
+        score: {type: 'sum'}
       }
       switch (action.itemType) {
         case 'application/x.choice+json':

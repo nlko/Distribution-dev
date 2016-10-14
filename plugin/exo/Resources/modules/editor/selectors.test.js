@@ -1,5 +1,5 @@
 import freeze from 'deep-freeze'
-import {assertEqual} from './test-util'
+import {assertEqual} from './test-utils'
 import {TYPE_QUIZ, TYPE_STEP} from './types'
 import select from './selectors'
 
@@ -40,7 +40,9 @@ describe('Current object deep selector', () => {
     assertEqual(select.currentObjectDeep(fixtureState3()), {
       type: TYPE_STEP,
       id: 'b',
-      meta: {},
+      title: 'B',
+      description: 'B desc',
+      maxAttempts: 5,
       items: [
         {
           id: 'x',
@@ -152,7 +154,9 @@ function fixtureState3() {
       },
       'b': {
         id: 'b',
-        meta: {},
+        title: 'B',
+        description: 'B desc',
+        parameters: {maxAttempts: 5},
         items: ['x']
       }
     },

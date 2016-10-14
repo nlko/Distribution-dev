@@ -1,5 +1,5 @@
 import freeze from 'deep-freeze'
-import {assertEqual} from './test-util'
+import {assertEqual} from './test-utils'
 import {lastId} from './util'
 import {actions} from './actions'
 import {reducers} from './reducers'
@@ -11,6 +11,24 @@ describe('Quiz reducer', () => {
     assertEqual(typeof quiz.id, 'string', 'Quiz must have an id')
     assertEqual(Array.isArray(quiz.steps), true, 'Quiz must have a step array')
     assertEqual(quiz.steps.length, 0, 'Steps must be empty')
+  })
+
+  it('update properties on change', () => {
+    const quiz = freeze({
+      id: '1',
+      parameters: {
+        type: 'formative',
+        showMetadata: true
+      }
+    })
+    const newState = reducers.quiz(quiz, actions.updateQuiz({parameters: {type: 'summative'}}))
+    assertEqual(newState, {
+      id: '1',
+      parameters: {
+        type: 'summative',
+        showMetadata: true
+      }
+    })
   })
 
   it('keeps an id reference on step creation', () => {
@@ -38,11 +56,11 @@ describe('Step reducer', () => {
   })
 
   it('creates a default object on step creation', () => {
-    const steps = freeze({'1': {id: '1', items: []}})
+    const steps = freeze({'1': {id: '1', items: [], parameters: {}}})
     const newState = reducers.steps(steps, actions.createStep())
     assertEqual(newState, {
-      '1': {id: '1', items: []},
-      [lastId()]: {id: lastId(), items: []}
+      '1': {id: '1', items: [], parameters: {}},
+      [lastId()]: {id: lastId(), items: [], parameters: {}}
     })
   })
 
@@ -98,14 +116,15 @@ describe('Items reducer', () => {
     assertEqual(items, {})
   })
 
-  it('creates a default object on item creation', () => {
-    const items = reducers.items(freeze({}), actions.createItem('1', 'text/html'))
-    assertEqual(items, {
-      [lastId()]: {
-        id: lastId(),
-        type: 'text/html'
-      }
-    })
+  it('creates a base question object and delegates to question reducer', () => {
+    const items = reducers.items(freeze({}), actions.createItem('1', 'application/x.choice+json'))
+    const keys = Object.keys(items)
+    assertEqual(keys.length, 1)
+    assertEqual(typeof keys[0], 'string')
+    assertEqual(items[keys[0]].type, 'application/x.choice+json')
+    assertEqual(items[keys[0]].score, {type: 'sum'})
+    assertEqual(items[keys[0]].choices.length, 2)
+    assertEqual(items[keys[0]].solutions.length, 2)
   })
 
   it('removes item object on item deletion', () => {

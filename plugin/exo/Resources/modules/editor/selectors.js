@@ -9,15 +9,6 @@ const quizOpenPanel = state => state.openPanels[TYPE_QUIZ]
 const openStepPanels = state => state.openPanels[TYPE_STEP]
 const modal = state => state.modal
 
-const quizProperties = createSelector(
-  quiz,
-  quiz => Object.assign({
-    id: quiz.id,
-    title: quiz.title,
-    description: quiz.description
-  }, quiz.parameters)
-)
-
 const stepList = createSelector(
   quiz,
   steps,
@@ -120,7 +111,7 @@ const nextObject = createSelector(
 )
 
 export default {
-  quizProperties,
+  quiz,
   thumbnails,
   currentObjectDeep,
   quizOpenPanel,

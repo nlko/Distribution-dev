@@ -16,6 +16,7 @@ export const PANEL_STEP_SELECT = 'PANEL_STEP_SELECT'
 export const STEP_CREATE = 'STEP_CREATE'
 export const STEP_DELETE = 'STEP_DELETE'
 export const STEP_MOVE = 'STEP_MOVE'
+export const QUIZ_UPDATE = 'QUIZ_UPDATE'
 
 export const actions = {}
 
@@ -31,6 +32,7 @@ actions.selectObject = makeActionCreator(OBJECT_SELECT, 'id', 'objectType')
 actions.selectQuizPanel = makeActionCreator(PANEL_QUIZ_SELECT, 'panelKey')
 actions.selectStepPanel = makeActionCreator(PANEL_STEP_SELECT, 'stepId', 'panelKey')
 actions.showModal = makeActionCreator(MODAL_SHOW, 'modalType', 'modalProps')
+actions.updateQuiz = makeActionCreator(QUIZ_UPDATE, 'newProperties')
 
 actions.createItem = (stepId, type) => {
   invariant(stepId, 'stepId is mandatory')

@@ -39,9 +39,10 @@ function selectSubEditor(props) {
     case TYPE_QUIZ:
       return (
         <QuizEditor
+          quiz={props.quizProperties}
+          updateProperties={props.updateQuiz}
           activePanelKey={props.activeQuizPanel}
           handlePanelClick={props.handleQuizPanelClick}
-          initialValues={props.quizProperties}
         />
       )
     case TYPE_STEP:
@@ -64,6 +65,7 @@ function selectSubEditor(props) {
 selectSubEditor.propTypes = {
   activeQuizPanel: T.string.isRequired,
   handleQuizPanelClick: T.func.isRequired,
+  updateQuizValues: T.func.isRequired,
   quizProperties: T.object.isRequired,
   currentObject: T.shape({
     type: T.string.isRequired
@@ -108,7 +110,7 @@ function mapStateToProps(state) {
     currentObject: select.currentObjectDeep(state),
     activeQuizPanel: select.quizOpenPanel(state),
     activeStepPanel: select.stepOpenPanel(state),
-    quizProperties: select.quizProperties(state),
+    quizProperties: select.quiz(state),
     modal: select.modal(state)
   }
 }
@@ -150,6 +152,9 @@ function mapDispatchToProps(dispatch) {
     },
     showModal(type, props) {
       dispatch(actions.showModal(type, props))
+    },
+    updateQuiz(newProperties) {
+      dispatch(actions.updateQuiz(newProperties))
     }
   }
 }
