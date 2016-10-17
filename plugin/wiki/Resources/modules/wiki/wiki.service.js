@@ -116,6 +116,9 @@ export default class WikiService {
     let contribution = new Contribution(newContrib)
     contribution.contributor = this.activeUserId
     contribution.parentSectionId = section.parentId
+    if (!('title' in contribution)) {
+      contribution.title = this.title
+    }
 
     return contribution.$save(
       success => {

@@ -302,6 +302,8 @@ class ApiController extends FOSRestController
     {
         $this->checkAccess('OPEN', $wiki);
 
+        $createSection = empty($section);
+
         $em = $this->getDoctrine()->getManager();
         $sectionRepository = $this->get('icap.wiki.section_repository');
 
@@ -320,7 +322,7 @@ class ApiController extends FOSRestController
             $isAdmin = $this->isUserGranted('EDIT', $wiki, $collection);
 
             // No section ID in URL, we need to create a new section
-            if (empty($section)) {
+            if ($createSection) {
                 $section = new Section();
                 $section->setWiki($wiki);
                 $section->setAuthor($contributor);
@@ -330,8 +332,6 @@ class ApiController extends FOSRestController
                 $parent = $this->getSection($wiki, $parentSectionId);
 
                 $sectionRepository->persistAsLastChildOf($section, $parent);
-
-                $this->dispatchSectionCreateEvent($wiki, $section);
             }
 
             $contribution = new Contribution();
@@ -348,6 +348,15 @@ class ApiController extends FOSRestController
 
             $em->persist($section);
             $em->flush();
+
+            if ($createSection) {
+                $this->dispatchSectionCreateEvent($wiki, $section);
+            } else {
+                $unitOfWork = $em->getUnitOfWork();
+                $unitOfWork->computeChangeSets();
+                $changeSet = $unitOfWork->getEntityChangeSet($section);
+                $this->dispatchSectionUpdateEvent($wiki, $section, $changeSet);
+            }
 
             return [
                 'section' => [
