@@ -1,7 +1,7 @@
 active_contribution: Current revision
 add_new_subsection: Add section here
 added: Added
-angular_date_format: MM/dd/yyyy \\a\\t HH:mm
+angular_date_format: MM/dd/yyyy 'at' h:mma
 back_to_history: Back to history
 back_to_wiki: Back to wiki
 back: Back
@@ -13,7 +13,7 @@ contribution: Contribution
 create_new_section: Create new section
 create_section: Create section
 create: Create
-date_format: m/d/Y \\a\\t H:i
+date_format: m/d/Y 'at' H:i
 delete_confirmation: Do you really want to delete "%sectionTitle%" section?
 delete_section: Delete section
 delete: Delete
@@ -53,7 +53,7 @@ icap_wiki_set_active_contribution_error: Error while publishing revision.
 icap_wiki_type_name: Name
 items_per_page: Items per page:
 moderate_message: Every one can contribute. However, only the administrator and the moderator are allowed to publish.
-moderate_mode_warning: <div><strong>The wiki runs in moderate mode.</strong></div> <div>The changes will only be available after administrator''s approval. A complete history of a section''s revisions can be found in the "history" page.</div>
+moderate_mode_warning: <div><strong>The wiki runs in moderate mode.</strong></div> <div>The changes will only be available after administrator's approval. A complete history of a section's revisions can be found in the "history" page.</div>
 moderate: Moderate
 move_section: Move section
 new_section: New section
