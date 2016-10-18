@@ -173,6 +173,13 @@
         });
     });
 
+    $('#close-browser-warning').on('click', function(event) {
+        $.ajax({
+            url: Routing.generate('close_outdated_browser_warning'),
+            type: 'GET'
+        });
+    })
+
     // The following code fixes the issue of unscrollable modal due to focus loss when multiple modals are opened.
     var oldJqTrigger = jQuery.fn.trigger;
     jQuery.fn.trigger = function()
