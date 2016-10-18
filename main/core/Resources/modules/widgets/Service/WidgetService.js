@@ -76,6 +76,7 @@ export default class WidgetService {
   }
 
   _updateWidgetsDisplay () {
+    console.log('hey')
     if (this.type === 'desktop') {
       this.checkDesktopWidgetsDisplayOptions()
     } else if (this.type === 'admin') {
@@ -140,7 +141,7 @@ export default class WidgetService {
       widgetDatas['textTitleColor'] = display['details']['textTitleColor'] ? display['details']['textTitleColor'] : null
 
       widgetDatas['instanceId'] = display['widgetInstance']['id']
-      widgetDatas['instanceName'] = display['widgetInstance']['name']
+      widgetDatas['instanceName'] = this.$sce.trustAsHtml(display['widgetInstance']['name'])
       widgetDatas['instanceIcon'] = display['widgetInstance']['icon']
 
       widgetDatas['widgetId'] = display['widgetInstance']['widget']['id']
@@ -264,6 +265,7 @@ export default class WidgetService {
 
   secureWidgetsContents () {
     this.widgets.forEach(w => {
+      w['instanceName'] = this.$sce.trustAsHtml(w['instanceName'])
       w['content'] = this.$sce.trustAsHtml(w['content'])
     })
   }
