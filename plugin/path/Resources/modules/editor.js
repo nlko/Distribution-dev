@@ -14,6 +14,7 @@ import './navigation/module'
 import './step/module'
 import './user-progression/module'
 import './condition/module'
+import './appModuleBase'
 
 import PathApp from './app'
 import stepTemplate from './step/Partial/edit.html'
@@ -26,7 +27,7 @@ angular
     'ngRoute',
     'ui.bootstrap',
     'ui.translation',
-
+    'PathModuleBase',
     'Path',
     'Summary',
     'Navigation',
